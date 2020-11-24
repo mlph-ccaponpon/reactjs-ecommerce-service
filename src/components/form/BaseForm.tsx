@@ -1,3 +1,4 @@
+import { ErrorMessage, Field } from 'formik';
 import React from 'react';
 import { FormField } from '../../models/FormField';
 import { PageContainer } from '../../styles/global';
@@ -26,7 +27,9 @@ function BaseForm(props: BaseFormProps) {
                                 name={field.name}
                                 type={field.type}  
                                 placeholder={field.placeholder}/>
-                                <StyledErrorMessage name={field.name} />
+                                <StyledErrorMessage>
+                                    <ErrorMessage name={field.name} />
+                                </StyledErrorMessage>
                             </FieldWrapper>
                         )
                     })}

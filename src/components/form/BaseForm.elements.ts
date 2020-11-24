@@ -31,8 +31,9 @@ export const StyledField = styled(Field)`
     font-size: ${theme.fontMd};
 `;
 
-export const StyledErrorMessage = styled(ErrorMessage)`
-    color: #fff;
+export const StyledErrorMessage = styled.p`
+    padding-top: 0.5rem;
+    color: ${theme.primaryLight};
 `;
 
 export const FormBtnWrapper = styled.div`
