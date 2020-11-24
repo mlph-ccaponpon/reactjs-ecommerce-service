@@ -3,7 +3,7 @@ import { Button } from '../../styles/global';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { HeaderBtnLink, HeaderContainer, HeaderLink, HeaderLogoIcon, HeaderLogoName, HeaderMenu, HeaderMenuIcon, HeaderMenuItem, HeaderMenuItemBtn, Nav } from './Header.elements';
 
-const Header: React.FC = () => {
+function Header(){
     const [showSideMenu, setShowSideMenu] = useState(false);
     const [showMenuBtn, setShowMenuBtn] = useState(true);
   
@@ -35,6 +35,26 @@ const Header: React.FC = () => {
                     {showSideMenu ? <FaTimes /> : <FaBars />}
                 </HeaderMenuIcon>
                 <HeaderMenu onClick={handleMenuClick} showSideMenu={showSideMenu}>
+                    <HeaderMenuItem>
+                        <HeaderLink to="/" onClick={closeMenu}>
+                            Home
+                        </HeaderLink>
+                    </HeaderMenuItem>
+                    <HeaderMenuItem>
+                        <HeaderLink to="/users" onClick={closeMenu}>
+                            Users
+                        </HeaderLink>
+                    </HeaderMenuItem>
+                    <HeaderMenuItem>
+                        <HeaderLink to="/services" onClick={closeMenu}>
+                            Services
+                        </HeaderLink>
+                    </HeaderMenuItem>
+                    <HeaderMenuItem>
+                        <HeaderLink to="/newsfeed" onClick={closeMenu}>
+                            Newsfeed
+                        </HeaderLink>
+                    </HeaderMenuItem>
                     <HeaderMenuItem>
                         <HeaderLink to="/login" onClick={closeMenu}>
                             Login
