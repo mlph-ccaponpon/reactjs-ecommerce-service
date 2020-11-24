@@ -51,6 +51,7 @@ function SignUp() {
 
             {(formik) => (
                 <BaseForm 
+                    title="Register"
                     handleSubmit={formik.handleSubmit}
                     submitBtnLabel="SIGN UP"
                     fields={formFields} />

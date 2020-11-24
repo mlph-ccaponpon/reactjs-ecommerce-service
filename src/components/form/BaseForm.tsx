@@ -1,10 +1,11 @@
 import React from 'react';
 import { FormField } from '../../models/FormField';
 import { PageContainer } from '../../styles/global';
-import { StyledField, FieldWrapper, FormContainer, StyledForm, StyledErrorMessage, FormTitle, FormBtnWrapper, StyledFormBtn } from './BaseForm.elements';
+import { StyledField, FieldWrapper, FormContainer, FormLogoIcon, FormLogoName, StyledForm, StyledErrorMessage, FormBtnWrapper, StyledFormBtn } from './BaseForm.elements';
 
 interface BaseFormProps{
     handleSubmit: () => void,
+    title: string,
     submitBtnLabel: string,
     fields: FormField[]
 }
@@ -14,10 +15,13 @@ function BaseForm(props: BaseFormProps) {
         <PageContainer>
             <FormContainer>
                 <StyledForm onSubmit={props.handleSubmit}>
-                    <FormTitle>Join Now!</FormTitle>
+                    <FormLogoName>
+                        <FormLogoIcon />
+                        {props.title}
+                    </FormLogoName>
                     {props.fields.map((field, index) => {
                         return(
-                            <FieldWrapper>
+                            <FieldWrapper key={index}>
                                 <StyledField
                                 name={field.name}
                                 type={field.type}  

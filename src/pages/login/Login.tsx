@@ -43,6 +43,7 @@ function Login() {
 
             {(formik) => (
                 <BaseForm 
+                    title="MUNCH"
                     handleSubmit={formik.handleSubmit}
                     submitBtnLabel="LOGIN"
                     fields={formFields} />

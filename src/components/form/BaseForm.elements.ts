@@ -1,8 +1,9 @@
 import { ErrorMessage, Field, Form } from "formik";
 import styled from "styled-components";
 import { Button, theme } from "../../styles/global";
+import { SiAiqfome } from 'react-icons/si';
 
-export const FormContainer = styled(Form)`
+export const FormContainer = styled.div`
     margin: auto;
     width: 45%;
     display: flex;
@@ -12,14 +13,6 @@ export const FormContainer = styled(Form)`
     border-radius: 0.5rem;
 `;
 
-export const FormTitle = styled.h1`
-    width: 100%;
-    font-size: ${theme.fontXl};
-    letter-spacing: 0.1em;
-    text-align: center;
-    color: #fff;
-    margin: 1.5rem 0;
-`;
 export const StyledForm = styled(Form)`
     margin: 1.25rem;
     width: 83%;
@@ -49,4 +42,17 @@ export const FormBtnWrapper = styled.div`
 
 export const StyledFormBtn = styled(Button)`
     width: 100%;
+`;
+
+export const FormLogoName = styled.div`
+    color: #fff;
+    font-size: ${theme.fontXl};
+    justify-self: flex-start;
+    align-items: center;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin: 1.5rem 0;
+`;
+export const FormLogoIcon = styled(SiAiqfome)`
+    margin-right: 0.5rem;
 `;
