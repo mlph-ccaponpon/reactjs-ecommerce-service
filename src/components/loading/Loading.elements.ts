@@ -1,12 +1,14 @@
 import styled, { keyframes } from "styled-components";
-import { theme } from "../../styles/global";
+import { Container, theme } from "../../styles/global";
 interface LoadingProps {
     delay: string
 }
 
-export const LoadingContainer = styled.div`
+export const LoadingContainer = styled(Container)`
   display: flex;
   height: 100vh;
+
+  ${Container}
 `;
 
 export const BounceAnimation = keyframes`

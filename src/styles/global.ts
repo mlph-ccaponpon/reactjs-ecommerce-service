@@ -15,6 +15,7 @@ export const theme = {
     primaryLight: '#ffba00', 
     secondaryDark: '#ffaa00', 
     secondaryLight: 'white', 
+    fontMd: '1rem',
     fontLg: '1.2rem',
     fontXl: '2rem'
 };
@@ -32,6 +33,13 @@ export const Container = styled.div`
         padding-right: 30px;
         padding-left: 30px;
     }
+`;
+
+export const PageContainer = styled(Container)`
+    display: flex;
+    height: 80vh;
+
+    ${Container}
 `;
 
 

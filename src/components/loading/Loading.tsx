@@ -1,5 +1,5 @@
 import React from 'react';
-import GlobalStyle, { Container } from '../../styles/global';
+import GlobalStyle from '../../styles/global';
 import { Dot, DotWrapper, LoadingContainer } from './Loading.elements';
 
 function Loading() {
