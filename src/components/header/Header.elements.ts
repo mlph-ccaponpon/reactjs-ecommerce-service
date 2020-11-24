@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Container, theme } from "../../styles/global";
 import { SiAiqfome } from 'react-icons/si';
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface HeaderProps {
     showSideMenu: boolean
@@ -25,7 +25,7 @@ export const HeaderContainer = styled(Container)`
   ${Container}
 `;
 
-export const HeaderLogoName = styled(Link)`
+export const HeaderLogoName = styled(NavLink)`
     color: #fff;
     justify-self: flex-start;
     cursor: pointer;
@@ -39,13 +39,17 @@ export const HeaderLogoIcon = styled(SiAiqfome)`
     margin-right: 0.5rem;
 `;
 
-export const HeaderLink = styled(Link)`
+export const HeaderLink = styled(NavLink)`
     color: #fff;
     display: flex;
     align-items: center;
     text-decoration: none;
     padding: 0.5rem 1rem;
     height: 100%;
+
+    &.active {
+        color: ${theme.primaryLight};
+    }
 
     @media screen and (max-width: 960px) {
         text-align: center;
@@ -60,7 +64,7 @@ export const HeaderLink = styled(Link)`
     }
 `;
 
-export const HeaderBtnLink = styled(Link)`
+export const HeaderBtnLink = styled(NavLink)`
     display: flex;
     justify-content: center;
     align-items: center;

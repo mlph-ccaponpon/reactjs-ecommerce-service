@@ -27,7 +27,7 @@ function Header(){
     return (
         <Nav>
             <HeaderContainer>
-                <HeaderLogoName to="/" onClick={closeMenu}>
+                <HeaderLogoName exact to="/" onClick={closeMenu}>
                     <HeaderLogoIcon />
                     MUNCH
                 </HeaderLogoName>
@@ -36,37 +36,37 @@ function Header(){
                 </HeaderMenuIcon>
                 <HeaderMenu onClick={handleMenuClick} showSideMenu={showSideMenu}>
                     <HeaderMenuItem>
-                        <HeaderLink to="/" onClick={closeMenu}>
+                        <HeaderLink exact to="/" onClick={closeMenu}>
                             Home
                         </HeaderLink>
                     </HeaderMenuItem>
                     <HeaderMenuItem>
-                        <HeaderLink to="/users" onClick={closeMenu}>
+                        <HeaderLink exact to="/users" onClick={closeMenu}>
                             Users
                         </HeaderLink>
                     </HeaderMenuItem>
                     <HeaderMenuItem>
-                        <HeaderLink to="/services" onClick={closeMenu}>
+                        <HeaderLink exact to="/services" onClick={closeMenu}>
                             Services
                         </HeaderLink>
                     </HeaderMenuItem>
                     <HeaderMenuItem>
-                        <HeaderLink to="/newsfeed" onClick={closeMenu}>
+                        <HeaderLink exact to="/newsfeed" onClick={closeMenu}>
                             Newsfeed
                         </HeaderLink>
                     </HeaderMenuItem>
                     <HeaderMenuItem>
-                        <HeaderLink to="/login" onClick={closeMenu}>
+                        <HeaderLink exact to="/login" onClick={closeMenu}>
                             Login
                         </HeaderLink>
                     </HeaderMenuItem>
                     <HeaderMenuItemBtn>
                         {showMenuBtn ? (
-                        <HeaderBtnLink to='/sign-up'>
+                        <HeaderBtnLink exact to='/sign-up'>
                             <Button>SIGN UP</Button>
                         </HeaderBtnLink>
                         ) : (
-                        <HeaderBtnLink to='/sign-up'>
+                        <HeaderBtnLink exact to='/sign-up'>
                             <Button onClick={closeMenu} btnLg>
                             SIGN UP
                             </Button>
