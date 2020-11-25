@@ -1,3 +1,4 @@
+import { FaSpinner } from 'react-icons/fa';
 import styled, { createGlobalStyle } from 'styled-components'; 
 
 
@@ -53,10 +54,11 @@ export const Button = styled.button`
     white-space: nowrap;
     padding: ${(p: ButtonProps)  => p.btnLg ? '12px 64px' : '10px 20px'};
     color: #fff;
-    font-size:  ${(p: ButtonProps)  => p.btnLg ? '20px' : '16px'};
+    font-size:  ${(p: ButtonProps)  => p.btnLg ? theme.fontLg : theme.fontMd};
     outline: none;
     border: none;
     cursor: pointer;
+    height: ${(p: ButtonProps)  => p.btnLg ? '50px' : '40px'};
 
     &:hover {
         transition: all 0.3s ease-out;
@@ -65,6 +67,18 @@ export const Button = styled.button`
 
     @media screen and (max-width: 960px) {
         width: 100%;
+    }
+`;
+
+export const ButtonSpinner = styled(FaSpinner)`
+    animation: fa-spin 2s infinite linear;
+    @keyframes fa-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(359deg);
+        }
     }
 `;
 

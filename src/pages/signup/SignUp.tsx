@@ -1,11 +1,18 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm'
+import { signUpRequest } from '../../store/actions/authActions';
+import { Role, User } from '../../store/entities/User';
 
 function SignUp() {
-    const history = useHistory();
+    const isLoading = useSelector((state: RootStateOrAny) => state.auth.isLoading);
+    const success = useSelector((state: RootStateOrAny) => state.auth.success);
+    const errorMessage = useSelector((state: RootStateOrAny) => state.auth.errorMessage);
+    const dispatch = useDispatch();
+
     const formInitValues = {email: "", password: "", confirmPassword: ""};
     const formValidation = {
         email: Yup.string()
@@ -36,16 +43,19 @@ function SignUp() {
         }
     ]
 
-    function signUpUser() {
-        history.replace("/");
+
+    function signUpUser(user: User) {
+        user.role = Role.CUSTOMER;
+        dispatch(signUpRequest(user));
     }
 
+    if(success) return (<Redirect to="/" />);
 
     return (
         <Formik
             initialValues = {formInitValues}
             onSubmit = {(value, formikBag) => {
-                signUpUser();
+                signUpUser(value);
             }}
             validationSchema = {Yup.object(formValidation)}>
 
@@ -54,7 +64,9 @@ function SignUp() {
                     title="Register"
                     handleSubmit={formik.handleSubmit}
                     submitBtnLabel="SIGN UP"
-                    fields={formFields} />
+                    fields={formFields}
+                    errorMessage={errorMessage}
+                    isLoading={isLoading} />
             )}
         </Formik>
     )

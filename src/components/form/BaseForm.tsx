@@ -1,14 +1,21 @@
-import { ErrorMessage, Field } from 'formik';
+import { ErrorMessage } from 'formik';
 import React from 'react';
-import { FormField } from '../../models/FormField';
-import { PageContainer } from '../../styles/global';
+import { ButtonSpinner, PageContainer } from '../../styles/global';
 import { StyledField, FieldWrapper, FormContainer, FormLogoIcon, FormLogoName, StyledForm, StyledErrorMessage, FormBtnWrapper, StyledFormBtn } from './BaseForm.elements';
+
+interface FormField {
+    name: string,
+    type: string,
+    placeholder: string
+}
 
 interface BaseFormProps{
     handleSubmit: () => void,
     title: string,
     submitBtnLabel: string,
-    fields: FormField[]
+    fields: FormField[],
+    errorMessage?: string,
+    isLoading?: boolean
 }
 
 function BaseForm(props: BaseFormProps) {
@@ -33,8 +40,15 @@ function BaseForm(props: BaseFormProps) {
                             </FieldWrapper>
                         )
                     })}
+                    {(props.errorMessage) && <StyledErrorMessage>{props.errorMessage}</StyledErrorMessage>}
                     <FormBtnWrapper>
-                        <StyledFormBtn type="submit" btnLg>{props.submitBtnLabel}</StyledFormBtn>
+                        <StyledFormBtn type="submit" btnLg>
+                            {props.isLoading ? (
+                               <ButtonSpinner />
+                            ):(
+                                props.submitBtnLabel
+                            )}
+                        </StyledFormBtn>
                     </FormBtnWrapper>
                 </StyledForm>
             </FormContainer>
