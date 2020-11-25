@@ -1,20 +1,23 @@
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm'
-import { signUpRequest } from '../../store/actions/authActions';
-import { Role, User } from '../../store/entities/User';
+import { setErrorMessage, signUpRequest } from '../../store/actions/authActions';
+import { User } from '../../store/entities/User';
 
 function SignUp() {
     const isLoading = useSelector((state: RootStateOrAny) => state.auth.isLoading);
-    const success = useSelector((state: RootStateOrAny) => state.auth.success);
+    const isLoggedIn = useSelector((state: RootStateOrAny) => state.auth.isLoggedIn);
     const errorMessage = useSelector((state: RootStateOrAny) => state.auth.errorMessage);
     const dispatch = useDispatch();
 
-    const formInitValues = {email: "", password: "", confirmPassword: ""};
+    const history = useHistory();
+    const formInitValues = {name:"", email: "", password: "", confirmPassword: ""};
     const formValidation = {
+        name: Yup.string()
+                .required("Name is required"),
         email: Yup.string()
                 .required("Email is required")
                 .email("Email is invalid"),
@@ -26,6 +29,11 @@ function SignUp() {
                     .oneOf([Yup.ref('password'), ""], "Passwords do not match")
     };
     const formFields = [
+        {
+            name: "name",
+            type: "text",
+            placeholder: "Name"
+        },
         {
             name: "email",
             type: "email",
@@ -45,11 +53,15 @@ function SignUp() {
 
 
     function signUpUser(user: User) {
-        user.role = Role.CUSTOMER;
         dispatch(signUpRequest(user));
     }
 
-    if(success) return (<Redirect to="/" />);
+    useEffect(() => {
+        if(isLoggedIn) {
+            dispatch(setErrorMessage(""));
+            history.replace("/");
+        }
+    }, [isLoggedIn]);
 
     return (
         <Formik

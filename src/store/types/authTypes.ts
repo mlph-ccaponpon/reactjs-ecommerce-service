@@ -7,3 +7,22 @@ export const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE";
  * */ 
 export const SIGN_UP_REQUEST = "SIGN_UP_REQUEST";
 export const SIGN_UP_RESPONSE = "SIGN_UP_RESPONSE";
+
+
+/**
+ * LOG IN
+ */
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_RESPONSE = "LOGIN_RESPONSE";
+
+/**
+ * LOGOUT
+ */
+export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+export const LOGOUT_RESPONSE = "LOGOUT_RESPONSE";
+
+/**
+ * AUTH CHANNEL
+ */
+export const AUTH_CHANNEL_REQUEST = "AUTH_CHANNEL_REQUEST";
+export const AUTH_CHANNEL_RESPONSE = "AUTH_CHANNEL_RESPONSE";

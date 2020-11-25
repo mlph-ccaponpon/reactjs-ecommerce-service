@@ -1,19 +1,14 @@
-import { SET_ERROR_MESSAGE, SET_IS_LOADING, SIGN_UP_RESPONSE } from "../types/authTypes"
+import { LOGIN_RESPONSE, SET_ERROR_MESSAGE, SET_IS_LOADING, SIGN_UP_RESPONSE } from "../types/authTypes"
 
 const initialState = {
+    currentUserId: "",
+    isLoggedIn: false,
     isLoading: false,
-    success: false,
     errorMessage: ""
 }
 
 export function authReducer(state = initialState, action: any) {
     switch(action.type){
-        case SIGN_UP_RESPONSE: {
-          return {...state, 
-                  isLoading: false,
-                  success: action.result.success, 
-                  errorMessage: action.result.errorMessage}
-        }
         case SET_IS_LOADING: {
             return {...state,
                     isLoading: action.payload}
@@ -21,6 +16,13 @@ export function authReducer(state = initialState, action: any) {
         case SET_ERROR_MESSAGE: {
             return {...state,
                     errorMessage: action.payload}
+        }
+        case SIGN_UP_RESPONSE:
+        case LOGIN_RESPONSE: {
+          return {...state, 
+                  isLoading: false,
+                  isLoggedIn: action.payload.success, 
+                  errorMessage: action.payload.errorMessage}
         }
         default:
           return state

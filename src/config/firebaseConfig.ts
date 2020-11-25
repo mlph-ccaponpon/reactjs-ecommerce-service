@@ -13,8 +13,6 @@ var firebaseConfig = {
     appId: "1:268035661383:web:7af22ec84514a305015b62"
 };
 
-const initFirebase = firebase.initializeApp(firebaseConfig);
+export const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-const firebaseApp = new ReduxSagaFirebase(initFirebase)
-
-export default firebaseApp;
+export const firebaseReduxSaga = new ReduxSagaFirebase(firebaseApp);
