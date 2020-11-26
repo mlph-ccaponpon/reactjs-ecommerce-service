@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from '../../styles/global';
+import { StyledButton } from '../../styles/global';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { HeaderBtnLink, HeaderContainer, HeaderLink, HeaderLogoIcon, HeaderLogoName, HeaderMenu, HeaderMenuIcon, HeaderMenuItem, HeaderMenuItemBtn, Nav } from './Header.elements';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
@@ -72,13 +72,13 @@ function Header(){
                     <HeaderMenuItemBtn>
                         {showMenuBtn ? (
                         <HeaderBtnLink exact to='/' onClick={logoutUser}>
-                            <Button>LOGOUT</Button>
+                            <StyledButton>LOGOUT</StyledButton>
                         </HeaderBtnLink>
                         ) : (
                         <HeaderBtnLink exact to='/'>
-                            <Button onClick={logoutUser} btnLg>
+                            <StyledButton onClick={logoutUser} btnLg>
                             LOGOUT
-                            </Button>
+                            </StyledButton>
                         </HeaderBtnLink>
                         )}
                     </HeaderMenuItemBtn>
@@ -93,13 +93,13 @@ function Header(){
                         <HeaderMenuItemBtn>
                             {showMenuBtn ? (
                             <HeaderBtnLink exact to='/sign-up'>
-                                <Button>SIGN UP</Button>
+                                <StyledButton>SIGN UP</StyledButton>
                             </HeaderBtnLink>
                             ) : (
                             <HeaderBtnLink exact to='/sign-up'>
-                                <Button onClick={closeMenu} btnLg>
+                                <StyledButton onClick={closeMenu} btnLg>
                                 SIGN UP
-                                </Button>
+                                </StyledButton>
                             </HeaderBtnLink>
                             )}
                         </HeaderMenuItemBtn>

@@ -12,7 +12,9 @@ export const Nav = styled.nav`
     justify-content: center;
     align-items: center;
     display: flex;
+    position: sticky;
     top: 0;
+    z-index: 999;
     font-size: ${theme.fontLg};
     height: 80px;
 `;

@@ -39,7 +39,8 @@ export const Container = styled.div`
 
 export const PageContainer = styled(Container)`
     display: flex;
-    height: 80vh;
+    padding-top: 100px;
+    padding-bottom: 100px;
 
     ${Container}
 `;
@@ -48,7 +49,7 @@ export const PageContainer = styled(Container)`
 interface ButtonProps {
     btnLg?: boolean
 }
-export const Button = styled.button`
+export const StyledButton = styled.button`
     border-radius: 4px;
     background: ${theme.primaryLight};
     white-space: nowrap;

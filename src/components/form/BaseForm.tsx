@@ -20,39 +20,37 @@ interface BaseFormProps{
 
 function BaseForm(props: BaseFormProps) {
     return (
-        <PageContainer>
-            <FormContainer>
-                <StyledForm onSubmit={props.handleSubmit}>
-                    <FormLogoName>
-                        <FormLogoIcon />
-                        {props.title}
-                    </FormLogoName>
-                    {props.fields.map((field, index) => {
-                        return(
-                            <FieldWrapper key={index}>
-                                <StyledField
-                                name={field.name}
-                                type={field.type}  
-                                placeholder={field.placeholder}/>
-                                <StyledErrorMessage>
-                                    <ErrorMessage name={field.name} />
-                                </StyledErrorMessage>
-                            </FieldWrapper>
-                        )
-                    })}
-                    {(props.errorMessage) && <StyledErrorMessage>{props.errorMessage}</StyledErrorMessage>}
-                    <FormBtnWrapper>
-                        <StyledFormBtn type="submit" btnLg>
-                            {props.isLoading ? (
-                               <ButtonSpinner />
-                            ):(
-                                props.submitBtnLabel
-                            )}
-                        </StyledFormBtn>
-                    </FormBtnWrapper>
-                </StyledForm>
-            </FormContainer>
-        </PageContainer>
+        <FormContainer>
+            <StyledForm onSubmit={props.handleSubmit}>
+                <FormLogoName>
+                    <FormLogoIcon />
+                    {props.title}
+                </FormLogoName>
+                {props.fields.map((field, index) => {
+                    return(
+                        <FieldWrapper key={index}>
+                            <StyledField
+                            name={field.name}
+                            type={field.type}  
+                            placeholder={field.placeholder}/>
+                            <StyledErrorMessage>
+                                <ErrorMessage name={field.name} />
+                            </StyledErrorMessage>
+                        </FieldWrapper>
+                    )
+                })}
+                {(props.errorMessage) && <StyledErrorMessage>{props.errorMessage}</StyledErrorMessage>}
+                <FormBtnWrapper>
+                    <StyledFormBtn type="submit" btnLg>
+                        {props.isLoading ? (
+                            <ButtonSpinner />
+                        ):(
+                            props.submitBtnLabel
+                        )}
+                    </StyledFormBtn>
+                </FormBtnWrapper>
+            </StyledForm>
+        </FormContainer>
     )
 }
 

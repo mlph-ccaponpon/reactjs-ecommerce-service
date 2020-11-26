@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm';
 import { loginRequest, setErrorMessage } from '../../store/actions/authActions';
 import { UserCredential } from '../../store/entities/UserCredential';
+import { PageContainer } from '../../styles/global';
 
 function Login() {
     const isLoading = useSelector((state: RootStateOrAny) => state.auth.isLoading);
@@ -59,13 +60,15 @@ function Login() {
             validationSchema = {Yup.object(formValidation)}>
 
             {(formik) => (
-                <BaseForm 
-                    title="MUNCH"
-                    handleSubmit={formik.handleSubmit}
-                    submitBtnLabel="LOGIN"
-                    fields={formFields}
-                    errorMessage={errorMessage}
-                    isLoading={isLoading}  />
+                <PageContainer>
+                    <BaseForm 
+                        title="MUNCH"
+                        handleSubmit={formik.handleSubmit}
+                        submitBtnLabel="LOGIN"
+                        fields={formFields}
+                        errorMessage={errorMessage}
+                        isLoading={isLoading}  />
+                </PageContainer>
             )}
         </Formik>
     );

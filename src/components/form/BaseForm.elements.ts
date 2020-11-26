@@ -1,6 +1,6 @@
-import { ErrorMessage, Field, Form } from "formik";
+import { Field, Form } from "formik";
 import styled from "styled-components";
-import { Button, theme } from "../../styles/global";
+import { StyledButton, theme } from "../../styles/global";
 import { SiAiqfome } from 'react-icons/si';
 
 export const FormContainer = styled.div`
@@ -41,7 +41,7 @@ export const FormBtnWrapper = styled.div`
     margin: 2.5rem 0;
 `;
 
-export const StyledFormBtn = styled(Button)`
+export const StyledFormBtn = styled(StyledButton)`
     width: 100%;
 `;
 

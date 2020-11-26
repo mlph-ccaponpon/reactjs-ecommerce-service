@@ -1,5 +1,6 @@
 import Home from '../../pages/home/Home';
 import Login from '../../pages/login/Login';
+import Services from '../../pages/services/Services';
 import SignUp from '../../pages/signup/SignUp';
 
 const routes = [
@@ -19,6 +20,12 @@ const routes = [
         path: "/sign-up",
         exact: true,
         component: SignUp,
+        protected: null
+    },
+    {
+        path: "/services",
+        exact: true,
+        component: Services,
         protected: null
     }
 ];
