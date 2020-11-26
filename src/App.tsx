@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from './components/header/Header';
 import Loading from './components/loading/Loading';
+import { authChannelRequest } from './store/actions/authActions';
 import GlobalStyle from './styles/global';
 import routes from './utils/routes/routes';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoadingPage =  useSelector((state: RootStateOrAny) => state.auth.isLoadingPage);
   const location = useLocation();
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+      // Checks if user is logged in or logged out
+      dispatch(authChannelRequest());
+  }, []);
 
-  if(isLoading) return <Loading />;
+  if(isLoadingPage) return <Loading />;
   return (
     <div>
       <GlobalStyle />

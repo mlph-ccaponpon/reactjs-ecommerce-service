@@ -1,16 +1,28 @@
 import { BaseResponse } from "../entities/BaseResponse";
 import { User } from "../entities/User";
 import { UserCredential } from "../entities/UserCredential";
-import { AUTH_CHANNEL_REQUEST, AUTH_CHANNEL_RESPONSE, LOGIN_REQUEST, LOGIN_RESPONSE, LOGOUT_REQUEST, LOGOUT_RESPONSE, SET_ERROR_MESSAGE, SET_IS_LOADING, SIGN_UP_REQUEST, SIGN_UP_RESPONSE } from "../types/authTypes";
+import { AUTH_CHANNEL_REQUEST, LOGIN_REQUEST, LOGIN_RESPONSE, LOGOUT_REQUEST, LOGOUT_RESPONSE, SET_ERROR_MESSAGE, SET_IS_LOADING, SET_IS_LOADING_PAGE, SIGN_UP_REQUEST } from "../types/authTypes";
 
 export const setIsLoading = (isLoading: boolean) => ({
   type: SET_IS_LOADING,
   payload: isLoading
 });
 
+export const setIsLoadingPage = (isLoadingPage: boolean) => ({
+  type: SET_IS_LOADING_PAGE,
+  payload: isLoadingPage
+});
+
 export const setErrorMessage = (errorMessage: string) => ({
   type: SET_ERROR_MESSAGE,
   payload: errorMessage
+});
+
+/**
+ * AUTH CHANNEL
+ */
+export const authChannelRequest = () => ({
+  type: AUTH_CHANNEL_REQUEST
 });
 
 /** 
@@ -19,11 +31,6 @@ export const setErrorMessage = (errorMessage: string) => ({
 export const signUpRequest = (user: User) => ({
   type: SIGN_UP_REQUEST,
   payload: user,
-});
-
-export const signUpResponse = (response: BaseResponse) => ({
-  type: SIGN_UP_RESPONSE,
-  payload: response,
 });
 
 
@@ -53,15 +60,4 @@ export const logoutResponse = (response: BaseResponse) => ({
   payload: response,
 });
 
-/**
- * AUTH CHANNEL
- */
-export const authChannelRequest = () => ({
-  type: AUTH_CHANNEL_REQUEST
-});
-
-export const authChannelResponse = (response: BaseResponse) => ({
-  type: AUTH_CHANNEL_RESPONSE,
-  payload: response,
-});
 

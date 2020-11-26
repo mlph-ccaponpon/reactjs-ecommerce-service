@@ -4,7 +4,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm';
-import { loginRequest, setErrorMessage, setIsLoading } from '../../store/actions/authActions';
+import { loginRequest, setErrorMessage } from '../../store/actions/authActions';
 import { UserCredential } from '../../store/entities/UserCredential';
 
 function Login() {
@@ -35,7 +35,7 @@ function Login() {
         }
     ]
 
-    function loginUser(userCredential: UserCredential) {
+    const loginUser = (userCredential: UserCredential) => {
         dispatch(loginRequest(userCredential));
     }
 

@@ -1,20 +1,51 @@
-import { LOGIN_REQUEST, SIGN_UP_REQUEST } from "../types/authTypes";
-import {takeLatest, call, put} from "redux-saga/effects";
+import { LOGIN_REQUEST, SIGN_UP_REQUEST, LOGOUT_REQUEST, AUTH_CHANNEL_REQUEST } from "../types/authTypes";
+import {takeLatest, call, put, take} from "redux-saga/effects";
 import { BaseResponse } from "../entities/BaseResponse";
 import { firebaseReduxSaga } from '../../config/firebaseConfig';
-import { loginResponse, setErrorMessage, setIsLoading, signUpResponse } from "../actions/authActions";
+import { loginResponse, logoutResponse, setErrorMessage, setIsLoading, setIsLoadingPage } from "../actions/authActions";
 import { Role, User } from "../entities/User";
 import { UserCredential } from "../entities/UserCredential";
 
 /**
+ * AUTH CHANNEL
+ * - This function is called on SIGN_UP_REQUEST, LOGIN_REQUEST and LOGOUT_REQUEST success response
+ * - Checks if the user is currently loogedin or not
+ */
+export function* onAuthChannelWatcher() {
+    yield takeLatest(AUTH_CHANNEL_REQUEST, onAuthChannel);
+}
+function* onAuthChannel() {
+    try {
+        const successResponse : BaseResponse = { success: true, errorMessage: "" };
+        
+        yield put(setIsLoadingPage(true));
+        const authChannel = yield call(firebaseReduxSaga.auth.channel);
+    
+        while (true) {
+            const { user } = yield take(authChannel);
+
+            if (user) {
+                yield put(loginResponse(successResponse));
+            }
+            else {
+                yield put(logoutResponse(successResponse));
+            }
+
+            yield put(setIsLoadingPage(false));
+        }
+      }
+      catch (error) {
+      }
+}
+
+/**
  * SIGN UP 
- * - Sign up user and add a document for user details
+ * - Sign up user, add a document for user details, and automatically login user
  */
 export function* signUpWatcher(){
     yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 function* signUp(action: any) {
-    const response : BaseResponse = { success: false, errorMessage: "" };
     try {
         yield put(setErrorMessage(""));
         yield put(setIsLoading(true));
@@ -34,13 +65,10 @@ function* signUp(action: any) {
                 email: email,
                 role: user.role ? user.role: Role.CUSTOMER 
             })
-
-        response.success = true;
-        yield put(signUpResponse(response));
     }
     catch(error) {
-        response.errorMessage = error.message;
-        yield put(signUpResponse(response));
+        const errorResponse : BaseResponse = { success: false, errorMessage: error.message };
+        yield put(loginResponse(errorResponse));
     }
 }
 
@@ -52,18 +80,32 @@ export function* loginWatcher(){
     yield takeLatest(LOGIN_REQUEST, login);
 }
 function* login(action: any) {
-    const response : BaseResponse = { success: false, errorMessage: "" };
-    const userCredential : UserCredential = action.payload;
     try {
+        const userCredential : UserCredential = action.payload;
         yield put(setErrorMessage(""));
         yield put(setIsLoading(true));
         yield call(firebaseReduxSaga.auth.signInWithEmailAndPassword, userCredential.email, userCredential.password);
-        
-        response.success = true;
-        yield put(loginResponse(response));
       }
       catch(error) {
-        response.errorMessage = error.message;
-        yield put(loginResponse(response));
+        const errorResponse : BaseResponse = { success: false, errorMessage: error.message };
+        yield put(loginResponse(errorResponse));
       }
 }
+
+/**
+ * LOGOUT USER
+ */
+export function* logoutWatcher(){
+    yield takeLatest(LOGOUT_REQUEST, logout);
+}
+function* logout() {
+    try {
+        yield call(firebaseReduxSaga.auth.signOut);
+    }
+    catch(error) {
+        const errorResponse : BaseResponse = { success: false, errorMessage: error.message };
+        yield put(logoutResponse(errorResponse));
+    }
+}
+
+
