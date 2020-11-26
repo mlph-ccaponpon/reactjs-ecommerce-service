@@ -2,6 +2,7 @@ import Home from '../../pages/home/Home';
 import Login from '../../pages/login/Login';
 import Services from '../../pages/services/Services';
 import SignUp from '../../pages/signup/SignUp';
+import Users from '../../pages/users/Users';
 
 const routes = [
     {
@@ -20,6 +21,12 @@ const routes = [
         path: "/sign-up",
         exact: true,
         component: SignUp,
+        protected: null
+    },
+    {
+        path: "/users",
+        exact: true,
+        component: Users,
         protected: null
     },
     {
