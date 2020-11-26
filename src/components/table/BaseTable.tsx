@@ -30,7 +30,13 @@ interface BaseTableProps {
     page: number,
     rowsPerPage: number,
     handleChangePage: (event: unknown, newPage: number) => void,
-    handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void
+    handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleOpenAddModal?: () => void
+};
+
+export interface TableRowBtn{
+    rowBtn: any,
+    handleRowBtnClick: () => void
 };
 
 function BaseTable(props: BaseTableProps) {
@@ -38,8 +44,8 @@ function BaseTable(props: BaseTableProps) {
     
     return (
         <BaseTableContainer>
-            {props.addBtnTitle && (
-                <StyledButton className={classes.addBtn}>{props.addBtnTitle}</StyledButton>
+            {props.addBtnTitle && props.handleOpenAddModal && (
+                <StyledButton className={classes.addBtn} onClick={props.handleOpenAddModal}>{props.addBtnTitle}</StyledButton>
             )}
             <Paper className={classes.root}>
                 <TableContainer className={classes.container}>
@@ -63,21 +69,14 @@ function BaseTable(props: BaseTableProps) {
                         return (
                             <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
                             {props.columns.map((column) => {
-                                if(column.buttons) {
+                                const value = row[column.id];
+                                if(column.type === "button") {
                                     return (
-                                        <TableCell key={column.id}>
-                                            {column.buttons.map((ActionButton: any) => {
-                                                return(
-                                                    <ActionButton />
-                                                )
-                                            })}
+                                        <TableCell key={column.id} align={column.align} onClick={value.handleRowBtnClick}>
+                                            {value.rowBtn}
                                         </TableCell>
                                     )
                                 }
-                                if(column.buttons) {
-                                    return <div></div>
-                                }
-                                const value = row[column.id];
                                 return (
                                 <TableCell key={column.id} align={column.align}>
                                     {column.format && typeof value === 'number' ? column.format(value) : value}

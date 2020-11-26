@@ -1,6 +1,6 @@
 import { ErrorMessage } from 'formik';
 import React from 'react';
-import { ButtonSpinner, PageContainer } from '../../styles/global';
+import { ButtonSpinner } from '../../styles/global';
 import { StyledField, FieldWrapper, FormContainer, FormLogoIcon, FormLogoName, StyledForm, StyledErrorMessage, FormBtnWrapper, StyledFormBtn } from './BaseForm.elements';
 
 interface FormField {
