@@ -12,9 +12,12 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   
+  const checkUserAuth = () => {
+    // Checks if user is logged in or logged out
+    dispatch(authChannelRequest());
+  }
   useEffect(() => {
-      // Checks if user is logged in or logged out
-      dispatch(authChannelRequest());
+    checkUserAuth();
   }, []);
 
   if(isLoadingPage) return <Loading />;

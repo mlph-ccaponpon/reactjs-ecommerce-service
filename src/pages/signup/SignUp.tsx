@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import React, { useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm'
 import { setErrorMessage, signUpRequest } from '../../store/actions/authActions';
@@ -56,10 +56,14 @@ function SignUp() {
         dispatch(signUpRequest(user));
     }
 
+    const loginUserSuccess = () => {
+        dispatch(setErrorMessage(""));
+        history.replace("/");
+    }
+
     useEffect(() => {
         if(isLoggedIn) {
-            dispatch(setErrorMessage(""));
-            history.replace("/");
+            loginUserSuccess();
         }
     }, [isLoggedIn]);
 

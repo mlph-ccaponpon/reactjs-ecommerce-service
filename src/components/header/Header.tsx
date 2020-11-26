@@ -31,7 +31,7 @@ function Header(){
     
     useEffect(() => {
       toggleMenuBtn();
-    }, []);
+    },[]);
 
     window.addEventListener('resize', toggleMenuBtn);
 
@@ -51,6 +51,9 @@ function Header(){
                             Home
                         </HeaderLink>
                     </HeaderMenuItem>
+
+                    {isLoggedIn ? (
+                    <>
                     <HeaderMenuItem>
                         <HeaderLink exact to="/users" onClick={closeMenu}>
                             Users
@@ -66,7 +69,6 @@ function Header(){
                             Newsfeed
                         </HeaderLink>
                     </HeaderMenuItem>
-                    {isLoggedIn ? (
                     <HeaderMenuItemBtn>
                         {showMenuBtn ? (
                         <HeaderBtnLink exact to='/' onClick={logoutUser}>
@@ -80,6 +82,7 @@ function Header(){
                         </HeaderBtnLink>
                         )}
                     </HeaderMenuItemBtn>
+                    </>
                     ):(
                     <>
                         <HeaderMenuItem>

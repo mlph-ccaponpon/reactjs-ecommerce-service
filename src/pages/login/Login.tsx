@@ -39,10 +39,14 @@ function Login() {
         dispatch(loginRequest(userCredential));
     }
 
+    const loginUserSuccess = () => {
+        dispatch(setErrorMessage(""));
+        history.replace("/");
+    }
+
     useEffect(() => {
         if(isLoggedIn) {
-            dispatch(setErrorMessage(""));
-            history.replace("/");
+            loginUserSuccess();
         }
     }, [isLoggedIn])
 
