@@ -1,8 +1,8 @@
 import Home from '../../pages/home/Home';
 import Login from '../../pages/login/Login';
-import Services from '../../pages/services/Services';
+import ServiceTable from '../../pages/services/ServiceTable';
 import SignUp from '../../pages/signup/SignUp';
-import Users from '../../pages/users/Users';
+import UserTable from '../../pages/users/UserTable';
 
 const routes = [
     {
@@ -26,13 +26,13 @@ const routes = [
     {
         path: "/users",
         exact: true,
-        component: Users,
+        component: UserTable,
         protected: null
     },
     {
         path: "/services",
         exact: true,
-        component: Services,
+        component: ServiceTable,
         protected: null
     }
 ];

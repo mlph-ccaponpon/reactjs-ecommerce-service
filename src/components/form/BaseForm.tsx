@@ -15,12 +15,13 @@ interface BaseFormProps{
     submitBtnLabel: string,
     fields: FormField[],
     errorMessage?: string,
-    isLoading?: boolean
+    isLoading?: boolean,
+    isModal?: boolean
 }
 
 function BaseForm(props: BaseFormProps) {
     return (
-        <FormContainer>
+        <FormContainer isModal={props.isModal}>
             <StyledForm onSubmit={props.handleSubmit}>
                 <FormLogoName>
                     <FormLogoIcon />

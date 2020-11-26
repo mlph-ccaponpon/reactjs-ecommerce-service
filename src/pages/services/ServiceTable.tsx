@@ -5,7 +5,7 @@ import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/Bas
 import BaseModal from '../../components/modal/BaseModal';
 
 interface Column {
-  id: 'id' | 'name' | 'email' | 'role' | 'editBtn' | 'deleteBtn';
+  id: 'name' | 'category' | 'provider' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -14,16 +14,17 @@ interface Column {
 }
 
 interface Data {
-  id: string;
   name: string;
-  email: string;
-  role: string;
+  category: string;
+  provider: string;
+  description: string;
+  rating: number;
   editBtn: any;
   deleteBtn: any;
 }
 
 
-function Users() {
+function ServiceTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -68,45 +69,46 @@ function Users() {
 
   //Table Init
   const columns: Column[] = [
-    { id: 'id', label: 'ID', minWidth: 25 },
-    { id: 'name', label: 'Name', minWidth: 25 },
-    { id: 'email', label: 'Email', minWidth: 25 },
-    { id: 'role', label: 'Role', minWidth: 15 },
+    { id: 'name', label: 'Service Name', minWidth: 25 },
+    { id: 'category', label: 'Category', minWidth: 25 },
+    { id: 'provider', label: 'Provider', minWidth: 25 },
+    { id: 'description', label: 'Description', minWidth: 15 },
+    { id: 'rating', label: 'Description', minWidth: 15 },
     { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button' },
     { id: 'deleteBtn', label: '', minWidth: 5, type: 'button' }
   ];
 
 
-  const createData = (id: string, name: string, email: string, role: string): Data => {
+  const createData = (name: string, category: string, provider: string, description: string, rating: number): Data => {
     const editBtn : TableRowBtn = {rowBtn: BaseTableEditBtn(), handleRowBtnClick: handleOpenEditModal};
     const deleteBtn : TableRowBtn = {rowBtn: BaseTableDeleteBtn(), handleRowBtnClick: handleOpenDeleteModal};
 
-    return { id, name, email, role, editBtn, deleteBtn };
+    return { name, category, provider, description, rating, editBtn, deleteBtn };
   }
 
   // TODO: Get Services Data from firestore
   const rows = [
-    createData('ABJSADUBJHBCC1', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC2', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC3', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC4', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC5', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC6', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC7', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC8', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC9', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC10', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC11', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC12', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC13', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC14', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC15', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
+    createData('Service 1', 'Food', 'Chin Caponpon', 'Your service 1.', 3.3),
+    createData('Service 2', 'Food', 'Chin Caponpon', 'Your service 2.', 4.3),
+    createData('Service 3', 'Food', 'Chin Caponpon', 'Your service 3.', 2.3),
+    createData('Service 4', 'Food', 'Chin Caponpon', 'Your service 4.', 4.2),
+    createData('Service 5', 'Food', 'Chin Caponpon', 'Your service 5.', 3),
+    createData('Service 6', 'Food', 'Chin Caponpon', 'Your service 6.', 3),
+    createData('Service 7', 'Food', 'Chin Caponpon', 'Your service 7.', 2.5),
+    createData('Service 8', 'Food', 'Chin Caponpon', 'Your service 8.', 3.7),
+    createData('Service 9', 'Food', 'Chin Caponpon', 'Your service 9.', 3.8),
+    createData('Service 10', 'Food', 'Chin Caponpon', 'Your service 10.', 2.5),
+    createData('Service 11', 'Food', 'Chin Caponpon', 'Your service 11.', 4.3),
+    createData('Service 12', 'Food', 'Chin Caponpon', 'Your service 12.', 1.3),
+    createData('Service 13', 'Food', 'Chin Caponpon', 'Your service 13.', 3.4),
+    createData('Service 14', 'Food', 'Chin Caponpon', 'Your service 14.', 3.5),
+    createData('Service 15', 'Food', 'Chin Caponpon', 'Your service 15.', 3.6),
   ];
 
   return (
       <PageContainer>
         <BaseTable
-          addBtnTitle="Add User"
+          addBtnTitle="Add Service"
           columns={columns}
           rows={rows}
           page={page}
@@ -116,21 +118,21 @@ function Users() {
           handleOpenAddModal={handleOpenAddModal}/>
 
         <BaseModal
-          title="Add User"
+          title="Add Service"
           showModal={showAddModal}
           handleCloseModal={handleCloseAddModal} />
 
         <BaseModal
-          title="Edit User"
+          title="Edit Service"
           showModal={showEditModal}
           handleCloseModal={handleCloseEditModal} />
 
         <BaseModal
-          title="Delete User"
+          title="Delete Service"
           showModal={showDeleteModal}
           handleCloseModal={handleCloseDeleteModal} />
     </PageContainer>
   );
 }
 
-export default Users;
+export default ServiceTable;

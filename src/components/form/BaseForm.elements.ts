@@ -3,9 +3,12 @@ import styled from "styled-components";
 import { StyledButton, theme } from "../../styles/global";
 import { SiAiqfome } from 'react-icons/si';
 
+interface FormContainerProps {
+    isModal?: boolean
+}
 export const FormContainer = styled.div`
     margin: auto;
-    width: 45%;
+    width: ${(p: FormContainerProps)  => p.isModal ? '400px' : '45%'};
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
