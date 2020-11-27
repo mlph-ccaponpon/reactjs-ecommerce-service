@@ -15,11 +15,9 @@ export default function AuthRoleRoute({children, currUser, role, ...routeProps} 
 
     return (
         <AnimatedRoute {...routeProps}>
-            {isValidUser && (
-                <div>
-                    {children}
-                </div>
-            )} 
+            <div>
+                {children}
+            </div>
         </AnimatedRoute>
     );
 }

@@ -27,7 +27,7 @@ function App() {
     checkUserAuth();
   }, []);
 
-  if(isLoadingPage) return <Loading />;
+  if(isLoadingPage && currUser === null) return <Loading />;
   return (
     <>
       <GlobalStyle />

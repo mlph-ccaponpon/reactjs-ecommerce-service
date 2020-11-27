@@ -15,11 +15,9 @@ export default function GuestRoute({children, currUser, ...routeProps} : {childr
 
     return (
         <AnimatedRoute {...routeProps}>
-            {isValidUser && (
-                <div>
-                    {children}
-                </div>
-            )} 
+            <div>
+                {children}
+            </div>
         </AnimatedRoute>
     );
 }
