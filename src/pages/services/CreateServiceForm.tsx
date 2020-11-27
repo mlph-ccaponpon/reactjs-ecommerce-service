@@ -80,8 +80,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         if(props.isNew) {
             dispatch(createServiceRequest(service));
         } else if(props.selectedService != null) {
-            service.id = props.selectedService.id;
-            service.rating = props.selectedService.rating;
+            service = {...props.selectedService, ...service};
             dispatch(updateServiceRequest(service));
         }
     } 

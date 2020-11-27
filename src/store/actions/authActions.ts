@@ -1,21 +1,29 @@
 import { BaseResponse } from "../entities/BaseResponse";
 import { User } from "../entities/User";
 import { UserCredential } from "../entities/UserCredential";
-import { AUTH_CHANNEL_REQUEST, LOGIN_REQUEST, LOGIN_RESPONSE, LOGOUT_REQUEST, LOGOUT_RESPONSE, SET_ERROR_MESSAGE, SET_IS_LOADING, SET_IS_LOADING_PAGE, SIGN_UP_REQUEST } from "../types/authTypes";
+import { AUTH_CHANNEL_REQUEST, INIT_AUTH_REQ_STATE, LOGIN_REQUEST, LOGIN_RESPONSE, LOGOUT_REQUEST, LOGOUT_RESPONSE, SET_AUTH_ERROR_MESSAGE, SET_IS_LOADING_PAGE, SIGN_UP_REQUEST } from "../types/authTypes";
 
-export const setIsLoading = (isLoading: boolean) => ({
-  type: SET_IS_LOADING,
-  payload: isLoading
-});
-
+/**
+ * SET IS LOADING PAGE
+ */
 export const setIsLoadingPage = (isLoadingPage: boolean) => ({
   type: SET_IS_LOADING_PAGE,
   payload: isLoadingPage
 });
 
-export const setErrorMessage = (errorMessage: string) => ({
-  type: SET_ERROR_MESSAGE,
+/**
+ * SET ERROR MESSAGE
+ */
+export const setAuthErrorMessage = (errorMessage: string) => ({
+  type: SET_AUTH_ERROR_MESSAGE,
   payload: errorMessage
+});
+
+/**
+ * INITIALIZE STATE FOR AUTH REQUEST 
+ */
+export const initAuthReqState = () => ({
+  type: INIT_AUTH_REQ_STATE
 });
 
 /**
@@ -42,7 +50,7 @@ export const loginRequest = (userCredential: UserCredential) => ({
   payload: userCredential,
 });
 
-export const loginResponse = (response: BaseResponse) => ({
+export const loginResponse = (response: BaseResponse<User | null>) => ({
   type: LOGIN_RESPONSE,
   payload: response,
 });
@@ -55,7 +63,7 @@ export const logoutRequest = () => ({
   type: LOGOUT_REQUEST
 });
 
-export const logoutResponse = (response: BaseResponse) => ({
+export const logoutResponse = (response: BaseResponse<User | null>) => ({
   type: LOGOUT_RESPONSE,
   payload: response,
 });

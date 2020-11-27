@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageContainer } from '../../styles/global';
 import BaseTable from '../../components/table/BaseTable';
 import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/BaseTableButtons';
 import BaseModal from '../../components/modal/BaseModal';
-import AddUserModal from './AddUserModal';
-import EditUserModal from './EditUserModal';
+import AddUserForm from './AddUserForm';
+import EditUserForm from './EditUserForm';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { User } from '../../store/entities/User';
+import { getUserListRequest } from '../../store/actions/userActions';
+import DeleteUserModal from './DeleteUserModal';
 
 interface Column {
   id: 'id' | 'name' | 'email' | 'role' | 'editBtn' | 'deleteBtn';
   label: string;
   minWidth?: number;
-  align?: 'right';
+  maxWidth?: number;
+  align?: 'right' | 'left';
   format?: (value: number) => string;
   type?: 'button';
   buttonElem?: any;
   buttonOnClick?: any;
 }
 
-interface Data {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-}
-
 
 function UserTable() {
+  const userList = useSelector((state: RootStateOrAny) => state.user.userList);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const dispatch = useDispatch();
+
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -41,16 +43,20 @@ function UserTable() {
   };
 
   //Edit Modal
-  const handleOpenEditModal = () => {
+  const handleOpenEditModal = (user: User) => {
+    setSelectedUser(user);
     setShowEditModal(true);
   };
-
   const handleCloseEditModal = () => {
     setShowEditModal(false);
   };
+  const handleEditUserSuccess = () => {
+    handleCloseEditModal();
+  };
 
   //Delete Modal
-  const handleOpenDeleteModal = () => {
+  const handleOpenDeleteModal = (user: User) => {
+    setSelectedUser(user);
     setShowDeleteModal(true);
   };
 
@@ -70,44 +76,24 @@ function UserTable() {
 
   //Table Init
   const columns: Column[] = [
-    { id: 'id', label: 'ID', minWidth: 25 },
-    { id: 'name', label: 'Name', minWidth: 25 },
-    { id: 'email', label: 'Email', minWidth: 25 },
-    { id: 'role', label: 'Role', minWidth: 15 },
-    { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
-    { id: 'deleteBtn', label: '', minWidth: 5, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
+    { id: 'id', label: 'ID', minWidth: 80, maxWidth: 80 },
+    { id: 'name', label: 'Name', minWidth: 80, maxWidth: 80 },
+    { id: 'email', label: 'Email', minWidth: 50, maxWidth: 50 },
+    { id: 'role', label: 'Role', minWidth: 50, maxWidth: 50 },
+    { id: 'editBtn', label: '', align: 'right', minWidth: 20, maxWidth: 20, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
+    { id: 'deleteBtn', label: '', align: 'left', minWidth: 40, maxWidth: 40, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
   ];
 
-
-  const createData = (id: string, name: string, email: string, role: string): Data => {
-    return { id, name, email, role };
-  }
-
-  // TODO: Get Services Data from firestore
-  const rows = [
-    createData('ABJSADUBJHBCC1', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC2', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC3', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC4', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC5', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC6', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC7', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC8', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC9', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC10', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC11', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC12', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC13', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC14', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-    createData('ABJSADUBJHBCC15', 'Chernhelyn Caponpon', 'chernhelyn@gmail.com', 'CUSTOMER'),
-  ];
+  useEffect(() => {
+    dispatch(getUserListRequest());
+  }, []);
 
   return (
       <PageContainer>
         <BaseTable
           addBtnTitle="Add User"
           columns={columns}
-          rows={rows}
+          rows={userList}
           page={page}
           rowsPerPage={rowsPerPage}
           handleChangePage={handleChangePage}
@@ -115,20 +101,23 @@ function UserTable() {
           handleOpenAddModal={handleOpenAddModal}/>
 
         <BaseModal
-          title="Add User"
           showModal={showAddModal}
           handleCloseModal={handleCloseAddModal}
-          modalBody={AddUserModal()} />
+          modalBody={AddUserForm()} />
 
         <BaseModal
-          title="Edit User"
           showModal={showEditModal}
           handleCloseModal={handleCloseEditModal} 
-          modalBody={EditUserModal()}/>
+          modalBody={EditUserForm({handleEditUserSuccess, selectedUser})}/>
 
         <BaseModal
+          showModal={showDeleteModal}
+          handleCloseModal={handleCloseDeleteModal} />
+
+        <DeleteUserModal
           title="Delete User"
           showModal={showDeleteModal}
+          selectedUser={selectedUser}
           handleCloseModal={handleCloseDeleteModal} />
     </PageContainer>
   );

@@ -2,9 +2,11 @@ import { LOGIN_REQUEST, SIGN_UP_REQUEST, LOGOUT_REQUEST, AUTH_CHANNEL_REQUEST } 
 import {takeLatest, call, put, take} from "redux-saga/effects";
 import { BaseResponse } from "../entities/BaseResponse";
 import { firebaseReduxSaga } from '../../config/firebaseConfig';
-import { loginResponse, logoutResponse, setErrorMessage, setIsLoading, setIsLoadingPage } from "../actions/authActions";
+import { initAuthReqState, loginResponse, logoutResponse, setIsLoadingPage} from "../actions/authActions";
 import { Role, User } from "../entities/User";
 import { UserCredential } from "../entities/UserCredential";
+
+const USERS_COLLECTION = "users";
 
 /**
  * AUTH CHANNEL
@@ -16,7 +18,7 @@ export function* onAuthChannelWatcher() {
 }
 function* onAuthChannel() {
     try {
-        const successResponse : BaseResponse = { success: true, errorMessage: "" };
+        const successResponse : BaseResponse<User | null> = { success: true, errorMessage: "" };
         
         yield put(setIsLoadingPage(true));
         const authChannel = yield call(firebaseReduxSaga.auth.channel);
@@ -25,9 +27,16 @@ function* onAuthChannel() {
             const { user } = yield take(authChannel);
 
             if (user) {
+                const uid = user.uid;
+                
+                // Get User Document
+                const snapshot = yield call(firebaseReduxSaga.firestore.getDocument, `${USERS_COLLECTION}/${uid}`);
+                const currUser: User = snapshot.data();
+                successResponse.result = currUser;
                 yield put(loginResponse(successResponse));
             }
             else {
+                successResponse.result = null;
                 yield put(logoutResponse(successResponse));
             }
 
@@ -40,34 +49,36 @@ function* onAuthChannel() {
 
 /**
  * SIGN UP 
- * - Sign up user, add a document for user details, and automatically login user
+ * - Sign up user, set a document for user details, and automatically login user
  */
 export function* signUpWatcher(){
     yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 function* signUp(action: any) {
     try {
-        yield put(setErrorMessage(""));
-        yield put(setIsLoading(true));
+        yield put(initAuthReqState());
         const user : User = action.payload;
         
         // Sign up 
-        const signUpResult = yield call(firebaseReduxSaga.auth.createUserWithEmailAndPassword, user.email, user.password);
-        const uid = signUpResult.user.uid;
-        const email = signUpResult.user.email;
-    
-        // Add User Document
-        yield call(firebaseReduxSaga.firestore.addDocument,
-            "users",
-            {
-                name: user.name,
-                uid: uid,
-                email: email,
-                role: user.role ? user.role: Role.CUSTOMER 
-            })
+        if(user.email && user.password) {
+            const signUpResult = yield call(firebaseReduxSaga.auth.createUserWithEmailAndPassword, user.email, user.password);
+            const uid = signUpResult.user.uid;
+            const email = signUpResult.user.email;
+        
+            // Set User Document
+            yield call(firebaseReduxSaga.firestore.setDocument,
+                `${USERS_COLLECTION}/${uid}`,
+                {
+                    timestamp: Date.now(),
+                    name: user.name,
+                    uid: uid,
+                    email: email,
+                    role: user.role ? user.role: Role.CUSTOMER.value 
+                },{})
+        }
     }
     catch(error) {
-        const errorResponse : BaseResponse = { success: false, errorMessage: error.message };
+        const errorResponse : BaseResponse<User | null> = { success: false, result: null, errorMessage: error.message };
         yield put(loginResponse(errorResponse));
     }
 }
@@ -82,12 +93,11 @@ export function* loginWatcher(){
 function* login(action: any) {
     try {
         const userCredential : UserCredential = action.payload;
-        yield put(setErrorMessage(""));
-        yield put(setIsLoading(true));
+        yield put(initAuthReqState());
         yield call(firebaseReduxSaga.auth.signInWithEmailAndPassword, userCredential.email, userCredential.password);
       }
       catch(error) {
-        const errorResponse : BaseResponse = { success: false, errorMessage: error.message };
+        const errorResponse : BaseResponse<User | null> = { success: false, result: null, errorMessage: error.message };
         yield put(loginResponse(errorResponse));
       }
 }
@@ -103,7 +113,7 @@ function* logout() {
         yield call(firebaseReduxSaga.auth.signOut);
     }
     catch(error) {
-        const errorResponse : BaseResponse = { success: false, errorMessage: error.message };
+        const errorResponse : BaseResponse<User | null> = { success: false, result: null, errorMessage: error.message };
         yield put(logoutResponse(errorResponse));
     }
 }

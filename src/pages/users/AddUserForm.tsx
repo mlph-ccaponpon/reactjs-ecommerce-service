@@ -3,10 +3,11 @@ import React from 'react'
 import BaseForm from '../../components/form/BaseForm';
 import * as Yup from 'yup';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import { AdminUserRoleOptions } from '../../store/entities/User';
 
-function AddUserModal() {
+function AddUserForm() {
     const isLoading = useSelector((state: RootStateOrAny) => state.auth.isLoading);
-    const errorMessage = useSelector((state: RootStateOrAny) => state.auth.errorMessage);
+    const errorMessage = useSelector((state: RootStateOrAny) => state.auth.authErrorMessage);
     const formInitValues = {name:"", email: "", password: "", confirmPassword: ""};
     const formValidation = {
         name: Yup.string()
@@ -41,6 +42,12 @@ function AddUserModal() {
             name: "confirmPassword",
             type: "password",
             placeholder: "Confirm Password"
+        },
+        {
+            name: "role",
+            type: "select",
+            placeholder: "Role",
+            options: AdminUserRoleOptions
         }
     ];
 
@@ -66,4 +73,4 @@ function AddUserModal() {
     )
 }
 
-export default AddUserModal;
+export default AddUserForm;

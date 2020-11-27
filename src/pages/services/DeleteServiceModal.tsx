@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { FormLogoIcon, FormLogoName } from '../../components/form/BaseForm.elements';
 import BaseModal from '../../components/modal/BaseModal';
 import { deleteServiceRequest } from '../../store/actions/serviceActions';
 import { Service } from '../../store/entities/Service';
-import { StyledButton, theme } from '../../styles/global'
 
 interface DeleteServiceModalProps {
     title: string;

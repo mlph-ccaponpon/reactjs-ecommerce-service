@@ -5,6 +5,7 @@ import ServiceInfo from '../../pages/services/ServiceInfo';
 import ServiceTable from '../../pages/services/ServiceTable';
 import SignUp from '../../pages/signup/SignUp';
 import UserTable from '../../pages/users/UserTable';
+import { Role } from '../../store/entities/User';
 
 const routes = [
     {
@@ -17,37 +18,37 @@ const routes = [
         path: "/login",
         exact: true,
         component: Login,
-        protected: null
+        protected: Role.GUEST.value
     },
     {
         path: "/sign-up",
         exact: true,
         component: SignUp,
-        protected: null
+        protected: Role.GUEST.value
     },
     {
         path: "/users",
         exact: true,
         component: UserTable,
-        protected: null
+        protected: Role.ADMIN.value
     },
     {
         path: "/services",
         exact: true,
         component: ServiceTable,
-        protected: null
+        protected: Role.ADMIN.value
     },
     {
         path: "/newsfeed/:id",
         exact: true,
         component: ServiceInfo,
-        protected: null
+        protected: Role.CUSTOMER.value
     },
     {
         path: "/newsfeed",
         exact: true,
         component: Newsfeed,
-        protected: null
+        protected: Role.CUSTOMER.value
     }
 ];
 

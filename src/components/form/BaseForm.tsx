@@ -35,8 +35,8 @@ function BaseForm(props: BaseFormProps) {
                 {props.fields.map((field, index) => {
                     if(field.type === "select") {
                         return (
-                        <StyledFieldSelect>
-                            <Field key={field.name} as="select" name={field.name}>
+                        <StyledFieldSelect key={field.name}>
+                            <Field as="select" name={field.name}>
                                 <option value="" disabled>
                                     {field.placeholder}
                                 </option>

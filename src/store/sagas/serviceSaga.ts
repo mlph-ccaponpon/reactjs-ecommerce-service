@@ -52,15 +52,14 @@ export function* updateServiceWatcher(){
 }
 function* updateService(action: any) {
   const response : BaseResponse<Service> = { success: false, errorMessage: "" };
-  const service : Service = action.payload;
+  const serviceUpdate : Service = action.payload;
 
   try {
       yield put(initServiceReqState());
-      const { id, ...serviceUpdate } = service; // Remove 'id' property from service to be updated
-      yield call(firebaseReduxSaga.firestore.updateDocument, `${SERVICES_COLLECTION}/${service.id}`, {...serviceUpdate});
+      yield call(firebaseReduxSaga.firestore.updateDocument, `${SERVICES_COLLECTION}/${serviceUpdate.id}`, {...serviceUpdate});
       
       response.success = true;
-      response.result = service;
+      response.result = serviceUpdate;
       yield put(updateServiceResponse(response));
     }
     catch(error) {

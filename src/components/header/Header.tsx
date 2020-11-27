@@ -4,8 +4,10 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { HeaderBtnLink, HeaderContainer, HeaderLink, HeaderLogoIcon, HeaderLogoName, HeaderMenu, HeaderMenuIcon, HeaderMenuItem, HeaderMenuItemBtn, Nav } from './Header.elements';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { logoutRequest } from '../../store/actions/authActions';
+import { Role, User } from '../../store/entities/User';
 
 function Header(){
+    const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
     const [showSideMenu, setShowSideMenu] = useState(false);
     const [showMenuBtn, setShowMenuBtn] = useState(true);
     const isLoggedIn = useSelector((state: RootStateOrAny) => state.auth.isLoggedIn);
@@ -52,36 +54,44 @@ function Header(){
                         </HeaderLink>
                     </HeaderMenuItem>
 
-                    {isLoggedIn ? (
+                    {isLoggedIn && currUser ? (
                     <>
-                    <HeaderMenuItem>
-                        <HeaderLink exact to="/users" onClick={closeMenu}>
-                            Users
-                        </HeaderLink>
-                    </HeaderMenuItem>
-                    <HeaderMenuItem>
-                        <HeaderLink exact to="/services" onClick={closeMenu}>
-                            Services
-                        </HeaderLink>
-                    </HeaderMenuItem>
-                    <HeaderMenuItem>
-                        <HeaderLink to="/newsfeed" onClick={closeMenu}>
-                            Newsfeed
-                        </HeaderLink>
-                    </HeaderMenuItem>
-                    <HeaderMenuItemBtn>
-                        {showMenuBtn ? (
-                        <HeaderBtnLink exact to='/' onClick={logoutUser}>
-                            <StyledButton>LOGOUT</StyledButton>
-                        </HeaderBtnLink>
-                        ) : (
-                        <HeaderBtnLink exact to='/'>
-                            <StyledButton onClick={logoutUser} btnLg>
-                            LOGOUT
-                            </StyledButton>
-                        </HeaderBtnLink>
+                        {(currUser.role === Role.ADMIN.value) && (
+                            <>
+                            <HeaderMenuItem>
+                                <HeaderLink exact to="/users" onClick={closeMenu}>
+                                    Users
+                                </HeaderLink>
+                            </HeaderMenuItem>
+                            <HeaderMenuItem>
+                                <HeaderLink exact to="/services" onClick={closeMenu}>
+                                    Services
+                                </HeaderLink>
+                            </HeaderMenuItem>
+                            </>
                         )}
-                    </HeaderMenuItemBtn>
+
+                        {(currUser.role === Role.CUSTOMER.value) && (
+                            <HeaderMenuItem>
+                                <HeaderLink to="/newsfeed" onClick={closeMenu}>
+                                    Newsfeed
+                                </HeaderLink>
+                            </HeaderMenuItem>
+                        )}
+                    
+                        <HeaderMenuItemBtn>
+                            {showMenuBtn ? (
+                            <HeaderBtnLink exact to='/' onClick={logoutUser}>
+                                <StyledButton>LOGOUT</StyledButton>
+                            </HeaderBtnLink>
+                            ) : (
+                            <HeaderBtnLink exact to='/'>
+                                <StyledButton onClick={logoutUser} btnLg>
+                                LOGOUT
+                                </StyledButton>
+                            </HeaderBtnLink>
+                            )}
+                        </HeaderMenuItemBtn>
                     </>
                     ):(
                     <>

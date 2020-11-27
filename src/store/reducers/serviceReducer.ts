@@ -1,7 +1,5 @@
 import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE, UPDATE_SERVICE_RESPONSE, DELETE_SERVICE_RESPONSE, ADD_SERVICE_REVIEW_RESPONSE } from "../types/serviceTypes"
 import { Service } from "../entities/Service";
-import { ServiceReview } from "../entities/ServiceReview";
-import { BaseResponse } from "../entities/BaseResponse";
 
 const initialState = {
     isServiceLoading: false,

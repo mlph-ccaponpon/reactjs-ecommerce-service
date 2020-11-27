@@ -4,14 +4,14 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm'
-import { setErrorMessage, signUpRequest } from '../../store/actions/authActions';
-import {  User, UserRoleOptions } from '../../store/entities/User';
+import { setAuthErrorMessage, signUpRequest } from '../../store/actions/authActions';
+import {  User, GuestUserRoleOptions } from '../../store/entities/User';
 import { PageContainer } from '../../styles/global';
 
 function SignUp() {
     const isLoading = useSelector((state: RootStateOrAny) => state.auth.isLoading);
     const isLoggedIn = useSelector((state: RootStateOrAny) => state.auth.isLoggedIn);
-    const errorMessage = useSelector((state: RootStateOrAny) => state.auth.errorMessage);
+    const errorMessage = useSelector((state: RootStateOrAny) => state.auth.authErrorMessage);
     const dispatch = useDispatch();
 
     const history = useHistory();
@@ -54,7 +54,7 @@ function SignUp() {
             name: "role",
             type: "select",
             placeholder: "Role",
-            options: UserRoleOptions
+            options: GuestUserRoleOptions
         }
     ]
 
@@ -64,7 +64,7 @@ function SignUp() {
     }
 
     const loginUserSuccess = () => {
-        dispatch(setErrorMessage(""));
+        dispatch(setAuthErrorMessage(""));
         history.replace("/");
     }
 
@@ -74,6 +74,10 @@ function SignUp() {
         }
     }, [isLoggedIn]);
 
+    useEffect(() => {
+        dispatch(setAuthErrorMessage(""));
+    }, []);
+    
     return (
         <Formik
             initialValues = {formInitValues}

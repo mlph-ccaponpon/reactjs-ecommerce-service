@@ -1,26 +1,27 @@
 export interface User {
     uid?: string,
+    timestamp?: number,
     name: string,
-    email: string,
-    password: string,
+    email?: string,
+    password?: string,
     role?: string
 }
 
 export const Role = {
-    ADMIN: "ADMIN",
-    CUSTOMER: "CUSTOMER",
-    PROVIDER: "PROVIDER"
+    GUEST: {value: "GUEST", label: "Guest"},
+    ADMIN: {value: "ADMIN", label: "Admin"},
+    CUSTOMER: {value: "CUSTOMER", label: "Customer"},
+    PROVIDER: {value: "PROVIDER", label: "Service Provider"}
 }
 
-export const UserRoleOptions = [
-    {
-        label: "Customer",
-        value: Role.CUSTOMER
-    },
-    {
-        label: "Service Provider",
-        value: Role.PROVIDER
-    }
+export const GuestUserRoleOptions = [
+    Role.CUSTOMER,
+    Role.PROVIDER
+]
 
+export const AdminUserRoleOptions = [
+    Role.ADMIN,
+    Role.CUSTOMER,
+    Role.PROVIDER
 ]
 
