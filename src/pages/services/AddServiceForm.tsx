@@ -1,13 +1,18 @@
 import { Formik } from 'formik';
-import React from 'react'
+import React, { useEffect } from 'react'
 import BaseForm from '../../components/form/BaseForm';
 import * as Yup from 'yup';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Service } from '../../store/entities/Service';
-import { createServiceRequest } from '../../store/actions/serviceActions';
+import { createServiceRequest, setServiceErrorMessage } from '../../store/actions/serviceActions';
 
-function AddServiceModal() {
+interface AddServiceFormProps {
+    handleAddServiceSuccess: () => void;
+}
+
+function AddServiceForm(props: AddServiceFormProps) {
     const isLoading = useSelector((state: RootStateOrAny) => state.service.isServiceLoading);
+    const isServiceRequestSuccess = useSelector((state: RootStateOrAny) => state.service.isServiceRequestSuccess);
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
     const dispatch = useDispatch();
 
@@ -56,6 +61,17 @@ function AddServiceModal() {
         dispatch(createServiceRequest(service));
     } 
 
+    const createServiceSuccess = () => {
+        dispatch(setServiceErrorMessage(""));
+        props.handleAddServiceSuccess();
+    }
+
+    useEffect(() => {
+        if(isServiceRequestSuccess) {
+            createServiceSuccess();
+        }
+    }, [isServiceRequestSuccess]);
+
     return (
         <Formik
         initialValues = {formInitValues}
@@ -78,4 +94,4 @@ function AddServiceModal() {
     )
 }
 
-export default AddServiceModal;
+export default AddServiceForm;

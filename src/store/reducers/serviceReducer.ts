@@ -2,6 +2,7 @@ import { CREATE_SERVICE_RESPONSE, SET_IS_SERVICE_LOADING, SET_SERVICE_ERROR_MESS
 
 const initialState = {
     isServiceLoading: false,
+    isServiceRequestSuccess: false,
     serviceErrorMessage: "",
     currentService: {}
 }
@@ -19,6 +20,7 @@ export function serviceReducer(state = initialState, action: any) {
         case CREATE_SERVICE_RESPONSE: {
           return {...state, 
                 isServiceLoading: false,
+                isServiceRequestSuccess: action.payload.success,
                 serviceErrorMessage: action.payload.errorMessage}
         }
         default:

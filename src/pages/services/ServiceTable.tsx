@@ -3,7 +3,7 @@ import { PageContainer } from '../../styles/global';
 import BaseTable, { TableRowBtn } from '../../components/table/BaseTable';
 import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/BaseTableButtons';
 import BaseModal from '../../components/modal/BaseModal';
-import AddServiceModal from './AddServiceModal';
+import AddServiceForm from './AddServiceForm';
 
 interface Column {
   id: 'name' | 'category' | 'provider' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
@@ -39,6 +39,9 @@ function ServiceTable() {
   };
   const handleCloseAddModal = () => {
       setShowAddModal(false);
+  };
+  const handleAddServiceSuccess = () => {
+      handleCloseAddModal();
   };
 
   //Edit Modal
@@ -124,7 +127,7 @@ function ServiceTable() {
           title="Add Service"
           showModal={showAddModal}
           handleCloseModal={handleCloseAddModal}
-          modalBody={AddServiceModal()} />
+          modalBody={AddServiceForm({handleAddServiceSuccess})} />
 
         <BaseModal
           title="Edit Service"

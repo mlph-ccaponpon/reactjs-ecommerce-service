@@ -1,5 +1,6 @@
-import { call, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { firebaseReduxSaga } from "../../config/firebaseConfig";
+import { createServiceResponse, setIsServiceLoading, setServiceErrorMessage } from "../actions/serviceActions";
 import { BaseResponse } from "../entities/BaseResponse";
 import { CREATE_SERVICE_REQUEST } from "../types/serviceTypes";
 
@@ -14,16 +15,21 @@ export function* createServiceWatcher(){
 function* createService(action: any) {
     const response : BaseResponse = { success: false, errorMessage: "" };
     try {
+        yield put(setServiceErrorMessage(""));
+        yield put(setIsServiceLoading(true));
+
         const service = action.payload;
-        const createdService = yield call(
+        yield call(
             firebaseReduxSaga.firestore.addDocument,
             SERVICES_COLLECTION,
             {...service}
           );
-        console.log("Created Service");
-        console.log(createdService);
+        
+        response.success = true;
+        yield put(createServiceResponse(response));
       }
       catch(error) {
-          console.log(error.message);
+        response.errorMessage = error.message;
+        yield put(createServiceResponse(response));
       }
 }
