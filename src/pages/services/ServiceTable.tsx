@@ -5,7 +5,7 @@ import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/Bas
 import BaseModal from '../../components/modal/BaseModal';
 
 interface Column {
-  id: 'name' | 'category' | 'provider' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
+  id: 'name' | 'category' | 'provider' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -17,6 +17,7 @@ interface Data {
   name: string;
   category: string;
   provider: string;
+  location: string;
   description: string;
   rating: number;
   editBtn: any;
@@ -79,30 +80,30 @@ function ServiceTable() {
   ];
 
 
-  const createData = (name: string, category: string, provider: string, description: string, rating: number): Data => {
+  const createData = (name: string, category: string, provider: string, location:string, description: string, rating: number): Data => {
     const editBtn : TableRowBtn = {rowBtn: BaseTableEditBtn(), handleRowBtnClick: handleOpenEditModal};
     const deleteBtn : TableRowBtn = {rowBtn: BaseTableDeleteBtn(), handleRowBtnClick: handleOpenDeleteModal};
 
-    return { name, category, provider, description, rating, editBtn, deleteBtn };
+    return { name, category, provider, location, description, rating, editBtn, deleteBtn };
   }
 
   // TODO: Get Services Data from firestore
   const rows = [
-    createData('Service 1', 'Food', 'Chin Caponpon', 'Your service 1.', 3.3),
-    createData('Service 2', 'Food', 'Chin Caponpon', 'Your service 2.', 4.3),
-    createData('Service 3', 'Food', 'Chin Caponpon', 'Your service 3.', 2.3),
-    createData('Service 4', 'Food', 'Chin Caponpon', 'Your service 4.', 4.2),
-    createData('Service 5', 'Food', 'Chin Caponpon', 'Your service 5.', 3),
-    createData('Service 6', 'Food', 'Chin Caponpon', 'Your service 6.', 3),
-    createData('Service 7', 'Food', 'Chin Caponpon', 'Your service 7.', 2.5),
-    createData('Service 8', 'Food', 'Chin Caponpon', 'Your service 8.', 3.7),
-    createData('Service 9', 'Food', 'Chin Caponpon', 'Your service 9.', 3.8),
-    createData('Service 10', 'Food', 'Chin Caponpon', 'Your service 10.', 2.5),
-    createData('Service 11', 'Food', 'Chin Caponpon', 'Your service 11.', 4.3),
-    createData('Service 12', 'Food', 'Chin Caponpon', 'Your service 12.', 1.3),
-    createData('Service 13', 'Food', 'Chin Caponpon', 'Your service 13.', 3.4),
-    createData('Service 14', 'Food', 'Chin Caponpon', 'Your service 14.', 3.5),
-    createData('Service 15', 'Food', 'Chin Caponpon', 'Your service 15.', 3.6),
+    createData('Service 1', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 1.', 3.3),
+    createData('Service 2', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 2.', 4.3),
+    createData('Service 3', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 3.', 2.3),
+    createData('Service 4', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 4.', 4.2),
+    createData('Service 5', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 5.', 3),
+    createData('Service 6', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 6.', 3),
+    createData('Service 7', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 7.', 2.5),
+    createData('Service 8', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 8.', 3.7),
+    createData('Service 9', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 9.', 3.8),
+    createData('Service 10', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 10.', 2.5),
+    createData('Service 11', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 11.', 4.3),
+    createData('Service 12', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 12.', 1.3),
+    createData('Service 13', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 13.', 3.4),
+    createData('Service 14', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 14.', 3.5),
+    createData('Service 15', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 15.', 3.6),
   ];
 
   return (

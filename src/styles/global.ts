@@ -25,7 +25,7 @@ export const theme = {
 export const Container = styled.div`
     z-index: 1;
     width: 100%;
-    max-width: 1300px;
+    max-width: 1400px;
     margin-right: auto;
     margin-left: auto;
     padding-right: 50px;
@@ -41,6 +41,7 @@ export const PageContainer = styled(Container)`
     display: flex;
     padding-top: 100px;
     padding-bottom: 100px;
+    justify-content: center;
 
     ${Container}
 `;
