@@ -8,10 +8,10 @@ interface StarProps {
 
 export const StyledStarFull = styled(TiStarFullOutline)`
     color: ${theme.primaryLight};
-    font-size: ${(p: StarProps)  => p.starxl=="true" ? theme.fontXl : theme.fontLg};
+    font-size: ${(p: StarProps)  => p.starxl === "true" ? theme.fontXl : theme.fontLg};
 `;
 
 export const StyledStarOutline = styled(TiStarOutline)`
     color: ${theme.primaryLight};
-    font-size: ${(p: StarProps)  => p.starxl=="true" ? theme.fontXl : theme.fontLg};
+    font-size: ${(p: StarProps)  => p.starxl === "true" ? theme.fontXl : theme.fontLg};
 `;

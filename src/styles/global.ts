@@ -16,6 +16,8 @@ export const theme = {
     primaryLight: '#ffba00', 
     secondaryDark: '#ffaa00', 
     secondaryLight: '#fff', 
+    dangerDark: '#e60000',
+    dangerLight: '#f50057',
     fontMd: '1rem',
     fontLg: '1.2rem',
     fontXl: '2rem',
@@ -48,11 +50,12 @@ export const PageContainer = styled(Container)`
 
 
 interface ButtonProps {
-    btnLg?: boolean
+    btnLg?: boolean,
+    danger?: boolean
 }
 export const StyledButton = styled.button`
     border-radius: 4px;
-    background: ${theme.primaryLight};
+    background: ${(p: ButtonProps)  => p.danger ? theme.dangerLight : theme.primaryLight};
     white-space: nowrap;
     padding: ${(p: ButtonProps)  => p.btnLg ? '12px 64px' : '10px 20px'};
     color: #fff;
@@ -64,7 +67,7 @@ export const StyledButton = styled.button`
 
     &:hover {
         transition: all 0.3s ease-out;
-        background: ${theme.secondaryDark};
+        background: ${(p: ButtonProps)  => p.danger ? theme.dangerDark : theme.secondaryDark};
     }
 
     @media screen and (max-width: 960px) {

@@ -1,9 +1,9 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { firebaseReduxSaga, firestore } from "../../config/firebaseConfig";
-import { createServiceResponse, initServiceReqState, getServiceListResponse, getServiceByIdResponse, updateServiceResponse } from "../actions/serviceActions";
+import { createServiceResponse, initServiceReqState, getServiceListResponse, getServiceByIdResponse, updateServiceResponse, deleteServiceResponse } from "../actions/serviceActions";
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
-import { CREATE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST, UPDATE_SERVICE_REQUEST } from "../types/serviceTypes";
+import { CREATE_SERVICE_REQUEST, DELETE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST, UPDATE_SERVICE_REQUEST } from "../types/serviceTypes";
 
 const SERVICES_COLLECTION = "services";
 
@@ -64,6 +64,31 @@ function* updateService(action: any) {
     catch(error) {
       response.errorMessage = error.message;
       yield put(updateServiceResponse(response));
+    }
+}
+
+/**
+ * DELETE SERVICE
+ * 
+ */
+export function* deleteServiceWatcher(){
+  yield takeLatest(DELETE_SERVICE_REQUEST, deleteService);
+}
+function* deleteService(action: any) {
+  const response : BaseResponse<Service> = { success: false, errorMessage: "" };
+  const service : Service = action.payload;
+
+  try {
+      yield put(initServiceReqState());
+      yield call(firebaseReduxSaga.firestore.deleteDocument, `${SERVICES_COLLECTION}/${service.id}`);
+      
+      response.success = true;
+      response.result = service;
+      yield put(deleteServiceResponse(response));
+    }
+    catch(error) {
+      response.errorMessage = error.message;
+      yield put(deleteServiceResponse(response));
     }
 }
 

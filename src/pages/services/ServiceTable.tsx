@@ -5,8 +5,9 @@ import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/Bas
 import BaseModal from '../../components/modal/BaseModal';
 import CreateServiceForm from './CreateServiceForm';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { getServiceByIdRequest, getServiceListRequest } from '../../store/actions/serviceActions';
+import { getServiceListRequest } from '../../store/actions/serviceActions';
 import { Service } from '../../store/entities/Service';
+import DeleteServiceAlert from './DeleteServiceAlert';
 
 interface Column {
   id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
@@ -67,7 +68,8 @@ function ServiceTable() {
   };
 
   //Delete Modal
-  const handleOpenDeleteModal = () => {
+  const handleOpenDeleteModal = (service: Service) => {
+    setSelectedService(service);
     setShowDeleteModal(true);
   };
 
@@ -129,7 +131,8 @@ function ServiceTable() {
         <BaseModal
           title="Delete Service"
           showModal={showDeleteModal}
-          handleCloseModal={handleCloseDeleteModal} />
+          handleCloseModal={handleCloseDeleteModal}
+          modalBody={DeleteServiceAlert({selectedService, handleCloseDeleteModal})} />
     </PageContainer>
   );
 }

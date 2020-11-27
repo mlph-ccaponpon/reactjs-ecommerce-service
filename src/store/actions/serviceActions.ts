@@ -1,6 +1,6 @@
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
-import { CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_BY_ID_RESPONSE, GET_SERVICE_LIST_REQUEST, GET_SERVICE_LIST_RESPONSE, INIT_SERVICE_REQ_STATE, UPDATE_SERVICE_REQUEST, UPDATE_SERVICE_RESPONSE } from "../types/serviceTypes";
+import { CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, DELETE_SERVICE_REQUEST, DELETE_SERVICE_RESPONSE, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_BY_ID_RESPONSE, GET_SERVICE_LIST_REQUEST, GET_SERVICE_LIST_RESPONSE, INIT_SERVICE_REQ_STATE, UPDATE_SERVICE_REQUEST, UPDATE_SERVICE_RESPONSE } from "../types/serviceTypes";
 
 /**
  * INITIALIZE STATE FOR SERVICE REQUEST 
@@ -33,6 +33,17 @@ export const updateServiceResponse = (response: BaseResponse) => ({
   payload: response,
 });
 
+/** 
+ * DELETE SERVICE
+ * */ 
+export const deleteServiceRequest = (service: Service) => ({
+  type: DELETE_SERVICE_REQUEST,
+  payload: service,
+});
+export const deleteServiceResponse = (response: BaseResponse) => ({
+  type: DELETE_SERVICE_RESPONSE,
+  payload: response,
+});
 
 /** 
  * GET SERVICE LIST

@@ -1,4 +1,4 @@
-import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE, UPDATE_SERVICE_RESPONSE } from "../types/serviceTypes"
+import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE, UPDATE_SERVICE_RESPONSE, DELETE_SERVICE_RESPONSE } from "../types/serviceTypes"
 import { Service } from "../entities/Service";
 
 const initialState = {
@@ -30,6 +30,16 @@ export function serviceReducer(state = initialState, action: any) {
           const updatedService = action.payload.result;
           const index = state.serviceList.findIndex(s => s.id === updatedService.id );
           state.serviceList[index] = updatedService;
+
+          return {...state, 
+                isServiceLoading: false,
+                isServiceReqSuccess: action.payload.success,
+                serviceErrorMessage: action.payload.errorMessage}
+        }
+        case DELETE_SERVICE_RESPONSE: {
+          const deletedService = action.payload.result;
+          const index = state.serviceList.findIndex(s => s.id === deletedService.id );
+          state.serviceList.splice(index, 1);
 
           return {...state, 
                 isServiceLoading: false,

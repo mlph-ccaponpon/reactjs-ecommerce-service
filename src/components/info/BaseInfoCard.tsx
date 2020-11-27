@@ -6,7 +6,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { TiStarFullOutline, TiStarOutline } from "react-icons/ti";
 import { theme } from '../../styles/global';
 import { NavLink } from 'react-router-dom';
 import RatingInfo from './RatingInfo';

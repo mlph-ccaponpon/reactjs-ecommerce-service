@@ -1,6 +1,6 @@
 import { fork } from "redux-saga/effects";
 import { loginWatcher, logoutWatcher, onAuthChannelWatcher, signUpWatcher } from "./authSaga";
-import { createServiceWatcher, getServiceByIdWatcher, getServiceListWatcher, updateServiceWatcher } from "./serviceSaga";
+import { createServiceWatcher, deleteServiceWatcher, getServiceByIdWatcher, getServiceListWatcher, updateServiceWatcher } from "./serviceSaga";
 
 export function* rootSaga() {
     /**
@@ -16,6 +16,7 @@ export function* rootSaga() {
      */
     yield fork(createServiceWatcher);
     yield fork(updateServiceWatcher);
+    yield fork(deleteServiceWatcher);
     yield fork(getServiceListWatcher);
     yield fork(getServiceByIdWatcher);
 }
