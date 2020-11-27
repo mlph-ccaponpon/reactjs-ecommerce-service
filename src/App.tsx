@@ -1,10 +1,13 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from './components/header/Header';
 import Loading from './components/loading/Loading';
+import PageNotFound from './pages/page-not-found/PageNotFound';
 import { authChannelRequest } from './store/actions/authActions';
 import GlobalStyle from './styles/global';
+import AnimatedRoute from './utils/routes/AnimatedRoute';
 import routes from './utils/routes/routes';
 
 function App() {
@@ -22,21 +25,29 @@ function App() {
 
   if(isLoadingPage) return <Loading />;
   return (
-    <div>
+    <>
       <GlobalStyle />
       <Header />
-      <Switch key={location.pathname} location={location}>
-        {routes.map((route, index) => {
-          return (
-            <Route
-              key={index}
-              path={route.path} 
-              exact={route.exact} 
-              component={route.component} />
-          )
-        })}
-      </Switch>
-    </div>
+
+      <AnimatePresence exitBeforeEnter initial={false}>
+        <Switch key={location.pathname} location={location}>
+          {routes.map((route, index) => {
+            return (
+              <AnimatedRoute 
+                  key={index}
+                  path={route.path} 
+                  exact={route.exact}>
+                      <route.component />
+              </AnimatedRoute>
+            )
+          })}
+
+          <AnimatedRoute path="*">
+              <PageNotFound />
+          </AnimatedRoute>
+        </Switch>
+      </AnimatePresence>
+    </>
   )
 }
 
