@@ -65,7 +65,7 @@ function Header(){
                         </HeaderLink>
                     </HeaderMenuItem>
                     <HeaderMenuItem>
-                        <HeaderLink exact to="/newsfeed" onClick={closeMenu}>
+                        <HeaderLink to="/newsfeed" onClick={closeMenu}>
                             Newsfeed
                         </HeaderLink>
                     </HeaderMenuItem>
