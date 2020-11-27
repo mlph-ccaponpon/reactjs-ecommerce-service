@@ -3,6 +3,7 @@ import { PageContainer } from '../../styles/global';
 import BaseTable, { TableRowBtn } from '../../components/table/BaseTable';
 import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/BaseTableButtons';
 import BaseModal from '../../components/modal/BaseModal';
+import AddServiceModal from './AddServiceModal';
 
 interface Column {
   id: 'name' | 'category' | 'provider' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
@@ -70,11 +71,12 @@ function ServiceTable() {
 
   //Table Init
   const columns: Column[] = [
-    { id: 'name', label: 'Service Name', minWidth: 25 },
-    { id: 'category', label: 'Category', minWidth: 25 },
-    { id: 'provider', label: 'Provider', minWidth: 25 },
+    { id: 'name', label: 'Service Name', minWidth: 15 },
+    { id: 'category', label: 'Category', minWidth: 15 },
+    { id: 'provider', label: 'Provider', minWidth: 15 },
+    { id: 'location', label: 'Location', minWidth: 15 },
     { id: 'description', label: 'Description', minWidth: 15 },
-    { id: 'rating', label: 'Description', minWidth: 15 },
+    { id: 'rating', label: 'Rating', minWidth: 15 },
     { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button' },
     { id: 'deleteBtn', label: '', minWidth: 5, type: 'button' }
   ];
@@ -121,7 +123,8 @@ function ServiceTable() {
         <BaseModal
           title="Add Service"
           showModal={showAddModal}
-          handleCloseModal={handleCloseAddModal} />
+          handleCloseModal={handleCloseAddModal}
+          modalBody={AddServiceModal()} />
 
         <BaseModal
           title="Edit Service"
