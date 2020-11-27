@@ -10,12 +10,13 @@ import { Service } from '../../store/entities/Service';
 import DeleteServiceModal from './DeleteServiceModal';
 
 interface Column {
-  id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
+  id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'imageUrl' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
   label: string;
   minWidth?: number;
-  align?: 'right';
+  maxWidth?: number;
+  align?: 'right' | 'left';
   format?: (value: number) => string;
-  type?: 'button' | 'rating';
+  type?: 'image' | 'button' | 'rating';
   buttonElem?: any;
   buttonOnClick?: any;
 }
@@ -26,6 +27,7 @@ interface Data {
   category: string;
   providerUid: string;
   location: string;
+  imageUrl: string;
   description: string;
   rating: number;
   editBtn: any;
@@ -89,15 +91,16 @@ function ServiceTable() {
 
   //Table Init
   const columns: Column[] = [
-    { id: 'id', label: 'Service ID', minWidth: 15 },
-    { id: 'name', label: 'Service Name', minWidth: 15 },
-    { id: 'category', label: 'Category', minWidth: 15 },
-    { id: 'providerUid', label: 'Provider ID', minWidth: 15 },
-    { id: 'location', label: 'Location', minWidth: 15 },
-    { id: 'description', label: 'Description', minWidth: 15 },
-    { id: 'rating', label: 'Rating', minWidth: 15, type: 'rating' },
-    { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
-    { id: 'deleteBtn', label: '', minWidth: 5, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
+    { id: 'id', label: 'Service ID', minWidth: 100, maxWidth: 100 },
+    { id: 'name', label: 'Service Name', minWidth: 70, maxWidth: 70 },
+    { id: 'category', label: 'Category', minWidth: 50, maxWidth: 50 },
+    { id: 'providerUid', label: 'Provider ID', minWidth: 100, maxWidth: 100 },
+    { id: 'location', label: 'Location', minWidth: 50, maxWidth: 50 },
+    { id: 'imageUrl', label: 'Thumbnail', type: 'image', minWidth: 60, maxWidth: 60 },
+    { id: 'description', label: 'Description', minWidth: 70, maxWidth: 70 },
+    { id: 'rating', label: 'Rating', type: 'rating', minWidth: 65, maxWidth: 65 },
+    { id: 'editBtn', label: '', align: 'right', minWidth: 20, maxWidth: 20, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
+    { id: 'deleteBtn', label: '', align: 'left', minWidth: 40, maxWidth: 40, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
   ];
   
   useEffect(() => {

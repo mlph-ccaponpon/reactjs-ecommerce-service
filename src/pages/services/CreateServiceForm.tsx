@@ -21,12 +21,13 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
     const dispatch = useDispatch();
     const formTitle = props.isNew ? "ADD SERVICE": "EDIT SERVICE";
-    let formInitValues = {name:"", category: "", providerUid: "", location: "", description: ""};
+    let formInitValues = {name:"", category: "", providerUid: "", location: "", imageUrl: "", description: ""};
     if(props.selectedService != null) {
         formInitValues = {name: props.selectedService.name, 
             category: props.selectedService.category, 
             providerUid: props.selectedService.providerUid, 
             location: props.selectedService.location, 
+            imageUrl: props.selectedService.imageUrl,
             description: props.selectedService.description}
     }
     const formValidation = {
@@ -36,6 +37,8 @@ function CreateServiceForm(props: CreateServiceFormProps) {
                 .required("Service Category is required"),
         providerUid: Yup.string()
                 .required("Service Provider is required"),
+        imageUrl: Yup.string()
+                .url("Service Thumbnail Image URL is invalid"),
         location: Yup.string()
                 .required("Service Location is required"),
         description: Yup.string()
@@ -62,6 +65,11 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             name: "location",
             type: "text",
             placeholder: "Service Location"
+        },
+        {
+            name: "imageUrl",
+            type: "text",
+            placeholder: "Thumbnail Image URL"
         },
         {
             name: "description",

@@ -4,6 +4,7 @@ export interface Service {
     name: string,
     category: string,
     providerUid: string,
+    imageUrl: string,
     location: string,
     description: string,
     rating?: number

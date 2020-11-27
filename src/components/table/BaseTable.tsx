@@ -9,8 +9,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { StyledButton } from '../../styles/global';
-import { BaseTableContainer } from './BaseTable.elements';
+import { BaseTableCellImg, BaseTableContainer } from './BaseTable.elements';
 import RatingInfo from '../info/RatingInfo';
+import { CSSProperties } from '@material-ui/core/styles/withStyles';
 
 const useStyles = makeStyles({
     root: {
@@ -57,7 +58,7 @@ function BaseTable(props: BaseTableProps) {
                                 <TableCell
                                 key={column.id}
                                 align={column.align}
-                                style={{ minWidth: column.minWidth }}
+                                style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
                                 >
                                 {column.label}
                                 </TableCell>
@@ -71,22 +72,30 @@ function BaseTable(props: BaseTableProps) {
                             <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
                             {props.columns.map((column) => {
                                 const value = row[column.id];
+                                const tableCellStyle: CSSProperties = { maxWidth: column.maxWidth, wordBreak: "break-all" }
                                 if(column.type === "button") {
                                     return (
-                                        <TableCell key={column.id} align={column.align} onClick={() => column.buttonOnClick(row)}>
+                                        <TableCell key={column.id} align={column.align} onClick={() => column.buttonOnClick(row)} style={tableCellStyle}>
                                             {column.buttonElem}
                                         </TableCell>
                                     )
                                 }
                                 if(column.type === "rating") {
                                     return (
-                                        <TableCell key={column.id} align={column.align}>
+                                        <TableCell key={column.id} align={column.align} style={tableCellStyle}>
                                             <RatingInfo rating={column.value} />
                                         </TableCell>
                                     )
                                 }
+                                if(column.type === "image") {
+                                    return (
+                                        <TableCell key={column.id} align={column.align} style={tableCellStyle}>
+                                            <BaseTableCellImg src={value} alt="Image Not Found" />
+                                        </TableCell>
+                                    )
+                                }
                                 return (
-                                <TableCell key={column.id} align={column.align}>
+                                <TableCell key={column.id} align={column.align}  style={tableCellStyle}>
                                     {column.format && typeof value === 'number' ? column.format(value) : value}
                                 </TableCell>
                                 );

@@ -5,3 +5,7 @@ export const BaseTableContainer = styled.div`
     display: inline-block;
     text-align: right;
 `;
+
+export const BaseTableCellImg = styled.img`
+    width: 100px;
+`;
