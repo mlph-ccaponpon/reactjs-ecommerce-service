@@ -8,6 +8,8 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { getServiceListRequest } from '../../store/actions/serviceActions';
 import { Service } from '../../store/entities/Service';
 import DeleteServiceModal from './DeleteServiceModal';
+import { getUserListRequest } from '../../store/actions/userActions';
+import { User } from '../../store/entities/User';
 
 interface Column {
   id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'imageUrl' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
@@ -91,6 +93,7 @@ function ServiceTable() {
   
   useEffect(() => {
     dispatch(getServiceListRequest());
+    dispatch(getUserListRequest());
   }, []);
 
   return (

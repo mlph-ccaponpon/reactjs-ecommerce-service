@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Service } from '../../store/entities/Service';
 import { createServiceRequest, updateServiceRequest } from '../../store/actions/serviceActions';
+import useFetchProviderOptions from '../../utils/hooks/useFetchProviderOptions';
 
 /**
  * Form for Adding or Editing Service Details
@@ -12,7 +13,7 @@ import { createServiceRequest, updateServiceRequest } from '../../store/actions/
 interface CreateServiceFormProps {
     handleCreateServiceSuccess: () => void;
     isNew?: boolean;
-    selectedService?: Service | null;
+    selectedService?: Service | null
 }
 
 function CreateServiceForm(props: CreateServiceFormProps) {
@@ -22,12 +23,14 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     const dispatch = useDispatch();
     const formTitle = props.isNew ? "ADD SERVICE": "EDIT SERVICE";
     let formInitValues: Service = {name:"", category: "", providerUid: "", location: "", imageUrl: "", description: ""};
+    const [providerOptions] = useFetchProviderOptions();
 
     if(props.selectedService != null) {
         // Remove id, timestamp and rating properties for creating service form values
         const {id, timestamp, rating, ...serviceFormValues } = props.selectedService;
         formInitValues = serviceFormValues;
     }
+
     const formValidation = {
         name: Yup.string()
                 .required("Service Name is required"),
@@ -56,8 +59,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         },
         {
             name: "providerUid",
-            type: "text",
-            placeholder: "Service Provider"
+            type: "select",
+            placeholder: "Service Provider",
+            options: providerOptions
         },
         {
             name: "location",

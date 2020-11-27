@@ -1,18 +1,20 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import { FormLogoIcon } from '../../components/form/BaseForm.elements';
 import { User } from '../../store/entities/User';
-import { PageContainer } from '../../styles/global';
+import { HomeContainer, HomeHeader } from './Home.elements';
 
 function Home(){
     const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
     return (
-        <PageContainer>
-        {(currUser != null) ? (
-            <h1>Welcome, {currUser.name}!</h1>
-        ):(
-            <h1>Welcome!</h1>
-        )}
-        </PageContainer>
+        <HomeContainer>
+            {(currUser != null) && (
+                <HomeHeader>
+                    Welcome, {currUser.name}!
+                </HomeHeader>
+            )}
+        </HomeContainer>
     )
 }
 

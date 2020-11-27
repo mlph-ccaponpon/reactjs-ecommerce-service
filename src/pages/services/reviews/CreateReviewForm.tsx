@@ -6,6 +6,7 @@ import BaseForm from '../../../components/form/BaseForm';
 import { RATING_MAX, RATING_MIN, Service } from '../../../store/entities/Service';
 import { addServiceReviewRequest } from '../../../store/actions/serviceActions';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { User } from '../../../store/entities/User';
 
 /**
  * Form for Adding Service Review
@@ -19,9 +20,10 @@ function CreateReviewForm(props: CreateReviewFormProps) {
     const isLoading = useSelector((state: RootStateOrAny) => state.service.isServiceLoading);
     const isServiceReqSuccess = useSelector((state: RootStateOrAny) => state.service.isServiceReqSuccess);
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
+    const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
     const dispatch = useDispatch();
 
-    let formInitValues: ServiceReview = {comment:"", rating: 1};
+    let formInitValues = {comment:"", rating: 1};
     
     const ratingValErrorMsg = `Rating value must be from ${RATING_MIN} to ${RATING_MAX}`;
     const formValidation = {
@@ -68,7 +70,7 @@ function CreateReviewForm(props: CreateReviewFormProps) {
         <Formik
         initialValues = {formInitValues}
         onSubmit = {(value) => {
-            createReview(value);
+            createReview({...value, user: currUser});
         }}
         validationSchema = {Yup.object(formValidation)}>
 

@@ -91,7 +91,7 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
                     return(
                         <Grid item xs={12} key={index}>
                             <BaseInfoCard 
-                                title="Chin Caponpon"
+                                title={review.user.name}
                                 subtitle={review.timestamp ? new Date(review.timestamp).toLocaleString():""}
                                 rating={review.rating}
                                 content={review.comment}/>
@@ -100,17 +100,6 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
                 })}
             </Grid>
 
-            {/* <BaseModal
-                showModal={showAddReviewModal}
-                handleCloseModal={handleCloseAddReviewModal}
-                modalBody={
-                    <CreateReviewForm
-                        handleCreateReviewSuccess={handleAddReviewSuccess}
-                        selectedService={selectedService}
-                        isLoading={isLoading}
-                        isServiceReqSuccess={isServiceReqSuccess}
-                        errorMessage={errorMessage} />
-                } /> */}
             <BaseModal
                 showModal={showAddReviewModal}
                 handleCloseModal={handleCloseAddReviewModal}

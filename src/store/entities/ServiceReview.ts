@@ -1,5 +1,8 @@
+import { User } from "./User";
+
 export interface ServiceReview {
     timestamp?: number,
     comment: string,
-    rating: number
+    rating: number,
+    user: User
 }

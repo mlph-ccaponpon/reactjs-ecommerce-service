@@ -171,6 +171,7 @@ function* addServiceReview(action: any) {
   const service : Service = action.payload.service;
   const serviceReview : ServiceReview = action.payload.review;
 
+  console.log(serviceReview);
   // Set Reviews
   let serviceReviewList : ServiceReview[] = [];
   if(service.reviews) {
