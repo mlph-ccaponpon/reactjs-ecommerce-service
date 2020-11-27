@@ -10,6 +10,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { StyledButton } from '../../styles/global';
 import { BaseTableContainer } from './BaseTable.elements';
+import RatingInfo from '../info/RatingInfo';
 
 const useStyles = makeStyles({
     root: {
@@ -74,6 +75,13 @@ function BaseTable(props: BaseTableProps) {
                                     return (
                                         <TableCell key={column.id} align={column.align} onClick={() => column.buttonOnClick(row)}>
                                             {column.buttonElem}
+                                        </TableCell>
+                                    )
+                                }
+                                if(column.type === "rating") {
+                                    return (
+                                        <TableCell key={column.id} align={column.align}>
+                                            <RatingInfo rating={column.value} />
                                         </TableCell>
                                     )
                                 }

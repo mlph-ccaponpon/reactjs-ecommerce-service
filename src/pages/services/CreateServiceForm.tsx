@@ -71,7 +71,6 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     ];
 
     const createService = (service: Service) => {
-        service.rating = 0;
         dispatch(createServiceRequest(service));
     } 
 

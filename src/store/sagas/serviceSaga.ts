@@ -24,6 +24,7 @@ function* createService(action: any) {
       
        service.id = uuidV4();
        service.timestamp = Date.now();
+       service.rating = 0;
        yield call(
             firebaseReduxSaga.firestore.addDocument,
             SERVICES_COLLECTION,
@@ -32,7 +33,6 @@ function* createService(action: any) {
         
         response.success = true;
         response.result = service;
-        console.log(service);
         yield put(createServiceResponse(response));
       }
       catch(error) {
@@ -97,9 +97,6 @@ function* getServiceById(action: any) {
           .where('id','==',serviceId)
       )
 
-      console.log("SERVICE");
-      console.log("SNAPSHOT");
-      console.log(snapshot);
       let serviceList : Service[] = [];
       snapshot.forEach((serviceSnapshot: any) => {
         serviceList = [

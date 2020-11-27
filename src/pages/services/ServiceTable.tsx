@@ -14,7 +14,7 @@ interface Column {
   minWidth?: number;
   align?: 'right';
   format?: (value: number) => string;
-  type?: 'button';
+  type?: 'button' | 'rating';
   buttonElem?: any;
   buttonOnClick?: any;
 }
@@ -91,7 +91,7 @@ function ServiceTable() {
     { id: 'providerUid', label: 'Provider ID', minWidth: 15 },
     { id: 'location', label: 'Location', minWidth: 15 },
     { id: 'description', label: 'Description', minWidth: 15 },
-    { id: 'rating', label: 'Rating', minWidth: 15 },
+    { id: 'rating', label: 'Rating', minWidth: 15, type: 'rating' },
     { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
     { id: 'deleteBtn', label: '', minWidth: 5, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
   ];

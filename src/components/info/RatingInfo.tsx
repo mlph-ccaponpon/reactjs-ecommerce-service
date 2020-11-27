@@ -12,9 +12,9 @@ function RatingInfo(props: RatingInfoProps) {
         <>
             {[...Array(5)].map((_, i) => 
                 props.rating && props.rating > i ? (
-                    <StyledStarFull key={i} starxl={isStarXl}/>
+                    <StyledStarFull key={i} starxl={isStarXl.toString()}/>
                 ):(
-                    <StyledStarOutline key={i} starxl={isStarXl}/>
+                    <StyledStarOutline key={i} starxl={isStarXl.toString()}/>
                 )
             )}
         </>
