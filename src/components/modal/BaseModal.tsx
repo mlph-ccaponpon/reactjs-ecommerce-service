@@ -3,13 +3,17 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { theme } from '../../styles/global';
+import { StyledButton, theme } from '../../styles/global';
+import { FormLogoIcon, FormLogoName } from '../form/BaseForm.elements';
+import { BaseModalBody, BaseModalBtnWrapper } from './BaseModal.elements';
 
 interface BaseModalProps {
-  title: string,
+  title?: string,
   showModal: boolean,
   handleCloseModal: () => void,
-  modalBody?: any
+  handleSubmitModal?: () => void,
+  modalBody?: any,
+  confirmationModal?: boolean
 }
 
 const useStyles = makeStyles((materialTheme: Theme) =>
@@ -45,7 +49,23 @@ function BaseModal(props: BaseModalProps) {
       }}>
       <Fade in={props.showModal}>
         <div className={classes.paper}>
-          {props.modalBody}
+          {props.confirmationModal ? (
+            <div>
+              <FormLogoName>
+                  <FormLogoIcon />
+                  {props.title}
+              </FormLogoName>
+              <BaseModalBody>
+                  {props.modalBody}
+              </BaseModalBody>
+              <BaseModalBtnWrapper>
+                  <StyledButton onClick={props.handleSubmitModal} btnLg>Yes</StyledButton>
+                  <StyledButton onClick={props.handleCloseModal} danger btnLg>No</StyledButton>
+              </BaseModalBtnWrapper>
+            </div>
+          ):(
+            props.modalBody
+          )}
         </div>
       </Fade>
     </Modal>

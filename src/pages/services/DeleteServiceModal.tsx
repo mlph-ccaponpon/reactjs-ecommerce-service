@@ -1,16 +1,18 @@
-import { Typography } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { FormLogoIcon, FormLogoName } from '../../components/form/BaseForm.elements';
+import BaseModal from '../../components/modal/BaseModal';
 import { deleteServiceRequest } from '../../store/actions/serviceActions';
 import { Service } from '../../store/entities/Service';
 import { StyledButton, theme } from '../../styles/global'
 
-interface DeleteServiceProps {
+interface DeleteServiceModalProps {
+    title: string;
+    showModal: boolean;
     selectedService: Service | null;
-    handleCloseDeleteModal: () => void;
+    handleCloseModal: () => void;
 }
-function DeleteServiceAlert(props: DeleteServiceProps) {
+function DeleteServiceModal(props: DeleteServiceModalProps) {
     const dispatch = useDispatch();
     const isServiceReqSuccess = useSelector((state: RootStateOrAny) => state.service.isServiceReqSuccess);
 
@@ -21,7 +23,7 @@ function DeleteServiceAlert(props: DeleteServiceProps) {
     }
 
     const deleteServiceSuccess = () => {
-        props.handleCloseDeleteModal();
+        props.handleCloseModal();
     }
 
     useEffect(() => {
@@ -31,21 +33,14 @@ function DeleteServiceAlert(props: DeleteServiceProps) {
     }, [isServiceReqSuccess]);
 
     return (
-        <div>
-            <FormLogoName>
-                <FormLogoIcon />
-                Delete Service
-            </FormLogoName>
-            <div style={{color: theme.secondaryLight, fontSize: theme.fontLg, textAlign: "center", paddingBottom: "25px"}}>
-                Are you sure you want to delete this service?
-            </div>
-
-            <div style={{display: "flex", justifyContent: "space-evenly"}}>
-                <StyledButton onClick={deleteService} btnLg>Yes</StyledButton>
-                <StyledButton onClick={props.handleCloseDeleteModal} danger btnLg>No</StyledButton>
-            </div>
-        </div>
+        <BaseModal 
+            confirmationModal={true}
+            title="Delete Service"
+            showModal={props.showModal}
+            modalBody="Are you sure you want to delete this service?"
+            handleSubmitModal={deleteService}
+            handleCloseModal={props.handleCloseModal} />
     )
 }
 
-export default DeleteServiceAlert;
+export default DeleteServiceModal;

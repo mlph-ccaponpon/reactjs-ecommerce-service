@@ -7,7 +7,7 @@ import CreateServiceForm from './CreateServiceForm';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { getServiceListRequest } from '../../store/actions/serviceActions';
 import { Service } from '../../store/entities/Service';
-import DeleteServiceAlert from './DeleteServiceAlert';
+import DeleteServiceModal from './DeleteServiceModal';
 
 interface Column {
   id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
@@ -117,22 +117,20 @@ function ServiceTable() {
           handleOpenAddModal={handleOpenAddModal}/>
 
         <BaseModal
-          title="Add Service"
           showModal={showAddModal}
           handleCloseModal={handleCloseAddModal}
           modalBody={CreateServiceForm({handleCreateServiceSuccess: handleAddServiceSuccess, isNew: true})} />
 
         <BaseModal
-          title="Edit Service"
           showModal={showEditModal}
           handleCloseModal={handleCloseEditModal} 
           modalBody={CreateServiceForm({handleCreateServiceSuccess: handleEditServiceSuccess, isNew: false, selectedService})} />
 
-        <BaseModal
+        <DeleteServiceModal
           title="Delete Service"
           showModal={showDeleteModal}
-          handleCloseModal={handleCloseDeleteModal}
-          modalBody={DeleteServiceAlert({selectedService, handleCloseDeleteModal})} />
+          selectedService={selectedService}
+          handleCloseModal={handleCloseDeleteModal} />
     </PageContainer>
   );
 }
