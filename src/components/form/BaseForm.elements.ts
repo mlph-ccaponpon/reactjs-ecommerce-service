@@ -34,6 +34,16 @@ export const StyledField = styled(Field)`
     font-size: ${theme.fontMd};
 `;
 
+export const StyledFieldSelect = styled.p`
+    select {
+        padding: 1rem;
+        width: 100%;
+        border: none;
+        border-radius: 0.25rem;
+        font-size: ${theme.fontMd};
+    }
+`;
+
 export const StyledErrorMessage = styled.p`
     padding-top: 0.5rem;
     color: ${theme.primaryLight};

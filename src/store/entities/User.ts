@@ -9,6 +9,18 @@ export interface User {
 export const Role = {
     ADMIN: "ADMIN",
     CUSTOMER: "CUSTOMER",
-    SERVICE: "PROVIDER"
+    PROVIDER: "PROVIDER"
 }
+
+export const UserRoleOptions = [
+    {
+        label: "Customer",
+        value: Role.CUSTOMER
+    },
+    {
+        label: "Service Provider",
+        value: Role.PROVIDER
+    }
+
+]
 

@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm'
 import { setErrorMessage, signUpRequest } from '../../store/actions/authActions';
-import { User } from '../../store/entities/User';
+import { Role, User, UserRoleOptions } from '../../store/entities/User';
 import { PageContainer } from '../../styles/global';
 
 function SignUp() {
@@ -49,6 +49,12 @@ function SignUp() {
             name: "confirmPassword",
             type: "password",
             placeholder: "Confirm Password"
+        },
+        {
+            name: "role",
+            type: "select",
+            placeholder: "Role",
+            options: UserRoleOptions
         }
     ]
 
