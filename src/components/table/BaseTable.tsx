@@ -90,7 +90,7 @@ function BaseTable(props: BaseTableProps) {
                                 if(column.type === "image") {
                                     return (
                                         <TableCell key={column.id} align={column.align} style={tableCellStyle}>
-                                            <BaseTableCellImg src={value} alt="Image Not Found" />
+                                            {value ? (<BaseTableCellImg src={value} alt="Image Not Found" />):"-"}
                                         </TableCell>
                                     )
                                 }

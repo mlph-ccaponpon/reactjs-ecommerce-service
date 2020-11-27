@@ -1,35 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageContainer } from '../../styles/global';
 import { Grid } from '@material-ui/core';
 import BaseInfoCard from '../../components/info/BaseInfoCard';
+import { getServiceListRequest } from '../../store/actions/serviceActions';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { Service } from '../../store/entities/Service';
 
 function Newsfeed() {
-  const serviceInfoLink = "/newsfeed/service"
+  const serviceInfoLink = "/newsfeed/";
+  const serviceList: Service[] = useSelector((state: RootStateOrAny) => state.service.serviceList);
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(getServiceListRequest());
+  }, []);
+
   return (
       <PageContainer>
         <Grid container 
                 spacing={5} 
                 justify="center"
                 style={{ maxWidth: 800 }}>
-            <Grid item xs={12}>
+            {serviceList.map((service: Service) => {
+              return (
+              <Grid item xs={12} key={service.id}>
                 <BaseInfoCard 
-                    title="Service Name"
-                    rating={3}
-                    titleLink={serviceInfoLink}
-                    subtitle="Category"
-                    contentTitle="Service Location"
-                    content="Service short description."
-                    contentImg="https://images.unsplash.com/photo-1555939594-58d7cb561ad1"  />
-            </Grid>
-            <Grid item xs={12}>
-                <BaseInfoCard 
-                    title="Service Name"
-                    rating={0}
-                    titleLink={serviceInfoLink}
-                    subtitle="Category"
-                    contentTitle="Service Location"
-                    content="Service short description." />
-            </Grid>
+                    title={service.name}
+                    rating={service.rating}
+                    titleLink={serviceInfoLink + service.id}
+                    subtitle={service.category}
+                    contentTitle={service.location}
+                    content={service.description}
+                    contentImg={service.imageUrl} />
+              </Grid>
+              )
+            })}
         </Grid>
     </PageContainer>
   );

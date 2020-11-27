@@ -38,7 +38,7 @@ const routes = [
         protected: null
     },
     {
-        path: "/newsfeed/service",
+        path: "/newsfeed/:id",
         exact: true,
         component: ServiceInfo,
         protected: null

@@ -21,20 +21,6 @@ interface Column {
   buttonOnClick?: any;
 }
 
-interface Data {
-  id: string;
-  name: string;
-  category: string;
-  providerUid: string;
-  location: string;
-  imageUrl: string;
-  description: string;
-  rating: number;
-  editBtn: any;
-  deleteBtn: any;
-}
-
-
 function ServiceTable() {
   const serviceList = useSelector((state: RootStateOrAny) => state.service.serviceList);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
