@@ -168,22 +168,29 @@ export function* addServiceReviewWatcher(){
   yield takeLatest(ADD_SERVICE_REVIEW_REQUEST, addServiceReview);
 }
 function* addServiceReview(action: any) {
-  const response : BaseResponse<ServiceReview[]> = { success: false, errorMessage: "" };
+  const response : BaseResponse<Service> = { success: false, errorMessage: "" };
   const service : Service = action.payload.service;
   const serviceReview : ServiceReview = action.payload.review;
 
+  // Set Reviews
   let serviceReviewList : ServiceReview[] = [];
   if(service.reviews) {
     serviceReview.timestamp = Date.now();
     serviceReviewList = [serviceReview,...service.reviews];
   }
+  service.reviews = serviceReviewList;
 
+  // Compute ratings average
+  let ratingsTotal = serviceReviewList.reduce((total, currentValue) => total += currentValue.rating,0);
+  let ratingAvg = (ratingsTotal/serviceReviewList.length);
+  service.rating = ratingAvg;
+  
   try {
       yield put(initServiceReqState());
-      yield call(firebaseReduxSaga.firestore.updateDocument, `${SERVICES_COLLECTION}/${service.id}`, {reviews: serviceReviewList});
+      yield call(firebaseReduxSaga.firestore.updateDocument, `${SERVICES_COLLECTION}/${service.id}`, {rating: ratingAvg, reviews: service.reviews});
       
       response.success = true;
-      response.result = serviceReviewList;
+      response.result = service;
       yield put(addServiceReviewResponse(response));
     }
     catch(error) {

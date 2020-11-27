@@ -24,6 +24,10 @@ const useStyles = makeStyles(() =>
         },
         addReview: {
             marginTop: 20
+        },
+        serviceRatingAvg: {
+            marginTop: 10,
+            marginBottom: 20
         }
     })
 );
@@ -66,11 +70,11 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
                 {/* SEVICE DETAILS */}
                 <Grid item xs={12}>
                     <Typography className={classes.title}>
-                        {selectedService.name} <small> ({selectedService.category}) </small>
+                        {selectedService.name} <small> - {selectedService.category} </small>
                     </Typography>
-                    <Typography gutterBottom>
-                       <RatingInfo rating={selectedService.rating? selectedService.rating:0} starxl={true}/>
-                    </Typography>
+                    <div className={classes.serviceRatingAvg}>
+                    <RatingInfo rating={selectedService.rating? selectedService.rating:0} starxl={true} hasLabel={true} />
+                    </div>
                     <BaseInfoCard 
                         contentImg={selectedService.imageUrl}
                         contentTitle={selectedService.location}

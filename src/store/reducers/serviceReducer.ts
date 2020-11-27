@@ -63,8 +63,9 @@ export function serviceReducer(state = initialState, action: any) {
                 selectedService: service}
         }
         case ADD_SERVICE_REVIEW_RESPONSE: {
-          const serviceReviewList: ServiceReview[] = action.payload.result;
-          state.selectedService.reviews = serviceReviewList;
+          const service: Service = action.payload.result;
+          state.selectedService.rating = service.rating;
+          state.selectedService.reviews = service.reviews;
 
           return {...state, 
                 isServiceLoading: false,

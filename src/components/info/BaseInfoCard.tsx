@@ -65,6 +65,7 @@ interface BaseInfoCardProps {
     contentImg?: string, 
     contentTitle?: string,
     rating?: number,
+    ratingHasLabel?: boolean,
     content?: string
 }
 
@@ -98,7 +99,7 @@ function BaseInfoCard(props: BaseInfoCardProps) {
                 subheader={
                     <div>
                         {props.rating !== undefined && (
-                            <RatingInfo rating={props.rating} />
+                            <RatingInfo rating={props.rating} hasLabel={props.ratingHasLabel}/>
                         )}
                         {props.subtitle && (
                             <p>{props.subtitle}</p>

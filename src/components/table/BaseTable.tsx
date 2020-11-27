@@ -83,7 +83,7 @@ function BaseTable(props: BaseTableProps) {
                                 if(column.type === "rating") {
                                     return (
                                         <TableCell key={column.id} align={column.align} style={tableCellStyle}>
-                                            <RatingInfo rating={column.value} />
+                                            <RatingInfo rating={value} hasLabel isLabelSeparate/>
                                         </TableCell>
                                     )
                                 }

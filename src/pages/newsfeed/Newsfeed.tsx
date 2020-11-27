@@ -28,6 +28,7 @@ function Newsfeed() {
                 <BaseInfoCard 
                     title={service.name}
                     rating={service.rating}
+                    ratingHasLabel={true}
                     titleLink={serviceInfoLink + service.id}
                     subtitle={service.category}
                     contentTitle={service.location}

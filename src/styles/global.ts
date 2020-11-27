@@ -15,9 +15,10 @@ export const theme = {
     primaryDark: '#1a202c',
     primaryLight: '#ffba00', 
     secondaryDark: '#ffaa00', 
-    secondaryLight: '#fff', 
+    secondaryLight: '#0000008A', 
     dangerDark: '#e60000',
     dangerLight: '#f50057',
+
     fontMd: '1rem',
     fontLg: '1.2rem',
     fontXl: '2rem',
