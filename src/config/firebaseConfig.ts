@@ -14,5 +14,5 @@ var firebaseConfig = {
 };
 
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
-
+export const firestore = firebaseApp.firestore();
 export const firebaseReduxSaga = new ReduxSagaFirebase(firebaseApp);

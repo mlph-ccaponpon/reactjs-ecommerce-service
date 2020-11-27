@@ -72,7 +72,7 @@ function BaseTable(props: BaseTableProps) {
                                 const value = row[column.id];
                                 if(column.type === "button") {
                                     return (
-                                        <TableCell key={column.id} align={column.align} onClick={column.buttonOnClick}>
+                                        <TableCell key={column.id} align={column.align} onClick={() => column.buttonOnClick(row)}>
                                             {column.buttonElem}
                                         </TableCell>
                                     )

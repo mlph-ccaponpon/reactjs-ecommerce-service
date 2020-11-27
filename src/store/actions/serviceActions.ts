@@ -1,6 +1,6 @@
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
-import { CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, SEARCH_SERVICE_REQUEST, SEARCH_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE } from "../types/serviceTypes";
+import { CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_BY_ID_RESPONSE, GET_SERVICE_LIST_REQUEST, GET_SERVICE_LIST_RESPONSE, INIT_SERVICE_REQ_STATE } from "../types/serviceTypes";
 
 /**
  * INITIALIZE STATE FOR SERVICE REQUEST 
@@ -23,15 +23,28 @@ export const createServiceResponse = (response: BaseResponse) => ({
 
 
 /** 
- * SEARCH SERVICE
+ * GET SERVICE LIST
  * */ 
-export const searchServiceRequest = (service?: Service) => 
+export const getServiceListRequest = () => 
   ({
-    type: SEARCH_SERVICE_REQUEST,
-    payload: service
+    type: GET_SERVICE_LIST_REQUEST
   });
   
-export const searchServiceResponse = (response: BaseResponse) => ({
-  type: SEARCH_SERVICE_RESPONSE,
+export const getServiceListResponse = (response: BaseResponse) => ({
+  type: GET_SERVICE_LIST_RESPONSE,
+  payload: response,
+});
+
+/** 
+ * GET SERVICE BY ID
+ * */ 
+export const getServiceByIdRequest = (serviceId: string) => 
+  ({
+    type: GET_SERVICE_BY_ID_REQUEST,
+    payload: serviceId
+  });
+  
+export const getServiceByIdResponse = (response: BaseResponse) => ({
+  type: GET_SERVICE_BY_ID_RESPONSE,
   payload: response,
 });

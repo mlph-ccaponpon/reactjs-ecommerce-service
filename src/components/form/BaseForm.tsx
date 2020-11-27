@@ -36,7 +36,7 @@ function BaseForm(props: BaseFormProps) {
                     return(
                         field.type === "select" ? (
                             <StyledFieldSelect>
-                                <Field key={index} as="select" name={field.name}>
+                                <Field key={field.name} as="select" name={field.name}>
                                     <option value="" disabled>
                                         {field.placeholder}
                                     </option>
@@ -50,7 +50,7 @@ function BaseForm(props: BaseFormProps) {
                                 </Field>
                             </StyledFieldSelect>
                         ):(
-                            <FieldWrapper key={index}>
+                            <FieldWrapper key={field.name}>
                                 <StyledField
                                 name={field.name}
                                 type={field.type}  

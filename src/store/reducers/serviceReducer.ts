@@ -1,10 +1,11 @@
-import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, SEARCH_SERVICE_RESPONSE } from "../types/serviceTypes"
+import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE } from "../types/serviceTypes"
 
 const initialState = {
     isServiceLoading: false,
     isServiceReqSuccess: false,
     serviceErrorMessage: "",
-    serviceList: []
+    serviceList: [],
+    selectedService: null
 }
 
 export function serviceReducer(state = initialState, action: any) {
@@ -13,23 +14,31 @@ export function serviceReducer(state = initialState, action: any) {
           return {...state, 
                 isServiceLoading: true,
                 isServiceReqSuccess: false,
-                serviceErrorMessage: ""}
+                serviceErrorMessage: "",
+                selectedService: null}
         }
         case CREATE_SERVICE_RESPONSE: {
           const createdService = action.payload.result;
-          console.log(createdService);
           return {...state, 
                 isServiceLoading: false,
                 isServiceReqSuccess: action.payload.success,
                 serviceErrorMessage: action.payload.errorMessage,
                 serviceList: [createdService,...state.serviceList]}
         }
-        case SEARCH_SERVICE_RESPONSE: {
+        case GET_SERVICE_LIST_RESPONSE: {
           return {...state, 
                 isServiceLoading: false,
                 isServiceReqSuccess: action.payload.success,
                 serviceErrorMessage: action.payload.errorMessage,
                 serviceList: action.payload.result}
+        }
+        case GET_SERVICE_BY_ID_RESPONSE: {
+          const service = action.payload.result;
+          return {...state, 
+                isServiceLoading: false,
+                isServiceReqSuccess: action.payload.success,
+                serviceErrorMessage: action.payload.errorMessage,
+                selectedService: service}
         }
         default:
           return state

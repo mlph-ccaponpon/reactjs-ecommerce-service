@@ -3,9 +3,10 @@ import { PageContainer } from '../../styles/global';
 import BaseTable from '../../components/table/BaseTable';
 import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/BaseTableButtons';
 import BaseModal from '../../components/modal/BaseModal';
-import AddServiceForm from './AddServiceForm';
+import CreateServiceForm from './CreateServiceForm';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { searchServiceRequest } from '../../store/actions/serviceActions';
+import { getServiceByIdRequest, getServiceListRequest } from '../../store/actions/serviceActions';
+import { Service } from '../../store/entities/Service';
 
 interface Column {
   id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
@@ -33,6 +34,7 @@ interface Data {
 
 function ServiceTable() {
   const serviceList = useSelector((state: RootStateOrAny) => state.service.serviceList);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(0);
@@ -53,7 +55,8 @@ function ServiceTable() {
   };
 
   //Edit Modal
-  const handleOpenEditModal = () => {
+  const handleOpenEditModal = (service: Service) => {
+    setSelectedService(service);
     setShowEditModal(true);
   };
 
@@ -94,7 +97,7 @@ function ServiceTable() {
   ];
   
   useEffect(() => {
-    dispatch(searchServiceRequest());
+    dispatch(getServiceListRequest());
   }, []);
 
   return (
@@ -113,12 +116,13 @@ function ServiceTable() {
           title="Add Service"
           showModal={showAddModal}
           handleCloseModal={handleCloseAddModal}
-          modalBody={AddServiceForm({handleAddServiceSuccess})} />
+          modalBody={CreateServiceForm({handleAddServiceSuccess, isNew: true})} />
 
         <BaseModal
           title="Edit Service"
           showModal={showEditModal}
-          handleCloseModal={handleCloseEditModal} />
+          handleCloseModal={handleCloseEditModal} 
+          modalBody={CreateServiceForm({handleAddServiceSuccess, isNew: false, selectedService})} />
 
         <BaseModal
           title="Delete Service"

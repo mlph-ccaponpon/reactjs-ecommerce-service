@@ -4,19 +4,31 @@ import BaseForm from '../../components/form/BaseForm';
 import * as Yup from 'yup';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Service } from '../../store/entities/Service';
-import { createServiceRequest } from '../../store/actions/serviceActions';
+import { createServiceRequest, getServiceByIdRequest, getServiceListRequest } from '../../store/actions/serviceActions';
 
-interface AddServiceFormProps {
+/**
+ * Form for Adding or Editing Service Details
+ */
+interface CreateServiceFormProps {
     handleAddServiceSuccess: () => void;
+    isNew?: boolean;
+    selectedService?: Service | null;
 }
 
-function AddServiceForm(props: AddServiceFormProps) {
+function CreateServiceForm(props: CreateServiceFormProps) {
     const isLoading = useSelector((state: RootStateOrAny) => state.service.isServiceLoading);
     const isServiceReqSuccess = useSelector((state: RootStateOrAny) => state.service.isServiceReqSuccess);
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
     const dispatch = useDispatch();
-
-    const formInitValues = {name:"", category: "", providerUid: "", location: "", description: ""};
+    const formTitle = props.isNew ? "ADD SERVICE": "EDIT SERVICE";
+    let formInitValues = {name:"", category: "", providerUid: "", location: "", description: ""};
+    if(props.selectedService != null) {
+        formInitValues = {name: props.selectedService.name, 
+            category: props.selectedService.category, 
+            providerUid: props.selectedService.providerUid, 
+            location: props.selectedService.location, 
+            description: props.selectedService.description}
+    }
     const formValidation = {
         name: Yup.string()
                 .required("Service Name is required"),
@@ -25,10 +37,11 @@ function AddServiceForm(props: AddServiceFormProps) {
         providerUid: Yup.string()
                 .required("Service Provider is required"),
         location: Yup.string()
-                .required("Location is required"),
+                .required("Service Location is required"),
         description: Yup.string()
-                .required("Description is required")
+                .required("Service Description is required")
     };
+
     const formFields = [
         {
             name: "name",
@@ -72,6 +85,8 @@ function AddServiceForm(props: AddServiceFormProps) {
         }
     }, [isServiceReqSuccess]);
 
+    
+
     return (
         <Formik
         initialValues = {formInitValues}
@@ -83,7 +98,7 @@ function AddServiceForm(props: AddServiceFormProps) {
         {(formik) => (
             <BaseForm 
                 isModal={true}
-                title="ADD SERVICE"
+                title={formTitle}
                 handleSubmit={formik.handleSubmit}
                 submitBtnLabel="SUBMIT"
                 fields={formFields}
@@ -94,4 +109,4 @@ function AddServiceForm(props: AddServiceFormProps) {
     )
 }
 
-export default AddServiceForm;
+export default CreateServiceForm;
