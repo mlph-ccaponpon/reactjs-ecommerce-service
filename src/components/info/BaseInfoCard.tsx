@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { theme } from '../../styles/global';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import RatingInfo from './RatingInfo';
 
 const useStyles = makeStyles((materialTheme: Theme) =>
@@ -28,19 +28,32 @@ const useStyles = makeStyles((materialTheme: Theme) =>
     },
     avatar: {
       backgroundColor: theme.primaryLight,
+      width: materialTheme.spacing(6),
+      height: materialTheme.spacing(6),
+      fontSize: theme.fontLg,
+      '&:hover': {
+        backgroundColor: theme.secondaryDark,
+        cursor: 'pointer'
+    }
     },
     cardTitle: {
+        fontSize: theme.fontLg,
         color: theme.secondaryDark
     },
     cardTitleLink: {
-        color: theme.secondaryDark,
+        fontSize: theme.fontLg,
+        color: theme.primaryLight,
         textDecoration: 'none',
         '&:hover': {
-            textDecorationLine: 'underline'
+            textDecoration: 'underline',
+            color: theme.secondaryDark
         }
     },
     star: {
         color: theme.primaryLight
+    },
+    cardContent: {
+        fontSize: theme.fontMd
     }
   }),
 );
@@ -57,14 +70,20 @@ interface BaseInfoCardProps {
 
 function BaseInfoCard(props: BaseInfoCardProps) {
     const classes = useStyles();
+    const history = useHistory();
 
+    const navigateToPage = () => {
+        props.titleLink && history.push(props.titleLink);
+    }
     return (
         <Card>
             <CardHeader
                 avatar={props.title && (
-                    <Avatar aria-label={props.title} className={classes.avatar}>
-                        {props.title.charAt(0)}
-                    </Avatar>
+                    <div onClick={navigateToPage}>
+                        <Avatar aria-label={props.title} className={classes.avatar}>
+                                                {props.title.charAt(0).toUpperCase()}
+                        </Avatar>
+                    </div>
                 )}
                 title={props.title && props.titleLink ? (
                     <NavLink to={props.titleLink} className={classes.cardTitleLink}>
@@ -94,11 +113,11 @@ function BaseInfoCard(props: BaseInfoCardProps) {
             )}
             <CardContent>
                 {props.contentTitle && (
-                    <Typography variant="body2" color="inherit">
+                    <Typography variant="body2" color="inherit" className={classes.cardContent}>
                         {props.contentTitle}
                     </Typography>
                 )}
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textSecondary" component="p" className={classes.cardContent}>
                     {props.content}
                 </Typography>
             </CardContent>

@@ -1,5 +1,5 @@
 import { createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import BaseInfoCard from '../../components/info/BaseInfoCard';
 import { PageContainer, StyledButton, theme } from '../../styles/global';
 import RatingInfo from '../../components/info/RatingInfo';
@@ -7,6 +7,9 @@ import {withRouter, RouteComponentProps} from "react-router";
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { getServiceByIdRequest } from '../../store/actions/serviceActions';
 import { Service } from '../../store/entities/Service';
+import BaseModal from '../../components/modal/BaseModal';
+import CreateReviewForm from './reviews/CreateReviewForm';
+import { ServiceReview } from '../../store/entities/ServiceReview';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -28,10 +31,24 @@ interface ServiceInfoParams {
     id: string;
 }
 function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
-    const classes = useStyles();
     const serviceId = match.params.id;
     const selectedService: Service = useSelector((state: RootStateOrAny) => state.service.selectedService);
     const dispatch = useDispatch();
+
+    const [showAddReviewModal, setShowAddReviewModal] = useState(false);
+
+    const classes = useStyles();
+
+    // Add Modal
+    const handleOpenAddReviewModal = () => {
+        setShowAddReviewModal(true);
+    };
+    const handleCloseAddReviewModal = () => {
+        setShowAddReviewModal(false);
+    };
+    const handleAddReviewSuccess = () => {
+        handleCloseAddReviewModal();
+    };
 
     useEffect(() => {
       dispatch(getServiceByIdRequest(serviceId));
@@ -40,6 +57,7 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
     return (
         <PageContainer>
         {selectedService && (
+            <>
             <Grid container 
                     spacing={3} 
                     justify="center"
@@ -58,24 +76,46 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
                         contentTitle={selectedService.location}
                         content={selectedService.description}/>
                     <Typography align="right" className={classes.addReview}>
-                        <StyledButton btnLg>
+                        <StyledButton btnLg onClick={handleOpenAddReviewModal}>
                             Add Review
                         </StyledButton>
                     </Typography>
                 </Grid>
 
-                {/* COMMENTS */}
-                <Grid item xs={12}>
-                    <BaseInfoCard 
-                        title="Chin Caponpon"
-                        content="Good restaurant"/>
-                </Grid>
-                <Grid item xs={12}>
-                    <BaseInfoCard 
-                        title="Chernhelyn Caponpon"
-                        content="Nice restaurant"/>
-                </Grid>
+                {/* REVIEWS */}
+                {selectedService.reviews?.map((review: ServiceReview, index) => {
+                    return(
+                        <Grid item xs={12} key={index}>
+                            <BaseInfoCard 
+                                title="Chin Caponpon"
+                                subtitle={review.timestamp ? new Date(review.timestamp).toLocaleString():""}
+                                rating={review.rating}
+                                content={review.comment}/>
+                        </Grid>
+                    )
+                })}
             </Grid>
+
+            {/* <BaseModal
+                showModal={showAddReviewModal}
+                handleCloseModal={handleCloseAddReviewModal}
+                modalBody={
+                    <CreateReviewForm
+                        handleCreateReviewSuccess={handleAddReviewSuccess}
+                        selectedService={selectedService}
+                        isLoading={isLoading}
+                        isServiceReqSuccess={isServiceReqSuccess}
+                        errorMessage={errorMessage} />
+                } /> */}
+            <BaseModal
+                showModal={showAddReviewModal}
+                handleCloseModal={handleCloseAddReviewModal}
+                modalBody={
+                    CreateReviewForm({
+                        handleCreateReviewSuccess: handleAddReviewSuccess,
+                        selectedService: selectedService})
+                } />
+            </>
         )}
         </PageContainer>
     )

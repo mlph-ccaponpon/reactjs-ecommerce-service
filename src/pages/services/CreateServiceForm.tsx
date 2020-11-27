@@ -21,14 +21,12 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
     const dispatch = useDispatch();
     const formTitle = props.isNew ? "ADD SERVICE": "EDIT SERVICE";
-    let formInitValues = {name:"", category: "", providerUid: "", location: "", imageUrl: "", description: ""};
+    let formInitValues: Service = {name:"", category: "", providerUid: "", location: "", imageUrl: "", description: ""};
+
     if(props.selectedService != null) {
-        formInitValues = {name: props.selectedService.name, 
-            category: props.selectedService.category, 
-            providerUid: props.selectedService.providerUid, 
-            location: props.selectedService.location, 
-            imageUrl: props.selectedService.imageUrl,
-            description: props.selectedService.description}
+        // Remove id, timestamp and rating properties for creating service form values
+        const {id, timestamp, rating, ...serviceFormValues } = props.selectedService;
+        formInitValues = serviceFormValues;
     }
     const formValidation = {
         name: Yup.string()

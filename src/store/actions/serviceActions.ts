@@ -1,6 +1,7 @@
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
-import { CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, DELETE_SERVICE_REQUEST, DELETE_SERVICE_RESPONSE, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_BY_ID_RESPONSE, GET_SERVICE_LIST_REQUEST, GET_SERVICE_LIST_RESPONSE, INIT_SERVICE_REQ_STATE, UPDATE_SERVICE_REQUEST, UPDATE_SERVICE_RESPONSE } from "../types/serviceTypes";
+import { ServiceReview } from "../entities/ServiceReview";
+import { ADD_SERVICE_REVIEW_REQUEST, ADD_SERVICE_REVIEW_RESPONSE, CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, DELETE_SERVICE_REQUEST, DELETE_SERVICE_RESPONSE, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_BY_ID_RESPONSE, GET_SERVICE_LIST_REQUEST, GET_SERVICE_LIST_RESPONSE, INIT_SERVICE_REQ_STATE, UPDATE_SERVICE_REQUEST, UPDATE_SERVICE_RESPONSE } from "../types/serviceTypes";
 
 /**
  * INITIALIZE STATE FOR SERVICE REQUEST 
@@ -70,4 +71,16 @@ export const getServiceByIdRequest = (serviceId: string) =>
 export const getServiceByIdResponse = (response: BaseResponse) => ({
   type: GET_SERVICE_BY_ID_RESPONSE,
   payload: response,
+});
+
+/** 
+ * ADD SERVICE REVIEW
+ * */ 
+export const addServiceReviewRequest = (service: Service, review: ServiceReview) => ({
+  type: ADD_SERVICE_REVIEW_REQUEST,
+  payload: {service, review},
+});
+export const addServiceReviewResponse = (response: BaseResponse) => ({
+  type: ADD_SERVICE_REVIEW_RESPONSE,
+  payload: response
 });

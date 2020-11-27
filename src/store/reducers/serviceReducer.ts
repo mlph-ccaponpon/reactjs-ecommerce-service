@@ -1,12 +1,14 @@
-import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE, UPDATE_SERVICE_RESPONSE, DELETE_SERVICE_RESPONSE } from "../types/serviceTypes"
+import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE, UPDATE_SERVICE_RESPONSE, DELETE_SERVICE_RESPONSE, ADD_SERVICE_REVIEW_RESPONSE } from "../types/serviceTypes"
 import { Service } from "../entities/Service";
+import { ServiceReview } from "../entities/ServiceReview";
+import { BaseResponse } from "../entities/BaseResponse";
 
 const initialState = {
     isServiceLoading: false,
     isServiceReqSuccess: false,
     serviceErrorMessage: "",
     serviceList: <Service[]> [],
-    selectedService: null
+    selectedService: <Service> {}
 }
 
 export function serviceReducer(state = initialState, action: any) {
@@ -15,11 +17,10 @@ export function serviceReducer(state = initialState, action: any) {
           return {...state, 
                 isServiceLoading: true,
                 isServiceReqSuccess: false,
-                serviceErrorMessage: "",
-                selectedService: null}
+                serviceErrorMessage: ""}
         }
         case CREATE_SERVICE_RESPONSE: {
-          const createdService = action.payload.result;
+          const createdService: Service  = action.payload.result;
           return {...state, 
                 isServiceLoading: false,
                 isServiceReqSuccess: action.payload.success,
@@ -27,7 +28,7 @@ export function serviceReducer(state = initialState, action: any) {
                 serviceList: [createdService,...state.serviceList]}
         }
         case UPDATE_SERVICE_RESPONSE: {
-          const updatedService = action.payload.result;
+          const updatedService: Service  = action.payload.result;
           const index = state.serviceList.findIndex(s => s.id === updatedService.id );
           state.serviceList[index] = updatedService;
 
@@ -37,7 +38,7 @@ export function serviceReducer(state = initialState, action: any) {
                 serviceErrorMessage: action.payload.errorMessage}
         }
         case DELETE_SERVICE_RESPONSE: {
-          const deletedService = action.payload.result;
+          const deletedService: Service = action.payload.result;
           const index = state.serviceList.findIndex(s => s.id === deletedService.id );
           state.serviceList.splice(index, 1);
 
@@ -54,12 +55,21 @@ export function serviceReducer(state = initialState, action: any) {
                 serviceList: action.payload.result}
         }
         case GET_SERVICE_BY_ID_RESPONSE: {
-          const service = action.payload.result;
+          const service: Service  = action.payload.result;
           return {...state, 
                 isServiceLoading: false,
                 isServiceReqSuccess: action.payload.success,
                 serviceErrorMessage: action.payload.errorMessage,
                 selectedService: service}
+        }
+        case ADD_SERVICE_REVIEW_RESPONSE: {
+          const serviceReviewList: ServiceReview[] = action.payload.result;
+          state.selectedService.reviews = serviceReviewList;
+
+          return {...state, 
+                isServiceLoading: false,
+                isServiceReqSuccess: action.payload.success,
+                serviceErrorMessage: action.payload.errorMessage}
         }
         default:
           return state

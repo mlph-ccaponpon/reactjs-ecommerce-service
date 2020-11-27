@@ -33,33 +33,34 @@ function BaseForm(props: BaseFormProps) {
                     {props.title}
                 </FormLogoName>
                 {props.fields.map((field, index) => {
-                    return(
-                        field.type === "select" ? (
-                            <StyledFieldSelect>
-                                <Field key={field.name} as="select" name={field.name}>
-                                    <option value="" disabled>
-                                        {field.placeholder}
-                                    </option>
-                                    {field.options && field.options.map((fieldOption) => {
-                                        return(
-                                            <option value={fieldOption.value} key={fieldOption.value}>
-                                                {fieldOption.label}
-                                            </option>
-                                        )
-                                    })}
-                                </Field>
-                            </StyledFieldSelect>
-                        ):(
-                            <FieldWrapper key={field.name}>
-                                <StyledField
-                                name={field.name}
-                                type={field.type}  
-                                placeholder={field.placeholder}/>
-                                <StyledErrorMessage>
-                                    <ErrorMessage name={field.name} />
-                                </StyledErrorMessage>
-                            </FieldWrapper>
+                    if(field.type === "select") {
+                        return (
+                        <StyledFieldSelect>
+                            <Field key={field.name} as="select" name={field.name}>
+                                <option value="" disabled>
+                                    {field.placeholder}
+                                </option>
+                                {field.options && field.options.map((fieldOption) => {
+                                    return(
+                                        <option value={fieldOption.value} key={fieldOption.value}>
+                                            {fieldOption.label}
+                                        </option>
+                                    )
+                                })}
+                            </Field>
+                        </StyledFieldSelect>
                         )
+                    }
+                    return (
+                        <FieldWrapper key={field.name}>
+                            <StyledField
+                            name={field.name}
+                            type={field.type}  
+                            placeholder={field.placeholder}/>
+                            <StyledErrorMessage>
+                                <ErrorMessage name={field.name} />
+                            </StyledErrorMessage>
+                        </FieldWrapper>
                     )
                 })}
                 {(props.errorMessage) && <StyledErrorMessage>{props.errorMessage}</StyledErrorMessage>}

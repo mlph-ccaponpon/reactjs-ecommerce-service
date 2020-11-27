@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { firebaseReduxSaga, firestore } from "../../config/firebaseConfig";
-import { createServiceResponse, initServiceReqState, getServiceListResponse, getServiceByIdResponse, updateServiceResponse, deleteServiceResponse } from "../actions/serviceActions";
+import { createServiceResponse, initServiceReqState, getServiceListResponse, getServiceByIdResponse, updateServiceResponse, deleteServiceResponse, addServiceReviewResponse } from "../actions/serviceActions";
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
-import { CREATE_SERVICE_REQUEST, DELETE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST, UPDATE_SERVICE_REQUEST } from "../types/serviceTypes";
+import { ServiceReview } from "../entities/ServiceReview";
+import { ADD_SERVICE_REVIEW_REQUEST, CREATE_SERVICE_REQUEST, DELETE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST, UPDATE_SERVICE_REQUEST } from "../types/serviceTypes";
 
 const SERVICES_COLLECTION = "services";
 
@@ -23,6 +24,7 @@ function* createService(action: any) {
       
        service.timestamp = Date.now();
        service.rating = 0;
+       service.reviews = [];
        const doc = yield call(
             firebaseReduxSaga.firestore.addDocument,
             SERVICES_COLLECTION,
@@ -146,6 +148,7 @@ function* getServiceById(action: any) {
       yield put(initServiceReqState());
       const snapshot = yield call(firebaseReduxSaga.firestore.getDocument, `${SERVICES_COLLECTION}/${serviceId}`);
       const service = snapshot.data();
+      service.id = snapshot.id;
 
       response.result = service;      
       response.success = true;
@@ -154,5 +157,37 @@ function* getServiceById(action: any) {
     catch(error) {
       response.errorMessage = error.message;
       yield put(getServiceByIdResponse(response));
+    }
+}
+
+/**
+ * ADD SERVICE REVIEW
+ * 
+ */
+export function* addServiceReviewWatcher(){
+  yield takeLatest(ADD_SERVICE_REVIEW_REQUEST, addServiceReview);
+}
+function* addServiceReview(action: any) {
+  const response : BaseResponse<ServiceReview[]> = { success: false, errorMessage: "" };
+  const service : Service = action.payload.service;
+  const serviceReview : ServiceReview = action.payload.review;
+
+  let serviceReviewList : ServiceReview[] = [];
+  if(service.reviews) {
+    serviceReview.timestamp = Date.now();
+    serviceReviewList = [serviceReview,...service.reviews];
+  }
+
+  try {
+      yield put(initServiceReqState());
+      yield call(firebaseReduxSaga.firestore.updateDocument, `${SERVICES_COLLECTION}/${service.id}`, {reviews: serviceReviewList});
+      
+      response.success = true;
+      response.result = serviceReviewList;
+      yield put(addServiceReviewResponse(response));
+    }
+    catch(error) {
+      response.errorMessage = error.message;
+      yield put(addServiceReviewResponse(response));
     }
 }
