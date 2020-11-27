@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PageContainer } from '../../styles/global';
-import BaseTable, { TableRowBtn } from '../../components/table/BaseTable';
+import BaseTable from '../../components/table/BaseTable';
 import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/BaseTableButtons';
 import BaseModal from '../../components/modal/BaseModal';
 import AddUserModal from './AddUserModal';
@@ -13,6 +13,8 @@ interface Column {
   align?: 'right';
   format?: (value: number) => string;
   type?: 'button';
+  buttonElem?: any;
+  buttonOnClick?: any;
 }
 
 interface Data {
@@ -20,8 +22,6 @@ interface Data {
   name: string;
   email: string;
   role: string;
-  editBtn: any;
-  deleteBtn: any;
 }
 
 
@@ -74,16 +74,13 @@ function UserTable() {
     { id: 'name', label: 'Name', minWidth: 25 },
     { id: 'email', label: 'Email', minWidth: 25 },
     { id: 'role', label: 'Role', minWidth: 15 },
-    { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button' },
-    { id: 'deleteBtn', label: '', minWidth: 5, type: 'button' }
+    { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
+    { id: 'deleteBtn', label: '', minWidth: 5, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
   ];
 
 
   const createData = (id: string, name: string, email: string, role: string): Data => {
-    const editBtn : TableRowBtn = {rowBtn: BaseTableEditBtn(), handleRowBtnClick: handleOpenEditModal};
-    const deleteBtn : TableRowBtn = {rowBtn: BaseTableDeleteBtn(), handleRowBtnClick: handleOpenDeleteModal};
-
-    return { id, name, email, role, editBtn, deleteBtn };
+    return { id, name, email, role };
   }
 
   // TODO: Get Services Data from firestore

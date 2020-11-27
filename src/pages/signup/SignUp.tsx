@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import BaseForm from '../../components/form/BaseForm'
 import { setErrorMessage, signUpRequest } from '../../store/actions/authActions';
-import { Role, User, UserRoleOptions } from '../../store/entities/User';
+import {  User, UserRoleOptions } from '../../store/entities/User';
 import { PageContainer } from '../../styles/global';
 
 function SignUp() {

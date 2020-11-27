@@ -1,15 +1,12 @@
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
-import { CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, SET_IS_SERVICE_LOADING, SET_SERVICE_ERROR_MESSAGE } from "../types/serviceTypes";
+import { CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, SEARCH_SERVICE_REQUEST, SEARCH_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE } from "../types/serviceTypes";
 
-export const setIsServiceLoading = (isServiceLoading: boolean) => ({
-  type: SET_IS_SERVICE_LOADING,
-  payload: isServiceLoading
-});
-
-export const setServiceErrorMessage = (serviceErrorMessage: string) => ({
-  type: SET_SERVICE_ERROR_MESSAGE,
-  payload: serviceErrorMessage
+/**
+ * INITIALIZE STATE FOR SERVICE REQUEST 
+ */
+export const initServiceReqState = () => ({
+  type: INIT_SERVICE_REQ_STATE
 });
 
 /** 
@@ -21,5 +18,20 @@ export const createServiceRequest = (service: Service) => ({
 });
 export const createServiceResponse = (response: BaseResponse) => ({
   type: CREATE_SERVICE_RESPONSE,
+  payload: response,
+});
+
+
+/** 
+ * SEARCH SERVICE
+ * */ 
+export const searchServiceRequest = (service?: Service) => 
+  ({
+    type: SEARCH_SERVICE_REQUEST,
+    payload: service
+  });
+  
+export const searchServiceResponse = (response: BaseResponse) => ({
+  type: SEARCH_SERVICE_RESPONSE,
   payload: response,
 });

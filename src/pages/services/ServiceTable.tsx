@@ -1,23 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageContainer } from '../../styles/global';
-import BaseTable, { TableRowBtn } from '../../components/table/BaseTable';
+import BaseTable from '../../components/table/BaseTable';
 import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/BaseTableButtons';
 import BaseModal from '../../components/modal/BaseModal';
 import AddServiceForm from './AddServiceForm';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { searchServiceRequest } from '../../store/actions/serviceActions';
 
 interface Column {
-  id: 'name' | 'category' | 'provider' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
+  id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
   label: string;
   minWidth?: number;
   align?: 'right';
   format?: (value: number) => string;
   type?: 'button';
+  buttonElem?: any;
+  buttonOnClick?: any;
 }
 
 interface Data {
+  id: string;
   name: string;
   category: string;
-  provider: string;
+  providerUid: string;
   location: string;
   description: string;
   rating: number;
@@ -27,6 +32,9 @@ interface Data {
 
 
 function ServiceTable() {
+  const serviceList = useSelector((state: RootStateOrAny) => state.service.serviceList);
+  const dispatch = useDispatch();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -74,49 +82,27 @@ function ServiceTable() {
 
   //Table Init
   const columns: Column[] = [
+    { id: 'id', label: 'Service ID', minWidth: 15 },
     { id: 'name', label: 'Service Name', minWidth: 15 },
     { id: 'category', label: 'Category', minWidth: 15 },
-    { id: 'provider', label: 'Provider', minWidth: 15 },
+    { id: 'providerUid', label: 'Provider ID', minWidth: 15 },
     { id: 'location', label: 'Location', minWidth: 15 },
     { id: 'description', label: 'Description', minWidth: 15 },
     { id: 'rating', label: 'Rating', minWidth: 15 },
-    { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button' },
-    { id: 'deleteBtn', label: '', minWidth: 5, type: 'button' }
+    { id: 'editBtn', label: '', align: 'right', minWidth: 5, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
+    { id: 'deleteBtn', label: '', minWidth: 5, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
   ];
-
-
-  const createData = (name: string, category: string, provider: string, location:string, description: string, rating: number): Data => {
-    const editBtn : TableRowBtn = {rowBtn: BaseTableEditBtn(), handleRowBtnClick: handleOpenEditModal};
-    const deleteBtn : TableRowBtn = {rowBtn: BaseTableDeleteBtn(), handleRowBtnClick: handleOpenDeleteModal};
-
-    return { name, category, provider, location, description, rating, editBtn, deleteBtn };
-  }
-
-  // TODO: Get Services Data from firestore
-  const rows = [
-    createData('Service 1', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 1.', 3.3),
-    createData('Service 2', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 2.', 4.3),
-    createData('Service 3', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 3.', 2.3),
-    createData('Service 4', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 4.', 4.2),
-    createData('Service 5', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 5.', 3),
-    createData('Service 6', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 6.', 3),
-    createData('Service 7', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 7.', 2.5),
-    createData('Service 8', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 8.', 3.7),
-    createData('Service 9', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 9.', 3.8),
-    createData('Service 10', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 10.', 2.5),
-    createData('Service 11', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 11.', 4.3),
-    createData('Service 12', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 12.', 1.3),
-    createData('Service 13', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 13.', 3.4),
-    createData('Service 14', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 14.', 3.5),
-    createData('Service 15', 'Food', 'Chin Caponpon', 'Sto. Tomas, Batangas', 'Your service 15.', 3.6),
-  ];
+  
+  useEffect(() => {
+    dispatch(searchServiceRequest());
+  }, []);
 
   return (
       <PageContainer>
         <BaseTable
           addBtnTitle="Add Service"
           columns={columns}
-          rows={rows}
+          rows={serviceList}
           page={page}
           rowsPerPage={rowsPerPage}
           handleChangePage={handleChangePage}

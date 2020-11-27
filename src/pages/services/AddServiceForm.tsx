@@ -4,7 +4,7 @@ import BaseForm from '../../components/form/BaseForm';
 import * as Yup from 'yup';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Service } from '../../store/entities/Service';
-import { createServiceRequest, setServiceErrorMessage } from '../../store/actions/serviceActions';
+import { createServiceRequest } from '../../store/actions/serviceActions';
 
 interface AddServiceFormProps {
     handleAddServiceSuccess: () => void;
@@ -12,7 +12,7 @@ interface AddServiceFormProps {
 
 function AddServiceForm(props: AddServiceFormProps) {
     const isLoading = useSelector((state: RootStateOrAny) => state.service.isServiceLoading);
-    const isServiceRequestSuccess = useSelector((state: RootStateOrAny) => state.service.isServiceRequestSuccess);
+    const isServiceReqSuccess = useSelector((state: RootStateOrAny) => state.service.isServiceReqSuccess);
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
     const dispatch = useDispatch();
 
@@ -58,24 +58,24 @@ function AddServiceForm(props: AddServiceFormProps) {
     ];
 
     const createService = (service: Service) => {
+        service.rating = 0;
         dispatch(createServiceRequest(service));
     } 
 
     const createServiceSuccess = () => {
-        dispatch(setServiceErrorMessage(""));
         props.handleAddServiceSuccess();
     }
 
     useEffect(() => {
-        if(isServiceRequestSuccess) {
+        if(isServiceReqSuccess) {
             createServiceSuccess();
         }
-    }, [isServiceRequestSuccess]);
+    }, [isServiceReqSuccess]);
 
     return (
         <Formik
         initialValues = {formInitValues}
-        onSubmit = {(value, formikBag) => {
+        onSubmit = {(value) => {
             createService(value);
         }}
         validationSchema = {Yup.object(formValidation)}>
