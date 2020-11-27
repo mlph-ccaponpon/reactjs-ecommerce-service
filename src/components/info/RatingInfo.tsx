@@ -3,20 +3,21 @@ import { StyledStarFull, StyledStarOutline } from './RatingInfo.elements';
 
 interface RatingInfoProps {
     rating: number,
-    starXl?: boolean
+    starxl?: boolean
 }
 
 function RatingInfo(props: RatingInfoProps) {
+    const isStarXl = props.starxl ? true:false;
     return (
-        <p>
+        <>
             {[...Array(5)].map((_, i) => 
                 props.rating && props.rating > i ? (
-                    <StyledStarFull key={i} starXl={props.starXl}/>
+                    <StyledStarFull key={i} starxl={isStarXl}/>
                 ):(
-                    <StyledStarOutline key={i} starXl={props.starXl}/>
+                    <StyledStarOutline key={i} starxl={isStarXl}/>
                 )
             )}
-        </p>
+        </>
     )
 }
 

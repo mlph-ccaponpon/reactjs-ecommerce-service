@@ -1,8 +1,7 @@
-import { createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
+import { createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react'
 import BaseInfoCard from '../../components/info/BaseInfoCard';
 import { PageContainer, StyledButton, theme } from '../../styles/global';
-import { TiStarFullOutline, TiStarOutline } from "react-icons/ti";
 import RatingInfo from '../../components/info/RatingInfo';
 
 const useStyles = makeStyles(() =>
@@ -38,7 +37,7 @@ function ServiceInfo() {
                         Service Name <small> (Category)</small>
                     </Typography>
                     <Typography gutterBottom>
-                       <RatingInfo rating={4} starXl={true} />
+                       <RatingInfo rating={4} starxl={true}/>
                     </Typography>
                     <BaseInfoCard 
                         contentImg="https://images.unsplash.com/photo-1555939594-58d7cb561ad1"
