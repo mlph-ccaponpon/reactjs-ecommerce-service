@@ -59,9 +59,11 @@ function ServiceTable() {
     setSelectedService(service);
     setShowEditModal(true);
   };
-
   const handleCloseEditModal = () => {
     setShowEditModal(false);
+  };
+  const handleEditServiceSuccess = () => {
+    handleCloseEditModal();
   };
 
   //Delete Modal
@@ -116,13 +118,13 @@ function ServiceTable() {
           title="Add Service"
           showModal={showAddModal}
           handleCloseModal={handleCloseAddModal}
-          modalBody={CreateServiceForm({handleAddServiceSuccess, isNew: true})} />
+          modalBody={CreateServiceForm({handleCreateServiceSuccess: handleAddServiceSuccess, isNew: true})} />
 
         <BaseModal
           title="Edit Service"
           showModal={showEditModal}
           handleCloseModal={handleCloseEditModal} 
-          modalBody={CreateServiceForm({handleAddServiceSuccess, isNew: false, selectedService})} />
+          modalBody={CreateServiceForm({handleCreateServiceSuccess: handleEditServiceSuccess, isNew: false, selectedService})} />
 
         <BaseModal
           title="Delete Service"

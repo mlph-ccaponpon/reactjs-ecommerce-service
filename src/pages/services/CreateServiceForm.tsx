@@ -4,13 +4,13 @@ import BaseForm from '../../components/form/BaseForm';
 import * as Yup from 'yup';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Service } from '../../store/entities/Service';
-import { createServiceRequest, getServiceByIdRequest, getServiceListRequest } from '../../store/actions/serviceActions';
+import { createServiceRequest, updateServiceRequest } from '../../store/actions/serviceActions';
 
 /**
  * Form for Adding or Editing Service Details
  */
 interface CreateServiceFormProps {
-    handleAddServiceSuccess: () => void;
+    handleCreateServiceSuccess: () => void;
     isNew?: boolean;
     selectedService?: Service | null;
 }
@@ -71,11 +71,17 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     ];
 
     const createService = (service: Service) => {
-        dispatch(createServiceRequest(service));
+        if(props.isNew) {
+            dispatch(createServiceRequest(service));
+        } else if(props.selectedService != null) {
+            service.id = props.selectedService.id;
+            service.rating = props.selectedService.rating;
+            dispatch(updateServiceRequest(service));
+        }
     } 
 
     const createServiceSuccess = () => {
-        props.handleAddServiceSuccess();
+        props.handleCreateServiceSuccess();
     }
 
     useEffect(() => {

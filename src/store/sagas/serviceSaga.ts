@@ -1,10 +1,9 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { firebaseReduxSaga, firestore } from "../../config/firebaseConfig";
-import { createServiceResponse, initServiceReqState, getServiceListResponse, getServiceByIdResponse } from "../actions/serviceActions";
+import { createServiceResponse, initServiceReqState, getServiceListResponse, getServiceByIdResponse, updateServiceResponse } from "../actions/serviceActions";
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
-import { CREATE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST } from "../types/serviceTypes";
-import { v4 as uuidV4 } from 'uuid';
+import { CREATE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST, UPDATE_SERVICE_REQUEST } from "../types/serviceTypes";
 
 const SERVICES_COLLECTION = "services";
 
@@ -22,14 +21,14 @@ function* createService(action: any) {
     try {
         yield put(initServiceReqState());
       
-       service.id = uuidV4();
        service.timestamp = Date.now();
        service.rating = 0;
-       yield call(
+       const doc = yield call(
             firebaseReduxSaga.firestore.addDocument,
             SERVICES_COLLECTION,
             {...service}
           );
+        service.id = doc.id;
         
         response.success = true;
         response.result = service;
@@ -43,13 +42,40 @@ function* createService(action: any) {
 
 
 /**
+ * UPDATE SERVICE
+ * 
+ */
+export function* updateServiceWatcher(){
+  yield takeLatest(UPDATE_SERVICE_REQUEST, updateService);
+}
+function* updateService(action: any) {
+  const response : BaseResponse<Service> = { success: false, errorMessage: "" };
+  const service : Service = action.payload;
+
+  try {
+      yield put(initServiceReqState());
+      const { id, ...serviceUpdate } = service; // Remove 'id' property from service to be updated
+      yield call(firebaseReduxSaga.firestore.updateDocument, `${SERVICES_COLLECTION}/${service.id}`, {...serviceUpdate});
+      
+      response.success = true;
+      response.result = service;
+      yield put(updateServiceResponse(response));
+    }
+    catch(error) {
+      response.errorMessage = error.message;
+      yield put(updateServiceResponse(response));
+    }
+}
+
+
+/**
  * GET SERVICE LIST
  * 
  */
 export function* getServiceListWatcher(){
   yield takeLatest(GET_SERVICE_LIST_REQUEST, getServiceList);
 }
-function* getServiceList(action: any) {
+function* getServiceList() {
   const response : BaseResponse<Service[]> = { success: false, result: [], errorMessage: "" };
   try {
       yield put(initServiceReqState());
@@ -61,9 +87,12 @@ function* getServiceList(action: any) {
       let serviceList : Service[] = [];
 
       snapshot.forEach((serviceSnapshot: any) => {
+          const service = serviceSnapshot.data();
+          service.id = serviceSnapshot.id;
+
           serviceList = [
             ...serviceList,
-            serviceSnapshot.data()
+            service
           ]
       });
 
@@ -89,22 +118,11 @@ function* getServiceById(action: any) {
   const response : BaseResponse<Service> = { success: false, errorMessage: "" };
   const serviceId = action.payload;
   try {
-      console.log(`SERVICE ID:${serviceId}`);
       yield put(initServiceReqState());
-      const snapshot =yield call(
-        firebaseReduxSaga.firestore.getCollection,
-        firestore.collection(SERVICES_COLLECTION)
-          .where('id','==',serviceId)
-      )
+      const snapshot = yield call(firebaseReduxSaga.firestore.getDocument, `${SERVICES_COLLECTION}/${serviceId}`);
+      const service = snapshot.data();
 
-      let serviceList : Service[] = [];
-      snapshot.forEach((serviceSnapshot: any) => {
-        serviceList = [
-          ...serviceList,
-          serviceSnapshot.data()
-        ]
-    });
-      response.result = serviceList[0];      
+      response.result = service;      
       response.success = true;
       yield put(getServiceByIdResponse(response));
     }
