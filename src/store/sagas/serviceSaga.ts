@@ -107,7 +107,7 @@ function* getServiceList() {
       yield put(initServiceReqState());
       const snapshot =yield call(
         firebaseReduxSaga.firestore.getCollection,
-        firestore.collection(SERVICES_COLLECTION).orderBy('timestamp')
+        firestore.collection(SERVICES_COLLECTION).orderBy('timestamp', 'desc')
       )
      
       let serviceList : Service[] = [];

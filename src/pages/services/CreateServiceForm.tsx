@@ -22,7 +22,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
     const dispatch = useDispatch();
     const formTitle = props.isNew ? "ADD SERVICE": "EDIT SERVICE";
-    let formInitValues: Service = {name:"", category: "", providerUid: "", location: "", imageUrl: "", description: ""};
+    let formInitValues = {name:"", category: "", providerUid: "", location: "", imageUrl: "", description: ""};
     const [providerOptions] = useFetchProviderOptions();
 
     if(props.selectedService != null) {
@@ -105,7 +105,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <Formik
         initialValues = {formInitValues}
         onSubmit = {(value) => {
-            createService(value);
+            createService({...value, rating: props.selectedService ? props.selectedService.rating:0});
         }}
         validationSchema = {Yup.object(formValidation)}>
 

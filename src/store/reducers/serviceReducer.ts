@@ -1,4 +1,4 @@
-import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE, UPDATE_SERVICE_RESPONSE, DELETE_SERVICE_RESPONSE, ADD_SERVICE_REVIEW_RESPONSE } from "../types/serviceTypes"
+import { CREATE_SERVICE_RESPONSE, INIT_SERVICE_REQ_STATE, GET_SERVICE_LIST_RESPONSE, GET_SERVICE_BY_ID_RESPONSE, UPDATE_SERVICE_RESPONSE, DELETE_SERVICE_RESPONSE, ADD_SERVICE_REVIEW_RESPONSE, SEARCH_SERVICE_REQUEST } from "../types/serviceTypes"
 import { Service } from "../entities/Service";
 
 const initialState = {
@@ -6,6 +6,7 @@ const initialState = {
     isServiceReqSuccess: false,
     serviceErrorMessage: "",
     serviceList: <Service[]> [],
+    filteredServiceList: <Service[]> [],
     selectedService: <Service> {}
 }
 
@@ -50,7 +51,8 @@ export function serviceReducer(state = initialState, action: any) {
                 isServiceLoading: false,
                 isServiceReqSuccess: action.payload.success,
                 serviceErrorMessage: action.payload.errorMessage,
-                serviceList: action.payload.result}
+                serviceList: action.payload.result,
+                filteredServiceList: action.payload.result}
         }
         case GET_SERVICE_BY_ID_RESPONSE: {
           const service: Service  = action.payload.result;
@@ -69,6 +71,12 @@ export function serviceReducer(state = initialState, action: any) {
                 isServiceLoading: false,
                 isServiceReqSuccess: action.payload.success,
                 serviceErrorMessage: action.payload.errorMessage}
+        }
+        case SEARCH_SERVICE_REQUEST: {
+            const filteredServices = action.payload;
+            return{...state,
+              filteredServiceList: filteredServices
+            }
         }
         default:
           return state

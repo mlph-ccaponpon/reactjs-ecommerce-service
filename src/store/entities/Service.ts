@@ -9,7 +9,7 @@ export interface Service {
     imageUrl: string,
     location: string,
     description: string,
-    rating?: number,
+    rating: number,
     reviews?: ServiceReview[]
 }
 
