@@ -8,7 +8,7 @@ interface FormContainerProps {
 }
 export const FormContainer = styled.div`
     margin: auto;
-    width: ${(p: FormContainerProps)  => p.isModal ? '400px' : '45%'};
+    width: ${(p: FormContainerProps)  => p.isModal ? '500px' : '45%'};
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -56,7 +56,7 @@ export const StyledErrorMessage = styled.p`
 
 export const FormBtnWrapper = styled.div`
     width: 100%;
-    margin: 15px 0;
+    margin: 40px 0;
 `;
 
 export const StyledFormBtn = styled(StyledButton)`

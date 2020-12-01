@@ -29,6 +29,10 @@ const useStyles = makeStyles(() =>
         serviceRatingAvg: {
             marginTop: 10,
             marginBottom: 20
+        },
+        reviewsLabel: {
+            marginTop: 30,
+            fontSize: theme.fontXl
         }
     })
 );
@@ -86,6 +90,11 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
                             <StyledButton btnLg onClick={handleOpenAddReviewModal}>
                                 Add Review
                             </StyledButton>
+                        </Typography>
+                    )}
+                    {(selectedService && selectedService.reviews && selectedService.reviews.length > 0) && (
+                        <Typography className={classes.reviewsLabel}>
+                            Reviews:
                         </Typography>
                     )}
                 </Grid>
