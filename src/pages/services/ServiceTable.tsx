@@ -25,7 +25,7 @@ interface Column {
 
 function ServiceTable() {
   const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
-  const isProvider = (currUser.role === Role.PROVIDER.value);
+  const isProvider = (currUser!=null &&currUser.role === Role.PROVIDER.value);
   const serviceList = useSelector((state: RootStateOrAny) => state.service.serviceList);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const dispatch = useDispatch();

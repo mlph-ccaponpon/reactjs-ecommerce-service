@@ -67,12 +67,12 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         },
         {
             name: "imageUrl",
-            type: "text",
+            type: "textarea",
             placeholder: "Thumbnail Image URL"
         },
         {
             name: "description",
-            type: "text",
+            type: "textarea",
             placeholder: "Service Description"
         }
     ];

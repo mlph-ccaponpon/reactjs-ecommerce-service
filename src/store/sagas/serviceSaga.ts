@@ -104,21 +104,21 @@ export function* getServiceListWatcher(){
 function* getServiceList(action: any) {
   const response : BaseResponse<Service[]> = { success: false, result: [], errorMessage: "" };
   const currUser: User = action.payload;
-  const isAdmin = (currUser.role === Role.ADMIN.value);
+  const isProvider = (currUser && currUser.role === Role.PROVIDER.value);
 
   try {
       yield put(initServiceReqState());
       let snapshot;
-      if(isAdmin) {
-        snapshot = yield call(
-          firebaseReduxSaga.firestore.getCollection,
-          firestore.collection(SERVICES_COLLECTION).orderBy('timestamp', 'desc')
-        )
-      } else {
+      if(isProvider) {
         snapshot = yield call(
           firebaseReduxSaga.firestore.getCollection,
           firestore.collection(SERVICES_COLLECTION)
             .where('providerUid', '==', currUser.uid).orderBy('timestamp', 'desc')
+        )
+      } else {
+        snapshot = yield call(
+          firebaseReduxSaga.firestore.getCollection,
+          firestore.collection(SERVICES_COLLECTION).orderBy('timestamp', 'desc')
         )
       }
      

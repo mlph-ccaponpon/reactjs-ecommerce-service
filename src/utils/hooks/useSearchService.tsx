@@ -10,7 +10,7 @@ export default function useSearchService(searchTerm: string, isSortByRating: boo
     function fetchSearchServices() {
         let filteredServices = [...serviceList];
         if(searchTerm) {
-            const searchTermLowercase = searchTerm.toLowerCase();
+            const searchTermLowercase = searchTerm.toLowerCase().trim();
             filteredServices = serviceList.filter(service => (service.name.toLowerCase().includes(searchTermLowercase) || service.category.toLowerCase().includes(searchTermLowercase)));
         }
         if(isSortByRating) {

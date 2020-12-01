@@ -1,7 +1,7 @@
 import { ErrorMessage, Field } from 'formik';
 import React from 'react';
 import { ButtonSpinner } from '../../styles/global';
-import { StyledField, FieldWrapper, FormContainer, FormLogoIcon, FormLogoName, StyledForm, StyledErrorMessage, FormBtnWrapper, StyledFormBtn, StyledFieldSelect } from './BaseForm.elements';
+import { StyledField, StyledFieldLabel, FieldWrapper, FormContainer, FormLogoIcon, FormLogoName, StyledForm, StyledErrorMessage, FormBtnWrapper, StyledFormBtn, StyledFieldSelect } from './BaseForm.elements';
 
 interface FormFieldOption {
     label: string,
@@ -36,6 +36,9 @@ function BaseForm(props: BaseFormProps) {
                     if(field.type === "select") {
                         return (
                         <StyledFieldSelect key={field.name}>
+                            <StyledFieldLabel>
+                                {field.placeholder}
+                            </StyledFieldLabel>
                             <Field as="select" name={field.name}>
                                 <option value="" disabled>
                                     {field.placeholder}
@@ -51,8 +54,30 @@ function BaseForm(props: BaseFormProps) {
                         </StyledFieldSelect>
                         )
                     }
+                    if(field.type === "textarea") {
+                        return (
+                            <FieldWrapper key={field.name}>
+                                <StyledFieldLabel>
+                                    {field.placeholder}
+                                </StyledFieldLabel>
+                                <StyledField
+                                name={field.name}
+                                type={field.type}  
+                                placeholder={field.placeholder}
+                                component="textarea"
+                                rows="2"/>
+                                <StyledErrorMessage>
+                                    <ErrorMessage name={field.name} />
+                                </StyledErrorMessage>
+                            </FieldWrapper>
+                        )
+                    }
                     return (
+
                         <FieldWrapper key={field.name}>
+                            <StyledFieldLabel>
+                                {field.placeholder}
+                            </StyledFieldLabel>
                             <StyledField
                             name={field.name}
                             type={field.type}  

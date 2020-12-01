@@ -40,7 +40,7 @@ function CreateReviewForm(props: CreateReviewFormProps) {
     const formFields = [
         {
             name: "comment",
-            type: "text",
+            type: "textarea",
             placeholder: "Comment"
         },
         {

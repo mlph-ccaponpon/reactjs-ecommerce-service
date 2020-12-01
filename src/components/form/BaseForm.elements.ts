@@ -21,13 +21,18 @@ export const StyledForm = styled(Form)`
     width: 83%;
 `;
 
+export const StyledFieldLabel = styled.label`
+    color: ${theme.primaryLight};
+    font-size: 14px;
+`;
+
 export const FieldWrapper = styled.div`
     width: 100%;
-    margin: 1.5rem 0;
+    margin: 12px 0;
 `;
 
 export const StyledField = styled(Field)`
-    padding: 1rem;
+    padding: 12px;
     width: 100%;
     border: none;
     border-radius: 0.25rem;
@@ -36,7 +41,7 @@ export const StyledField = styled(Field)`
 
 export const StyledFieldSelect = styled.p`
     select {
-        padding: 1rem;
+        padding: 12px;
         width: 100%;
         border: none;
         border-radius: 0.25rem;
@@ -46,12 +51,12 @@ export const StyledFieldSelect = styled.p`
 
 export const StyledErrorMessage = styled.p`
     padding-top: 0.5rem;
-    color: ${theme.primaryLight};
+    color: ${theme.dangerLight};
 `;
 
 export const FormBtnWrapper = styled.div`
     width: 100%;
-    margin: 2.5rem 0;
+    margin: 15px 0;
 `;
 
 export const StyledFormBtn = styled(StyledButton)`
