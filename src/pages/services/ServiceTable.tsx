@@ -9,7 +9,7 @@ import { getServiceListRequest } from '../../store/actions/serviceActions';
 import { Service } from '../../store/entities/Service';
 import DeleteServiceModal from './DeleteServiceModal';
 import { getUserListRequest } from '../../store/actions/userActions';
-import { User } from '../../store/entities/User';
+import { Role, User } from '../../store/entities/User';
 
 interface Column {
   id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'imageUrl' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
@@ -24,6 +24,8 @@ interface Column {
 }
 
 function ServiceTable() {
+  const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
+  const isProvider = (currUser.role === Role.PROVIDER.value);
   const serviceList = useSelector((state: RootStateOrAny) => state.service.serviceList);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const dispatch = useDispatch();
@@ -78,7 +80,7 @@ function ServiceTable() {
   };
 
   //Table Init
-  const columns: Column[] = [
+  let columns: Column[] = [
     { id: 'id', label: 'Service ID', minWidth: 100, maxWidth: 100 },
     { id: 'name', label: 'Service Name', minWidth: 70, maxWidth: 70 },
     { id: 'category', label: 'Category', minWidth: 50, maxWidth: 50 },
@@ -90,9 +92,13 @@ function ServiceTable() {
     { id: 'editBtn', label: '', align: 'right', minWidth: 20, maxWidth: 20, type: 'button', buttonElem: BaseTableEditBtn(), buttonOnClick: handleOpenEditModal },
     { id: 'deleteBtn', label: '', align: 'left', minWidth: 40, maxWidth: 40, type: 'button', buttonElem: BaseTableDeleteBtn(), buttonOnClick: handleOpenDeleteModal }
   ];
+
+  if(isProvider) {
+    columns = columns.filter(col => col.id !== 'providerUid');
+  }
   
   useEffect(() => {
-    dispatch(getServiceListRequest());
+    dispatch(getServiceListRequest(currUser));
     dispatch(getUserListRequest());
   }, []);
 
@@ -111,12 +117,12 @@ function ServiceTable() {
         <BaseModal
           showModal={showAddModal}
           handleCloseModal={handleCloseAddModal}
-          modalBody={CreateServiceForm({handleCreateServiceSuccess: handleAddServiceSuccess, isNew: true})} />
+          modalBody={CreateServiceForm({handleCreateServiceSuccess: handleAddServiceSuccess, isNew: true, isProvider})} />
 
         <BaseModal
           showModal={showEditModal}
           handleCloseModal={handleCloseEditModal} 
-          modalBody={CreateServiceForm({handleCreateServiceSuccess: handleEditServiceSuccess, isNew: false, selectedService})} />
+          modalBody={CreateServiceForm({handleCreateServiceSuccess: handleEditServiceSuccess, isNew: false, selectedService, isProvider})} />
 
         <DeleteServiceModal
           title="Delete Service"

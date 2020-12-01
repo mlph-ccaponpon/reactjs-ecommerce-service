@@ -1,6 +1,7 @@
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
 import { ServiceReview } from "../entities/ServiceReview";
+import { User } from "../entities/User";
 import { ADD_SERVICE_REVIEW_REQUEST, ADD_SERVICE_REVIEW_RESPONSE, CREATE_SERVICE_REQUEST, CREATE_SERVICE_RESPONSE, DELETE_SERVICE_REQUEST, DELETE_SERVICE_RESPONSE, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_BY_ID_RESPONSE, GET_SERVICE_LIST_REQUEST, GET_SERVICE_LIST_RESPONSE, INIT_SERVICE_REQ_STATE, SEARCH_SERVICE_REQUEST, UPDATE_SERVICE_REQUEST, UPDATE_SERVICE_RESPONSE } from "../types/serviceTypes";
 
 /**
@@ -49,9 +50,10 @@ export const deleteServiceResponse = (response: BaseResponse) => ({
 /** 
  * GET SERVICE LIST
  * */ 
-export const getServiceListRequest = () => 
+export const getServiceListRequest = (currUser: User) => 
   ({
-    type: GET_SERVICE_LIST_REQUEST
+    type: GET_SERVICE_LIST_REQUEST,
+    payload: currUser
   });
   
 export const getServiceListResponse = (response: BaseResponse) => ({

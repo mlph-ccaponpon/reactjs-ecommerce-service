@@ -36,19 +36,19 @@ const routes = [
         path: "/services",
         exact: true,
         component: ServiceTable,
-        protected: [Role.ADMIN.value]
+        protected: [Role.PROVIDER.value, Role.ADMIN.value]
     },
     {
         path: "/newsfeed/:id",
         exact: true,
         component: ServiceInfo,
-        protected: [Role.CUSTOMER.value, Role.ADMIN.value]
+        protected: [Role.CUSTOMER.value, Role.ADMIN.value, Role.PROVIDER.value]
     },
     {
         path: "/newsfeed",
         exact: true,
         component: Newsfeed,
-        protected: [Role.CUSTOMER.value, Role.ADMIN.value]
+        protected: [Role.CUSTOMER.value, Role.ADMIN.value, Role.PROVIDER.value]
     }
 ];
 

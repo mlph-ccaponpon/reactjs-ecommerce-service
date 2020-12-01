@@ -4,6 +4,7 @@ import { createServiceResponse, initServiceReqState, getServiceListResponse, get
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
 import { ServiceReview } from "../entities/ServiceReview";
+import { Role, User } from "../entities/User";
 import { ADD_SERVICE_REVIEW_REQUEST, CREATE_SERVICE_REQUEST, DELETE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST, UPDATE_SERVICE_REQUEST } from "../types/serviceTypes";
 
 const SERVICES_COLLECTION = "services";
@@ -101,14 +102,26 @@ function* deleteService(action: any) {
 export function* getServiceListWatcher(){
   yield takeLatest(GET_SERVICE_LIST_REQUEST, getServiceList);
 }
-function* getServiceList() {
+function* getServiceList(action: any) {
   const response : BaseResponse<Service[]> = { success: false, result: [], errorMessage: "" };
+  const currUser: User = action.payload;
+  const isAdmin = (currUser.role === Role.ADMIN.value);
+
   try {
       yield put(initServiceReqState());
-      const snapshot =yield call(
-        firebaseReduxSaga.firestore.getCollection,
-        firestore.collection(SERVICES_COLLECTION).orderBy('timestamp', 'desc')
-      )
+      let snapshot;
+      if(isAdmin) {
+        snapshot = yield call(
+          firebaseReduxSaga.firestore.getCollection,
+          firestore.collection(SERVICES_COLLECTION).orderBy('timestamp', 'desc')
+        )
+      } else {
+        snapshot = yield call(
+          firebaseReduxSaga.firestore.getCollection,
+          firestore.collection(SERVICES_COLLECTION)
+            .where('providerUid', '==', currUser.uid)
+        )
+      }
      
       let serviceList : Service[] = [];
 

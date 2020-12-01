@@ -57,21 +57,21 @@ function Header(){
                     {isLoggedIn && currUser ? (
                     <>
                         {(currUser.role === Role.ADMIN.value) && (
-                            <>
                             <HeaderMenuItem>
                                 <HeaderLink exact to="/users" onClick={closeMenu}>
                                     Users
                                 </HeaderLink>
                             </HeaderMenuItem>
+                        )}
+                         {(currUser.role && [Role.PROVIDER.value, Role.ADMIN.value].includes(currUser.role)) && (
                             <HeaderMenuItem>
                                 <HeaderLink exact to="/services" onClick={closeMenu}>
                                     Services
                                 </HeaderLink>
                             </HeaderMenuItem>
-                            </>
                         )}
 
-                        {(currUser.role && [Role.CUSTOMER.value, Role.ADMIN.value].includes(currUser.role)) && (
+                        {(currUser.role && [Role.CUSTOMER.value, Role.ADMIN.value, Role.PROVIDER.value].includes(currUser.role)) && (
                             <HeaderMenuItem>
                                 <HeaderLink to="/newsfeed" onClick={closeMenu}>
                                     Newsfeed

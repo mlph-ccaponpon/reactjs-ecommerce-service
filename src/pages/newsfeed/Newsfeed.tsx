@@ -8,8 +8,10 @@ import { Service } from '../../store/entities/Service';
 import useDebounce from '../../utils/hooks/useDebounce';
 import { NewsfeedSearchInput, NewsfeedCheckbox, NewsfeedSearchContainer } from './Newsfeed.elements';
 import useSearchService from '../../utils/hooks/useSearchService';
+import { User } from '../../store/entities/User';
 
 function Newsfeed() {
+  const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
   const serviceInfoLink = "/newsfeed/";
   const [searchTerm, setSearchTerm] = useState("");
   const [isSortByRating, setIsSortByRating] = useState(false);
@@ -28,7 +30,7 @@ function Newsfeed() {
     setIsSortByRating(e.target.checked);
   }
   useEffect(() => {
-    dispatch(getServiceListRequest());
+    dispatch(getServiceListRequest(currUser));
   }, []);
 
   return (

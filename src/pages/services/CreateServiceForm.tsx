@@ -6,6 +6,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Service } from '../../store/entities/Service';
 import { createServiceRequest, updateServiceRequest } from '../../store/actions/serviceActions';
 import useFetchProviderOptions from '../../utils/hooks/useFetchProviderOptions';
+import { User } from '../../store/entities/User';
 
 /**
  * Form for Adding or Editing Service Details
@@ -13,10 +14,12 @@ import useFetchProviderOptions from '../../utils/hooks/useFetchProviderOptions';
 interface CreateServiceFormProps {
     handleCreateServiceSuccess: () => void;
     isNew?: boolean;
-    selectedService?: Service | null
+    selectedService?: Service | null;
+    isProvider: boolean;
 }
 
 function CreateServiceForm(props: CreateServiceFormProps) {
+    const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
     const isLoading = useSelector((state: RootStateOrAny) => state.service.isServiceLoading);
     const isServiceReqSuccess = useSelector((state: RootStateOrAny) => state.service.isServiceReqSuccess);
     const errorMessage = useSelector((state: RootStateOrAny) => state.service.serviceErrorMessage);
@@ -24,12 +27,6 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     const formTitle = props.isNew ? "ADD SERVICE": "EDIT SERVICE";
     let formInitValues = {name:"", category: "", providerUid: "", location: "", imageUrl: "", description: ""};
     const [providerOptions] = useFetchProviderOptions();
-
-    if(props.selectedService != null) {
-        // Remove id, timestamp and rating properties for creating service form values
-        const {id, timestamp, rating, ...serviceFormValues } = props.selectedService;
-        formInitValues = serviceFormValues;
-    }
 
     const formValidation = {
         name: Yup.string()
@@ -46,7 +43,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
                 .required("Service Description is required")
     };
 
-    const formFields = [
+    let formFields = [
         {
             name: "name",
             type: "text",
@@ -79,6 +76,17 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             placeholder: "Service Description"
         }
     ];
+
+    if(props.selectedService != null) {
+        // Remove id, timestamp and rating properties for creating service form values
+        const {id, timestamp, rating, ...serviceFormValues } = props.selectedService;
+        formInitValues = serviceFormValues;
+    }
+
+    if(props.isProvider) {
+        formInitValues.providerUid = currUser.uid ? currUser.uid:"";
+        formFields = formFields.filter(field => (field.name !== "providerUid"));
+    }
 
     const createService = (service: Service) => {
         if(props.isNew) {
