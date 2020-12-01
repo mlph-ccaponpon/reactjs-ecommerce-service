@@ -51,7 +51,7 @@ export const StyledFieldSelect = styled.p`
 
 export const StyledErrorMessage = styled.p`
     padding-top: 0.5rem;
-    color: ${theme.dangerLight};
+    color: #fff;
 `;
 
 export const FormBtnWrapper = styled.div`
