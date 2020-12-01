@@ -16,7 +16,8 @@ export function serviceReducer(state = initialState, action: any) {
           return {...state, 
                 isServiceLoading: true,
                 isServiceReqSuccess: false,
-                serviceErrorMessage: ""}
+                serviceErrorMessage: "",
+                selectedService: <Service> {}}
         }
         case CREATE_SERVICE_RESPONSE: {
           const createdService: Service  = action.payload.result;

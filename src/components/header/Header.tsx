@@ -71,7 +71,7 @@ function Header(){
                             </>
                         )}
 
-                        {(currUser.role === Role.CUSTOMER.value) && (
+                        {(currUser.role && [Role.CUSTOMER.value, Role.ADMIN.value].includes(currUser.role)) && (
                             <HeaderMenuItem>
                                 <HeaderLink to="/newsfeed" onClick={closeMenu}>
                                     Newsfeed

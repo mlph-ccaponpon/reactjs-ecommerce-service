@@ -10,6 +10,7 @@ import { Service } from '../../store/entities/Service';
 import BaseModal from '../../components/modal/BaseModal';
 import CreateReviewForm from './reviews/CreateReviewForm';
 import { ServiceReview } from '../../store/entities/ServiceReview';
+import { Role, User } from '../../store/entities/User';
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -36,6 +37,7 @@ interface ServiceInfoParams {
 }
 function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
     const serviceId = match.params.id;
+    const currUser: User = useSelector((state: RootStateOrAny) => state.auth.currUser);
     const selectedService: Service = useSelector((state: RootStateOrAny) => state.service.selectedService);
     const dispatch = useDispatch();
 
@@ -79,11 +81,13 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
                         contentImg={selectedService.imageUrl}
                         contentTitle={selectedService.location}
                         content={selectedService.description}/>
-                    <Typography align="right" className={classes.addReview}>
-                        <StyledButton btnLg onClick={handleOpenAddReviewModal}>
-                            Add Review
-                        </StyledButton>
-                    </Typography>
+                    {(currUser && currUser.role === Role.CUSTOMER.value) && (
+                        <Typography align="right" className={classes.addReview}>
+                            <StyledButton btnLg onClick={handleOpenAddReviewModal}>
+                                Add Review
+                            </StyledButton>
+                        </Typography>
+                    )}
                 </Grid>
 
                 {/* REVIEWS */}

@@ -36,7 +36,7 @@ function App() {
       <AnimatePresence exitBeforeEnter initial={false}>
         <Switch key={location.pathname} location={location}>
           {routes.map((route, index) => {
-            if(route.protected === Role.GUEST.value) {
+            if(route.protected?.includes(Role.GUEST.value)) {
               return (
                 <GuestRoute
                     currUser={currUser}
@@ -51,7 +51,7 @@ function App() {
               return (
                 <AuthRoleRoute
                     currUser={currUser}
-                    role={route.protected}
+                    roleList={route.protected}
                     key={index}
                     path={route.path} 
                     exact={route.exact}>

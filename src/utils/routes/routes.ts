@@ -18,37 +18,37 @@ const routes = [
         path: "/login",
         exact: true,
         component: Login,
-        protected: Role.GUEST.value
+        protected: [Role.GUEST.value]
     },
     {
         path: "/sign-up",
         exact: true,
         component: SignUp,
-        protected: Role.GUEST.value
+        protected: [Role.GUEST.value]
     },
     {
         path: "/users",
         exact: true,
         component: UserTable,
-        protected: Role.ADMIN.value
+        protected: [Role.ADMIN.value]
     },
     {
         path: "/services",
         exact: true,
         component: ServiceTable,
-        protected: Role.ADMIN.value
+        protected: [Role.ADMIN.value]
     },
     {
         path: "/newsfeed/:id",
         exact: true,
         component: ServiceInfo,
-        protected: Role.CUSTOMER.value
+        protected: [Role.CUSTOMER.value, Role.ADMIN.value]
     },
     {
         path: "/newsfeed",
         exact: true,
         component: Newsfeed,
-        protected: Role.CUSTOMER.value
+        protected: [Role.CUSTOMER.value, Role.ADMIN.value]
     }
 ];
 
