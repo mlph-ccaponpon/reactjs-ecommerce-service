@@ -52,6 +52,7 @@ export const StyledFieldSelect = styled.p`
 export const StyledErrorMessage = styled.p`
     padding-top: 0.5rem;
     color: #fff;
+    font-size: 14px;
 `;
 
 export const FormBtnWrapper = styled.div`
