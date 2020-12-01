@@ -91,7 +91,6 @@ function UserTable() {
   return (
       <PageContainer>
         <BaseTable
-          addBtnTitle="Add User"
           columns={columns}
           rows={userList}
           page={page}

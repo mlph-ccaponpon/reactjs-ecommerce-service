@@ -2,10 +2,12 @@ import { Formik } from 'formik';
 import React from 'react'
 import BaseForm from '../../components/form/BaseForm';
 import * as Yup from 'yup';
-import { RootStateOrAny, useSelector } from 'react-redux';
-import { AdminUserRoleOptions } from '../../store/entities/User';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { AdminUserRoleOptions, User } from '../../store/entities/User';
+import { signUpRequest } from '../../store/actions/authActions';
 
 function AddUserForm() {
+    const dispatch = useDispatch();
     const isLoading = useSelector((state: RootStateOrAny) => state.auth.isLoading);
     const errorMessage = useSelector((state: RootStateOrAny) => state.auth.authErrorMessage);
     const formInitValues = {name:"", email: "", password: "", confirmPassword: ""};
@@ -51,11 +53,15 @@ function AddUserForm() {
         }
     ];
 
+    function addUser(user: User) {
+        dispatch(signUpRequest(user));
+    }
+
     return (
         <Formik
         initialValues = {formInitValues}
-        onSubmit = {(value, formikBag) => {
-            console.log("Add");
+        onSubmit = {(value) => {
+            addUser({...value, disabled: false});
         }}
         validationSchema = {Yup.object(formValidation)}>
 
