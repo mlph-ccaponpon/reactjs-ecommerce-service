@@ -45,7 +45,32 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-## ADMIN Credentials
-
+## Admin Credentials
 email: admin@test.com
-password; 123pass
+password: 123pass
+
+## Guest Role
+* Login
+* Signup as a provider
+* Signup as a customer
+
+## Admin Role
+* Can update all user details
+* Can disable a user 
+* Can add, edit and delete all services
+* Can view all services on Newsfeed
+* Can search all services and sort by rating on Newsfeed
+* Can view reviews of all services on Newsfeed
+
+## Customer Role
+* Can add a review and rating for a service
+* Can view all services on Newsfeed
+* Can search all services and sort by rating on Newsfeed
+* Can view reviews of all services on Newsfeed
+
+## Provider Role
+* Can only access owned services 
+* Can add, edit and delete owned services
+* Can view owned services on Newsfeed
+* Can search owned services and sort by rating on Newsfeed
+* Can view reviews of owned services on Newsfeed
