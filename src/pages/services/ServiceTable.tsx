@@ -12,7 +12,7 @@ import { getUserListRequest } from '../../store/actions/userActions';
 import { Role, User } from '../../store/entities/User';
 
 interface Column {
-  id: 'id' | 'name' | 'category' | 'providerUid' | 'location' | 'imageUrl' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
+  id: 'id' | 'name' | 'category' | 'providerUid' | 'providerName' | 'location' | 'imageUrl' | 'description' | 'rating' | 'editBtn' | 'deleteBtn';
   label: string;
   minWidth?: number;
   maxWidth?: number;
@@ -81,10 +81,11 @@ function ServiceTable() {
 
   //Table Init
   let columns: Column[] = [
-    { id: 'id', label: 'Service ID', minWidth: 100, maxWidth: 100 },
+    { id: 'id', label: 'Service ID', minWidth: 75, maxWidth: 75 },
     { id: 'name', label: 'Service Name', minWidth: 70, maxWidth: 70 },
     { id: 'category', label: 'Category', minWidth: 50, maxWidth: 50 },
-    { id: 'providerUid', label: 'Provider ID', minWidth: 100, maxWidth: 100 },
+    { id: 'providerUid', label: 'Provider ID', minWidth: 75, maxWidth: 75 },
+    { id: 'providerName', label: 'Provider Name', minWidth: 75, maxWidth: 75 },
     { id: 'location', label: 'Location', minWidth: 50, maxWidth: 50 },
     { id: 'imageUrl', label: 'Thumbnail', type: 'image', minWidth: 60, maxWidth: 60 },
     { id: 'description', label: 'Description', minWidth: 70, maxWidth: 70 },
@@ -94,7 +95,7 @@ function ServiceTable() {
   ];
 
   if(isProvider) {
-    columns = columns.filter(col => col.id !== 'providerUid');
+    columns = columns.filter(col => (col.id !== 'providerUid' && col.id !== 'providerName'));
   }
   
   useEffect(() => {

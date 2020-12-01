@@ -113,7 +113,16 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <Formik
         initialValues = {formInitValues}
         onSubmit = {(value) => {
-            createService({...value, rating: props.selectedService ? props.selectedService.rating:0});
+            const providerUid = value.providerUid;
+            let providerName = "";
+            if(props.isProvider) {
+                providerName = currUser.name;
+            } else {
+                const providerOption = providerOptions.filter((p: any) => p.value === providerUid);
+                providerName = providerOption[0].label;
+                console.log(providerName);
+            }
+            createService({...value, rating: props.selectedService ? props.selectedService.rating:0, providerName});
         }}
         validationSchema = {Yup.object(formValidation)}>
 

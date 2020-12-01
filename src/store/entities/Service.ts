@@ -6,6 +6,7 @@ export interface Service {
     name: string,
     category: string,
     providerUid: string,
+    providerName: string,
     imageUrl: string,
     location: string,
     description: string,

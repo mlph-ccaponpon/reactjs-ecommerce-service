@@ -8,10 +8,10 @@ export interface User {
 }
 
 export const Role = {
-    GUEST: {value: "GUEST", label: "Guest"},
-    ADMIN: {value: "ADMIN", label: "Admin"},
-    CUSTOMER: {value: "CUSTOMER", label: "Customer"},
-    PROVIDER: {value: "PROVIDER", label: "Service Provider"}
+    GUEST: {value: "GUEST", label: "GUEST"},
+    ADMIN: {value: "ADMIN", label: "ADMIN"},
+    CUSTOMER: {value: "CUSTOMER", label: "CUSTOMER"},
+    PROVIDER: {value: "PROVIDER", label: "PROVIDER"}
 }
 
 export const GuestUserRoleOptions = [
