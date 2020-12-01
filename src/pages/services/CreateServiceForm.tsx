@@ -120,7 +120,6 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             } else {
                 const providerOption = providerOptions.filter((p: any) => p.value === providerUid);
                 providerName = providerOption[0].label;
-                console.log(providerName);
             }
             createService({...value, rating: props.selectedService ? props.selectedService.rating:0, providerName});
         }}
