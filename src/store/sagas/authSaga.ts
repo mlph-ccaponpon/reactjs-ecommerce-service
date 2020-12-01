@@ -1,13 +1,12 @@
 import { LOGIN_REQUEST, SIGN_UP_REQUEST, LOGOUT_REQUEST, AUTH_CHANNEL_REQUEST } from "../types/authTypes";
 import {takeLatest, call, put, take} from "redux-saga/effects";
 import { BaseResponse } from "../entities/BaseResponse";
-import { firebaseReduxSaga } from '../../config/firebaseConfig';
-import { initAuthReqState, loginResponse, logoutResponse, setIsLoadingPage} from "../actions/authActions";
+import { firebaseReduxSaga, USERS_COLLECTION } from '../../config/firebaseConfig';
+import { initAuthReqState, loginResponse, logoutRequest, logoutResponse, setIsLoadingPage} from "../actions/authActions";
 import { Role, User } from "../entities/User";
 import { UserCredential } from "../entities/UserCredential";
 
-const USERS_COLLECTION = "users";
-
+let CURR_USER_DISABLED = false;
 /**
  * AUTH CHANNEL
  * - This function is called on SIGN_UP_REQUEST, LOGIN_REQUEST and LOGOUT_REQUEST success response
@@ -22,7 +21,7 @@ function* onAuthChannel() {
         
         yield put(setIsLoadingPage(true));
         const authChannel = yield call(firebaseReduxSaga.auth.channel);
-    
+        
         while (true) {
             const { user } = yield take(authChannel);
 
@@ -32,10 +31,21 @@ function* onAuthChannel() {
                 // Get User Document
                 const snapshot = yield call(firebaseReduxSaga.firestore.getDocument, `${USERS_COLLECTION}/${uid}`);
                 const currUser: User = snapshot.data();
-                successResponse.result = currUser;
-                yield put(loginResponse(successResponse));
+
+                if(currUser.disabled) {
+                    CURR_USER_DISABLED = true;
+                    // Do not allow login if user has been disabled
+                    const errorResponse : BaseResponse<User | null> = { success: false, errorMessage: "This account has been disabled. Please contact the admin." };
+                    errorResponse.result = null;
+                    yield put(loginResponse(errorResponse));
+                    yield call(firebaseReduxSaga.auth.signOut);
+                } else {
+                    CURR_USER_DISABLED = false;
+                    successResponse.result = currUser;
+                    yield put(loginResponse(successResponse));
+                }
             }
-            else {
+            else if(!CURR_USER_DISABLED){
                 successResponse.result = null;
                 yield put(logoutResponse(successResponse));
             }
@@ -73,7 +83,8 @@ function* signUp(action: any) {
                     name: user.name,
                     uid: uid,
                     email: email,
-                    role: user.role ? user.role: Role.CUSTOMER.value 
+                    role: user.role ? user.role: Role.CUSTOMER.value,
+                    disabled: false
                 },{})
         }
     }

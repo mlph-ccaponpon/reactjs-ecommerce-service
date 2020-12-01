@@ -63,7 +63,7 @@ function EditUserForm(props: EditUserFormProps) {
         <Formik
         initialValues = {formInitValues}
         onSubmit = {(value) => {
-            createUser(value);
+            createUser({...value, disabled: false});
         }}
         validationSchema = {Yup.object(formValidation)}>
 

@@ -13,6 +13,8 @@ var firebaseConfig = {
     appId: "1:268035661383:web:7af22ec84514a305015b62"
 };
 
+export const SERVICES_COLLECTION = "services";
+export const USERS_COLLECTION = "users";
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const firestore = firebaseApp.firestore();
 export const firebaseReduxSaga = new ReduxSagaFirebase(firebaseApp);

@@ -4,7 +4,8 @@ export interface User {
     name: string,
     email?: string,
     password?: string,
-    role?: string
+    role?: string,
+    disabled: boolean
 }
 
 export const Role = {

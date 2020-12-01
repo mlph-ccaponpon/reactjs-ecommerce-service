@@ -81,8 +81,8 @@ function SignUp() {
     return (
         <Formik
             initialValues = {formInitValues}
-            onSubmit = {(value, formikBag) => {
-                signUpUser(value);
+            onSubmit = {(value) => {
+                signUpUser({...value, disabled: false});
             }}
             validationSchema = {Yup.object(formValidation)}>
 

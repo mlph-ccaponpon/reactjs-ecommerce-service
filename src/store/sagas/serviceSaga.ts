@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { firebaseReduxSaga, firestore } from "../../config/firebaseConfig";
+import { firebaseReduxSaga, firestore, SERVICES_COLLECTION } from "../../config/firebaseConfig";
 import { createServiceResponse, initServiceReqState, getServiceListResponse, getServiceByIdResponse, updateServiceResponse, deleteServiceResponse, addServiceReviewResponse } from "../actions/serviceActions";
 import { BaseResponse } from "../entities/BaseResponse";
 import { Service } from "../entities/Service";
@@ -7,7 +7,6 @@ import { ServiceReview } from "../entities/ServiceReview";
 import { Role, User } from "../entities/User";
 import { ADD_SERVICE_REVIEW_REQUEST, CREATE_SERVICE_REQUEST, DELETE_SERVICE_REQUEST, GET_SERVICE_BY_ID_REQUEST, GET_SERVICE_LIST_REQUEST, UPDATE_SERVICE_REQUEST } from "../types/serviceTypes";
 
-const SERVICES_COLLECTION = "services";
 
 /**
  * CREATE SERVICE
@@ -119,7 +118,7 @@ function* getServiceList(action: any) {
         snapshot = yield call(
           firebaseReduxSaga.firestore.getCollection,
           firestore.collection(SERVICES_COLLECTION)
-            .where('providerUid', '==', currUser.uid)
+            .where('providerUid', '==', currUser.uid).orderBy('timestamp', 'desc')
         )
       }
      

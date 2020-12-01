@@ -1,12 +1,10 @@
-import { call, put, takeLatest } from "redux-saga/effects";
-import { firebaseReduxSaga, firestore } from "../../config/firebaseConfig";
+import { all, call, put, takeLatest } from "redux-saga/effects";
+import { firebaseReduxSaga, firestore, SERVICES_COLLECTION, USERS_COLLECTION } from "../../config/firebaseConfig";
 import { deleteUserResponse, initUserReqState, updateUserResponse } from "../actions/userActions";
 import { BaseResponse } from "../entities/BaseResponse";
-import { User } from "../entities/User";
+import { Role, User } from "../entities/User";
 import { DELETE_USER_REQUEST, GET_USER_LIST_REQUEST, UPDATE_USER_REQUEST } from "../types/userTypes";
 import { getUserListResponse } from "../actions/userActions";
-
-const USERS_COLLECTION = "users";
 
 /**
  * UPDATE USER
@@ -34,7 +32,7 @@ export function* updateUserWatcher(){
   }
 
 /**
- * DELETE USER
+ * DISABLE USER
  * 
  */
 export function* deleteUserWatcher(){
@@ -46,8 +44,10 @@ export function* deleteUserWatcher(){
   
     try {
         yield put(initUserReqState());
-        yield call(firebaseReduxSaga.firestore.deleteDocument, `${USERS_COLLECTION}/${user.uid}`);
-        
+
+        //DISABLE USER
+        yield call(firebaseReduxSaga.firestore.updateDocument, `${USERS_COLLECTION}/${user.uid}`, {disabled: true});
+
         response.success = true;
         response.result = user;
         yield put(deleteUserResponse(response));
@@ -72,6 +72,7 @@ function* getUserList() {
         const snapshot =yield call(
             firebaseReduxSaga.firestore.getCollection,
             firestore.collection(USERS_COLLECTION)
+              .where('disabled', '==', false).orderBy('timestamp', 'desc')
         )
         
         let userList : User[] = [];
