@@ -58,7 +58,7 @@ function Newsfeed() {
                     rating={service.rating}
                     ratingHasLabel={true}
                     titleLink={serviceInfoLink + service.id}
-                    subtitle={service.category}
+                    subtitle={`${service.category}(${service.reviews ? service.reviews.length:'0'} reviews)`}
                     contentTitle={service.location}
                     content={service.description}
                     contentImg={service.imageUrl} />

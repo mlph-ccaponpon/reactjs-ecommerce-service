@@ -79,7 +79,7 @@ function ServiceInfo({ match }: RouteComponentProps<ServiceInfoParams, any>) {
                         {selectedService.name} <small> - {selectedService.category} </small>
                     </Typography>
                     <div className={classes.serviceRatingAvg}>
-                    <RatingInfo rating={selectedService.rating? selectedService.rating:0} starxl={true} hasLabel={true} />
+                        <RatingInfo rating={selectedService.rating? selectedService.rating:0} starxl={true} hasLabel={true} />
                     </div>
                     <BaseInfoCard 
                         contentImg={selectedService.imageUrl}
