@@ -12,6 +12,7 @@ import AnimatedRoute from './utils/routes/AnimatedRoute';
 import AuthRoleRoute from './utils/routes/AuthRoleRoute';
 import GuestRoute from './utils/routes/GuestRoute';
 import routes from './utils/routes/routes';
+import ScrollToTop from './utils/routes/ScrollToTop';
 
 function App() {
   const isLoadingPage =  useSelector((state: RootStateOrAny) => state.auth.isLoadingPage);
@@ -34,6 +35,7 @@ function App() {
       <Header />
 
       <AnimatePresence exitBeforeEnter initial={false}>
+        <ScrollToTop />
         <Switch key={location.pathname} location={location}>
           {routes.map((route, index) => {
             if(route.protected?.includes(Role.GUEST.value)) {

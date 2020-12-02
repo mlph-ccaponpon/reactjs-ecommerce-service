@@ -2,7 +2,7 @@ import { LOGIN_REQUEST, SIGN_UP_REQUEST, LOGOUT_REQUEST, AUTH_CHANNEL_REQUEST } 
 import {takeLatest, call, put, take} from "redux-saga/effects";
 import { BaseResponse } from "../entities/BaseResponse";
 import { firebaseReduxSaga, USERS_COLLECTION } from '../../config/firebaseConfig';
-import { initAuthReqState, loginResponse, logoutRequest, logoutResponse, setIsLoadingPage} from "../actions/authActions";
+import { initAuthReqState, loginResponse, logoutResponse, setIsLoadingPage} from "../actions/authActions";
 import { Role, User } from "../entities/User";
 import { UserCredential } from "../entities/UserCredential";
 

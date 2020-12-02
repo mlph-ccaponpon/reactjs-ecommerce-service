@@ -1,8 +1,8 @@
-import { all, call, put, takeLatest } from "redux-saga/effects";
-import { firebaseReduxSaga, firestore, SERVICES_COLLECTION, USERS_COLLECTION } from "../../config/firebaseConfig";
+import { call, put, takeLatest } from "redux-saga/effects";
+import { firebaseReduxSaga, firestore, USERS_COLLECTION } from "../../config/firebaseConfig";
 import { deleteUserResponse, initUserReqState, updateUserResponse } from "../actions/userActions";
 import { BaseResponse } from "../entities/BaseResponse";
-import { Role, User } from "../entities/User";
+import { User } from "../entities/User";
 import { DELETE_USER_REQUEST, GET_USER_LIST_REQUEST, UPDATE_USER_REQUEST } from "../types/userTypes";
 import { getUserListResponse } from "../actions/userActions";
 
