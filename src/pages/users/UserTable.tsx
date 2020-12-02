@@ -3,7 +3,6 @@ import { PageContainer } from '../../styles/global';
 import BaseTable from '../../components/table/BaseTable';
 import { BaseTableDeleteBtn, BaseTableEditBtn } from '../../components/table/BaseTableButtons';
 import BaseModal from '../../components/modal/BaseModal';
-import AddUserForm from './AddUserForm';
 import EditUserForm from './EditUserForm';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { User } from '../../store/entities/User';
@@ -30,17 +29,8 @@ function UserTable() {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  // Add Modal
-  const handleOpenAddModal = () => {
-      setShowAddModal(true);
-  };
-  const handleCloseAddModal = () => {
-      setShowAddModal(false);
-  };
 
   //Edit Modal
   const handleOpenEditModal = (user: User) => {
@@ -96,13 +86,7 @@ function UserTable() {
           page={page}
           rowsPerPage={rowsPerPage}
           handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-          handleOpenAddModal={handleOpenAddModal}/>
-
-        <BaseModal
-          showModal={showAddModal}
-          handleCloseModal={handleCloseAddModal}
-          modalBody={AddUserForm()} />
+          handleChangeRowsPerPage={handleChangeRowsPerPage} />
 
         <BaseModal
           showModal={showEditModal}
